@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>API Reference — TherapOS Docs</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⬡</text></svg>">
+<link rel="stylesheet" href="../styles/main.css">
+</head>
+<body>
+<nav class="site-nav">
+  <a href="/" class="nav-logo">⬡ <span>TherapOS</span></a>
+  <div class="nav-links">
+    <a href="../index.html#features">Features</a>
+    <a href="../index.html#pricing">Pricing</a>
+    <a href="index.html" style="color:var(--accent)">Docs</a>
+    <a href="../index.html#pricing" class="nav-cta">Start free trial</a>
+  </div>
+</nav>
+<div class="docs-layout">
+  <nav class="docs-sidebar">
+    <div class="group">Getting Started</div>
+    <a href="index.html">Overview</a>
+    <a href="quickstart.html">Quickstart</a>
+    <div class="group">Product</div>
+    <a href="plan.html">Full Product Plan</a>
+    <a href="features.html">Features</a>
+    <a href="pricing.html">Pricing</a>
+    <a href="roadmap.html">Roadmap</a>
+    <div class="group">Technical</div>
+    <a href="architecture.html">Architecture</a>
+    <a href="schema.html">Database Schema</a>
+    <a href="api.html" class="active">API Reference</a>
+    <a href="ai.html">AI &amp; Prompts</a>
+  </nav>
+  <main class="docs-content">
+    <span class="eyebrow">Technical</span>
+    <h1>API Reference</h1>
+    <p>All endpoints are prefixed <code>/api/v1</code>. Authentication uses a Clerk JWT in the <code>Authorization: Bearer &lt;token&gt;</code> header. All responses follow <code>{"data": ..., "meta": ...}</code>.</p>
+    <hr>
+
+    <h2>Authentication</h2>
+    <pre>Authorization: Bearer &lt;clerk_session_token&gt;
+Content-Type: application/json</pre>
+    <p>Get the session token from Clerk's client SDK: <code>await getToken()</code>. All endpoints return <code>401</code> without a valid token and <code>403</code> when trying to access another therapist's data.</p>
+
+    <h2>Patients</h2>
+    <pre>GET    /patients
+  Query: ?status=active|inactive|all &amp;q=search_string &amp;page=1 &amp;limit=20
+  Returns: paginated patient list with basic profile
+
+POST   /patients
+  Body: { firstName, lastName, preferredName?, dateOfBirth?,
+          primaryConcerns[], diagnoses[], modality?, sessionFreq? }
+  Returns: created patient
+
+GET    /patients/:id
+  Returns: full patient profile + aiSummary + session count
+
+PATCH  /patients/:id
+  Body: partial patient fields
+  Returns: updated patient
+
+DELETE /patients/:id
+  Soft-delete: sets status = DISCHARGED, sets endDate
+  Returns: { success: true }
+
+GET    /patients/:id/timeline
+  Returns: all sessions + goals + homework in chronological order
+
+GET    /patients/:id/sessions
+  Query: ?page=1 &amp;limit=20
+  Returns: paginated sessions with note status
+
+GET    /patients/:id/goals
+  Returns: all goals with progressNotes array
+
+GET    /patients/:id/homework
+  Query: ?status=assigned|completed|all
+  Returns: homework history</pre>
+
+    <h2>Sessions</h2>
+    <pre>POST   /sessions
+  Body: { patientId, scheduledAt, sessionNumber, type? }
+  Returns: created session
+
+GET    /sessions/:id
+  Returns: session + note (if exists) + aiPrep (if generated)
+
+PATCH  /sessions/:id
+  Body: { status?, rawNotes?, scheduledAt?, durationMins? }
+  Returns: updated session
+
+POST   /sessions/:id/start
+  Marks session as IN_PROGRESS, sets startedAt
+  Returns: updated session
+
+POST   /sessions/:id/complete
+  Marks session as COMPLETED, sets endedAt
+  Returns: updated session</pre>
+
+    <h2>Notes</h2>
+    <pre>GET    /sessions/:id/note
+  Returns: SessionNote or 404 if not created yet
+
+POST   /sessions/:id/note
+  Body: { format: "SOAP"|"DAP"|"BIRP"|"FREE",
+          subjective?, objective?, assessment?, plan?,
+          data?, dapAssessment?, dapPlan?,
+          freeText? }
+  Returns: created/updated note
+
+PATCH  /sessions/:id/note
+  Body: partial note fields (same as POST)
+  Returns: updated note
+
+POST   /sessions/:id/note/finalize
+  Locks note, triggers embedding + summary refresh jobs
+  Returns: { success: true, note: SessionNote }</pre>
+
+    <h2>AI Endpoints</h2>
+    <pre>POST   /ai/prep/:sessionId
+  Generates AI session prep brief.
+  Returns: SSE stream → final JSON:
+    { recap, suggestedQuestions[], homeworkFollowUp, patterns }
+  Cached: yes (re-use until rawNotes changes)
+
+POST   /ai/note/draft
+  Body: { sessionId, format: "SOAP"|"DAP" }
+  Streams AI note draft token-by-token via SSE.
+  Returns: SSE stream → final JSON note fields
+
+POST   /ai/homework/suggest
+  Body: { sessionId, goalIds?: string[] }
+  Returns: { options: [{ title, description, category, rationale }] }
+
+POST   /ai/summary/:patientId
+  Regenerates rolling patient AI summary.
+  Runs async (returns immediately, updates DB when done).
+  Returns: { jobId: string }</pre>
+
+    <h2>Search</h2>
+    <pre>GET    /search
+  Query: ?q=natural+language+query &amp;patientId=optional
+  Embeds query → cosine similarity search over NoteEmbedding
+  Returns: [{ sessionId, patientId, snippet, score, date, patientName }]
+  Example: GET /search?q=what coping strategies have worked&amp;patientId=clx...</pre>
+
+    <h2>Goals</h2>
+    <pre>POST   /goals
+  Body: { patientId, title, description?, category? }
+  Returns: created goal
+
+PATCH  /goals/:id
+  Body: { status?, progressNote?: { note, sessionId? } }
+  Returns: updated goal
+
+DELETE /goals/:id
+  Returns: { success: true }</pre>
+
+    <h2>Homework</h2>
+    <pre>POST   /homework
+  Body: { patientId, sessionId?, title, description,
+          category?, dueBy? }
+  Returns: created homework
+
+PATCH  /homework/:id
+  Body: { status?, completedAt?, notes? }
+  Returns: updated homework</pre>
+
+    <h2>Webhooks (internal)</h2>
+    <pre>POST   /webhooks/clerk
+  Clerk webhook: user.created → create User row
+                 user.updated → sync profile
+                 user.deleted → soft-delete (retain audit logs)
+  Verified via Clerk webhook signature
+
+POST   /webhooks/stripe
+  Stripe webhook: customer.subscription.updated/deleted
+  Updates Subscription table</pre>
+
+    <h2>Error Codes</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Code</th><th>Meaning</th></tr></thead>
+        <tbody>
+          <tr><td><code>400</code></td><td>Invalid request body (Zod validation failure — errors array included)</td></tr>
+          <tr><td><code>401</code></td><td>Missing or invalid Clerk JWT</td></tr>
+          <tr><td><code>403</code></td><td>Authenticated but accessing another therapist's data</td></tr>
+          <tr><td><code>404</code></td><td>Resource not found (or not owned by this therapist)</td></tr>
+          <tr><td><code>429</code></td><td>Rate limited — AI endpoints: 20 req/min per user</td></tr>
+          <tr><td><code>500</code></td><td>Server error — check Sentry for details</td></tr>
+          <tr><td><code>503</code></td><td>AI provider unavailable — product works without AI, retry later</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+</div>
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-logo">⬡ <span>TherapOS</span></div>
+    <div class="footer-links"><a href="../index.html">Home</a><a href="schema.html">Schema</a><a href="ai.html">AI</a></div>
+    <div class="footer-copy">© 2026 TherapOS</div>
+  </div>
+</footer>
+</body>
+</html>

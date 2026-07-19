@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TherapOS — Documentation</title>
+<meta name="description" content="Complete documentation for TherapOS — product plan, technical architecture, API reference, AI prompts, and more.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⬡</text></svg>">
+<link rel="stylesheet" href="../styles/main.css">
+</head>
+<body>
+
+<nav class="site-nav">
+  <a href="/" class="nav-logo">⬡ <span>TherapOS</span></a>
+  <div class="nav-links">
+    <a href="../index.html#features">Features</a>
+    <a href="../index.html#pricing">Pricing</a>
+    <a href="index.html" style="color:var(--accent)">Docs</a>
+    <a href="../index.html#pricing" class="nav-cta">Start free trial</a>
+  </div>
+</nav>
+
+<div class="docs-layout">
+  <nav class="docs-sidebar">
+    <div class="group">Getting Started</div>
+    <a href="index.html" class="active">Overview</a>
+    <a href="quickstart.html">Quickstart</a>
+    <div class="group">Product</div>
+    <a href="plan.html">Full Product Plan</a>
+    <a href="features.html">Features</a>
+    <a href="pricing.html">Pricing</a>
+    <a href="roadmap.html">Roadmap</a>
+    <div class="group">Technical</div>
+    <a href="architecture.html">Architecture</a>
+    <a href="schema.html">Database Schema</a>
+    <a href="api.html">API Reference</a>
+    <a href="ai.html">AI & Prompts</a>
+  </nav>
+
+  <main class="docs-content">
+    <span class="eyebrow">Documentation</span>
+    <h1>TherapOS Docs</h1>
+    <p>Everything you need to understand, build, and extend TherapOS — the AI operating system for independent therapists.</p>
+
+    <hr>
+
+    <h2>What is TherapOS?</h2>
+    <p>TherapOS is an AI-native operating system for independent therapists and small clinics. It is <strong>not</strong> an EHR. It is not a therapy app. It is not another chatbot.</p>
+    <p>It is the AI copilot that therapists open before every session — and cannot practice without after 30 days of use. The product handles the clinical workflow that happens <em>around</em> therapy sessions: preparation, documentation, memory, and search.</p>
+
+    <div class="grid3" style="margin:1.5rem 0">
+      <div class="card card-sm">
+        <div style="font-size:1.1rem;margin-bottom:.5rem">📝</div>
+        <strong style="font-size:.875rem">AI Notes</strong>
+        <p style="font-size:.8rem;margin-top:.25rem">SOAP and DAP note drafts generated from raw therapist notes. Review, edit, finalize.</p>
+      </div>
+      <div class="card card-sm">
+        <div style="font-size:1.1rem;margin-bottom:.5rem">🧠</div>
+        <strong style="font-size:.875rem">Session Prep</strong>
+        <p style="font-size:.8rem;margin-top:.25rem">90-second AI brief before every session. Recap, questions, homework status, goal progress.</p>
+      </div>
+      <div class="card card-sm">
+        <div style="font-size:1.1rem;margin-bottom:.5rem">🔍</div>
+        <strong style="font-size:.875rem">NL Search</strong>
+        <p style="font-size:.8rem;margin-top:.25rem">Natural language search across all patient history. "What coping strategies worked?" → instant results.</p>
+      </div>
+    </div>
+
+    <h2>Documentation Sections</h2>
+
+    <div class="grid2" style="margin-top:1rem">
+      <a href="quickstart.html" class="card" style="display:block;text-decoration:none">
+        <h3 style="color:var(--accent)">Quickstart →</h3>
+        <p style="font-size:.83rem;margin:0">Set up TherapOS, add your first patient, and generate your first AI note in under 10 minutes.</p>
+      </a>
+      <a href="plan.html" class="card" style="display:block;text-decoration:none">
+        <h3 style="color:var(--accent)">Full Product Plan →</h3>
+        <p style="font-size:.83rem;margin:0">All 40 sections: vision, competitive analysis, features, pricing, GTM, and 5-year roadmap.</p>
+      </a>
+      <a href="architecture.html" class="card" style="display:block;text-decoration:none">
+        <h3 style="color:var(--accent)">Architecture →</h3>
+        <p style="font-size:.83rem;margin:0">System architecture, stack decisions, async pipeline, and infrastructure overview.</p>
+      </a>
+      <a href="schema.html" class="card" style="display:block;text-decoration:none">
+        <h3 style="color:var(--accent)">Database Schema →</h3>
+        <p style="font-size:.83rem;margin:0">Full Prisma schema — Users, Patients, Sessions, Notes, Goals, Homework, Vectors, Audit.</p>
+      </a>
+      <a href="api.html" class="card" style="display:block;text-decoration:none">
+        <h3 style="color:var(--accent)">API Reference →</h3>
+        <p style="font-size:.83rem;margin:0">All REST endpoints, request/response shapes, auth headers, and error codes.</p>
+      </a>
+      <a href="ai.html" class="card" style="display:block;text-decoration:none">
+        <h3 style="color:var(--accent)">AI & Prompts →</h3>
+        <p style="font-size:.83rem;margin:0">Prompt templates, context assembly pipeline, memory architecture, and vector search.</p>
+      </a>
+    </div>
+
+    <h2>Core Principles</h2>
+    <ol>
+      <li><strong>AI augments, never replaces.</strong> Every AI output is a draft. Therapist reviews, edits, and finalizes. The AI has no authority.</li>
+      <li><strong>Minimal clicks.</strong> The most common action should take the fewest possible steps.</li>
+      <li><strong>Everything searchable.</strong> Every note, goal, homework entry, and patient fact is findable via natural language.</li>
+      <li><strong>Every patient has memory.</strong> Patient context builds over sessions. The AI never starts from zero.</li>
+      <li><strong>Every AI action is editable.</strong> No AI output is ever final until the therapist says so.</li>
+      <li><strong>Therapist remains in control.</strong> AI surfaces and suggests. The therapist decides everything.</li>
+    </ol>
+
+    <h2>Tech Stack</h2>
+    <div class="grid2" style="margin:1rem 0">
+      <div class="card card-sm">
+        <strong style="font-size:.83rem;display:block;margin-bottom:.5rem">Frontend</strong>
+        <p style="font-size:.8rem;margin:0">Next.js · React · TypeScript · Tailwind · shadcn/ui · Zustand · SWR</p>
+      </div>
+      <div class="card card-sm">
+        <strong style="font-size:.83rem;display:block;margin-bottom:.5rem">Backend</strong>
+        <p style="font-size:.8rem;margin:0">NestJS · Node.js · TypeScript · PostgreSQL · Prisma · Redis · BullMQ</p>
+      </div>
+      <div class="card card-sm">
+        <strong style="font-size:.83rem;display:block;margin-bottom:.5rem">AI</strong>
+        <p style="font-size:.8rem;margin:0">Anthropic Claude (notes) · OpenAI GPT-4o (structured JSON) · text-embedding-3-small · pgvector</p>
+      </div>
+      <div class="card card-sm">
+        <strong style="font-size:.83rem;display:block;margin-bottom:.5rem">Infrastructure</strong>
+        <p style="font-size:.8rem;margin:0">AWS · Docker · Clerk (auth) · Stripe (billing) · Resend (email) · Vercel / ECS</p>
+      </div>
+    </div>
+
+    <div class="callout">
+      <div class="callout-label">HIPAA Note</div>
+      <p>TherapOS is designed for HIPAA readiness from day one: encrypted at rest (AES-256) and in transit (TLS 1.3), audit logs on all PHI access, role-based access controls, and signed BAAs with all data processors. See <a href="architecture.html#security">Security Architecture</a> for details.</p>
+    </div>
+  </main>
+</div>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-logo">⬡ <span>TherapOS</span></div>
+    <div class="footer-links">
+      <a href="../index.html">Home</a>
+      <a href="plan.html">Product Plan</a>
+      <a href="architecture.html">Architecture</a>
+      <a href="api.html">API</a>
+    </div>
+    <div class="footer-copy">© 2026 TherapOS</div>
+  </div>
+</footer>
+
+</body>
+</html>

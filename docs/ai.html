@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AI & Prompts — TherapOS Docs</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⬡</text></svg>">
+<link rel="stylesheet" href="../styles/main.css">
+</head>
+<body>
+<nav class="site-nav">
+  <a href="/" class="nav-logo">⬡ <span>TherapOS</span></a>
+  <div class="nav-links">
+    <a href="../index.html#features">Features</a>
+    <a href="../index.html#pricing">Pricing</a>
+    <a href="index.html" style="color:var(--accent)">Docs</a>
+    <a href="../index.html#pricing" class="nav-cta">Start free trial</a>
+  </div>
+</nav>
+<div class="docs-layout">
+  <nav class="docs-sidebar">
+    <div class="group">Getting Started</div>
+    <a href="index.html">Overview</a>
+    <a href="quickstart.html">Quickstart</a>
+    <div class="group">Product</div>
+    <a href="plan.html">Full Product Plan</a>
+    <a href="features.html">Features</a>
+    <a href="pricing.html">Pricing</a>
+    <a href="roadmap.html">Roadmap</a>
+    <div class="group">Technical</div>
+    <a href="architecture.html">Architecture</a>
+    <a href="schema.html">Database Schema</a>
+    <a href="api.html">API Reference</a>
+    <a href="ai.html" class="active">AI &amp; Prompts</a>
+  </nav>
+  <main class="docs-content">
+    <span class="eyebrow">Technical</span>
+    <h1>AI Architecture &amp; Prompts</h1>
+    <p>How TherapOS assembles patient context, routes to AI models, and generates clinical content. Every prompt template, behavioral rule, and memory strategy documented here.</p>
+    <hr>
+
+    <h2>Model Routing</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Task</th><th>Model</th><th>Why</th></tr></thead>
+        <tbody>
+          <tr><td>SOAP/DAP note drafts</td><td>Claude Sonnet (latest)</td><td>Best nuanced clinical writing, instruction following</td></tr>
+          <tr><td>Session prep (structured JSON)</td><td>GPT-4o</td><td>Reliable JSON output with response_format enforcement</td></tr>
+          <tr><td>Homework suggestions</td><td>GPT-4o</td><td>Structured JSON, creative but grounded</td></tr>
+          <tr><td>Patient summary refresh</td><td>Claude Haiku (latest)</td><td>Fast, cheap, good at summarization</td></tr>
+          <tr><td>Embeddings</td><td>text-embedding-3-small</td><td>1536 dims, $0.02/1M tokens, excellent quality</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>Context Assembly Pipeline</h2>
+    <p>Every AI call starts by assembling a <strong>PatientContext</strong> object. This is the most important function in the codebase — what goes in determines what comes out.</p>
+    <pre>async buildPatientContext(patientId, sessionId?) {
+  const [patient, goals, recentSessions, latestHomework] = await Promise.all([
+    prisma.patient.findUnique({ where: { id: patientId } }),
+    prisma.goal.findMany({
+      where: { patientId, status: 'ACTIVE' },
+      orderBy: { createdAt: 'asc' }
+    }),
+    prisma.session.findMany({
+      where: { patientId, status: 'COMPLETED' },
+      include: { note: true },
+      orderBy: { scheduledAt: 'desc' },
+      take: 5  // last 5 sessions only
+    }),
+    prisma.homework.findMany({
+      where: { patientId },
+      orderBy: { createdAt: 'desc' },
+      take: 3
+    }),
+  ])
+
+  return {
+    patient: {
+      firstName: patient.preferredName || patient.firstName,
+      modality: patient.modality,
+      concerns: patient.primaryConcerns,
+      diagnoses: patient.diagnoses,
+      aiSummary: patient.aiSummary,   // rolling summary
+    },
+    goals: goals.map(g => ({ title: g.title, status: g.status })),
+    recentSessions: recentSessions.map(s => ({
+      sessionNumber: s.sessionNumber,
+      date: s.scheduledAt,
+      note: truncateNote(s.note, 400),  // budget: 400 tokens per note
+    })),
+    latestHomework: latestHomework.map(h => ({
+      title: h.title, status: h.status, assignedAt: h.createdAt,
+    })),
+  }
+}</pre>
+
+    <h2>Context Window Budget</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Context piece</th><th>Max tokens</th><th>Strategy</th></tr></thead>
+        <tbody>
+          <tr><td>System prompt</td><td>~500</td><td>Fixed per task type</td></tr>
+          <tr><td>Patient profile + concerns</td><td>~200</td><td>Always included</td></tr>
+          <tr><td>Rolling AI summary</td><td>~300</td><td>Always included</td></tr>
+          <tr><td>Active goals</td><td>~200</td><td>Always included</td></tr>
+          <tr><td>Last 3–5 sessions (truncated)</td><td>~1,500</td><td>400 tokens per note max</td></tr>
+          <tr><td>Homework history</td><td>~200</td><td>Last 3 only</td></tr>
+          <tr><td>Therapist raw notes (this session)</td><td>~2,000</td><td>Full — this is the primary input</td></tr>
+          <tr><td><strong>Total</strong></td><td><strong>~4,900</strong></td><td>Well within 128k limit</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>Prompt Templates</h2>
+
+    <h3>Session Prep Brief</h3>
+    <div class="prompt-block">You are an AI assistant helping a licensed {modality} therapist prepare for a session.
+You are NOT a therapist. You are a preparation tool.
+Never diagnose. Never prescribe. Never make clinical decisions.
+
+THERAPIST CONTEXT:
+Modality: {modality} | License: {licenseType}
+
+PATIENT: {firstName} | Session #{sessionNumber}
+Primary concerns: {concerns}
+Active diagnoses: {diagnoses}
+
+AI SUMMARY (rolling):
+{aiSummary}
+
+ACTIVE GOALS:
+{goals}
+
+LAST {n} SESSIONS (newest first):
+{recentSessionNotes}
+
+HOMEWORK (last assigned):
+Title: {hwTitle} | Status: {hwStatus}
+
+Generate a session preparation brief.
+Return exactly this JSON structure:
+{
+  "recap": "2-3 sentences: what happened last session, key themes",
+  "suggestedQuestions": ["Q1", "Q2", "Q3", "Q4"],
+  "homeworkFollowUp": "how to check in on the homework",
+  "patterns": "notable cross-session pattern, or null if none"
+}
+
+Rules:
+- Questions must match the therapist's modality
+- Be concise — this is a 90-second pre-read
+- If information is missing, work with what you have
+- Never mention medication, diagnosis codes, or legal matters</div>
+
+    <h3>SOAP Note Draft</h3>
+    <div class="prompt-block">You are an AI assistant helping a licensed therapist draft a SOAP progress note.
+This is a DRAFT. The therapist will review and edit before finalizing.
+Never fabricate clinical details not present in the therapist's raw notes.
+
+PATIENT: {firstName} | Session #{sessionNumber} | {date}
+MODALITY: {modality} | CONCERNS: {concerns}
+
+RECENT CONTEXT (for continuity — do not copy verbatim):
+{recentContext}
+
+THERAPIST'S RAW NOTES FROM THIS SESSION:
+---
+{rawNotes}
+---
+
+Draft a professional SOAP progress note.
+
+SOAP FORMAT:
+- Subjective: What the patient reported (patient's own experience)
+- Objective: Therapist's behavioral observations (affect, presentation, engagement)
+- Assessment: Clinical synthesis (progress toward goals, session themes)
+- Plan: Next steps (homework, referrals, next session focus)
+
+STRICT RULES:
+1. Only use information from the raw notes above
+2. If information is missing, write "[Therapist to complete]"
+3. Keep each section to 2-4 sentences
+4. Never fabricate quotes, events, or observations
+5. Do not include diagnosis codes
+6. Do not mention AI or this process in the note
+
+Return JSON: {"subjective":"...","objective":"...","assessment":"...","plan":"..."}</div>
+
+    <h3>Homework Generator</h3>
+    <div class="prompt-block">You are helping a {modality} therapist generate homework for their patient.
+
+PATIENT: {firstName}
+SESSION THEMES: {sessionThemes}
+ACTIVE GOALS: {goals}
+MODALITY: {modality}
+PREVIOUS HOMEWORK: {previousHomework}
+
+Generate 3 homework options. Each must be concrete, actionable,
+and appropriate to the stated modality.
+
+Return JSON:
+{"options": [
+  {
+    "title": "...",
+    "description": "detailed instructions for the patient",
+    "category": "journaling|behavioral|exposure|mindfulness|social",
+    "rationale": "why this fits the session themes and modality"
+  }
+]}</div>
+
+    <h3>Patient Summary (Rolling — runs after every finalized note)</h3>
+    <div class="prompt-block">You are updating a rolling clinical summary for a therapist's reference.
+This summary is for the therapist only — not part of the official record.
+
+PATIENT: {firstName} | Total sessions: {sessionCount}
+
+PREVIOUS SUMMARY:
+{previousSummary}
+
+NEWEST SESSION NOTE (Session #{sessionNumber}):
+{latestNote}
+
+Update the summary to reflect the newest session.
+Keep it:
+- 3-5 sentences maximum
+- Focused on patterns, progress, and current clinical picture
+- Written for a therapist who knows this patient well
+- Clinically accurate but not diagnostic
+
+Return only the updated summary text. No JSON wrapper.</div>
+
+    <h2>Memory Architecture (Three Tiers)</h2>
+    <div class="grid3" style="margin:1rem 0">
+      <div class="card card-sm">
+        <strong style="font-size:.83rem;display:block;margin-bottom:.35rem">Tier 1 — Redis</strong>
+        <p style="font-size:.78rem;margin:0">Active session state, prep brief cache, in-progress note draft. TTL: 24h. Fast read during live sessions.</p>
+      </div>
+      <div class="card card-sm">
+        <strong style="font-size:.83rem;display:block;margin-bottom:.35rem">Tier 2 — PostgreSQL</strong>
+        <p style="font-size:.78rem;margin:0">Rolling 3–5 sentence AI summary per patient. Updated after every finalized note. Injected into every AI call.</p>
+      </div>
+      <div class="card card-sm">
+        <strong style="font-size:.83rem;display:block;margin-bottom:.35rem">Tier 3 — pgvector</strong>
+        <p style="font-size:.78rem;margin:0">Every finalized note embedded (text-embedding-3-small). Searched via cosine similarity for NL search and deep context.</p>
+      </div>
+    </div>
+
+    <h2>Memory Update Flow</h2>
+    <pre>Therapist clicks "Finalize Note"
+  │
+  ├─► Lock note in DB (isFinalized = true, finalizedAt = now)
+  │
+  ├─► BullMQ: 'embed-note' job
+  │     │
+  │     ├─► Get note text (all fields concatenated)
+  │     ├─► Chunk: 512-token windows, 64-token overlap
+  │     ├─► OpenAI text-embedding-3-small → 1536d vector
+  │     └─► Upsert NoteEmbedding row with pgvector
+  │
+  └─► BullMQ: 'refresh-summary' job (after embed completes)
+        │
+        ├─► Fetch last 3 finalized notes + previous aiSummary
+        ├─► Call Claude Haiku: "Update rolling summary"
+        └─► patient.aiSummary = result, aiSummaryUpdatedAt = now</pre>
+
+    <h2>AI Behavioral Rules (Baked into Every Prompt)</h2>
+    <ul>
+      <li><strong>Never diagnose.</strong> No DSM codes, no clinical diagnoses in AI outputs.</li>
+      <li><strong>Never fabricate.</strong> If the therapist's raw notes don't mention something, the AI doesn't either. Missing fields get "[Therapist to complete]".</li>
+      <li><strong>Always a draft.</strong> Every output is explicitly framed as a draft for therapist review.</li>
+      <li><strong>Modality-aware.</strong> Suggested questions and homework always respect the therapist's stated modality (CBT, DBT, psychodynamic, etc.).</li>
+      <li><strong>Risk nudge only.</strong> If note content contains language suggesting imminent risk, the AI surfaces a soft nudge: "Content may warrant a safety review." — never a diagnosis, never an alarm.</li>
+      <li><strong>First-session aware.</strong> When there is no prior history, the AI explicitly says so rather than generating generic filler.</li>
+    </ul>
+  </main>
+</div>
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-logo">⬡ <span>TherapOS</span></div>
+    <div class="footer-links"><a href="../index.html">Home</a><a href="schema.html">Schema</a><a href="api.html">API</a></div>
+    <div class="footer-copy">© 2026 TherapOS</div>
+  </div>
+</footer>
+</body>
+</html>

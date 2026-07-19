@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Roadmap — TherapOS Docs</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⬡</text></svg>">
+<link rel="stylesheet" href="../styles/main.css">
+<style>
+.timeline{position:relative;padding-left:2rem;margin:1.5rem 0}
+.timeline::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--border)}
+.tl-item{position:relative;margin-bottom:2.5rem}
+.tl-dot{position:absolute;left:-2.35rem;top:.25rem;width:14px;height:14px;border-radius:50%;background:var(--s2);border:2px solid var(--border)}
+.tl-dot.done{background:var(--green);border-color:var(--green)}
+.tl-dot.active{background:var(--accent);border-color:var(--accent)}
+.tl-label{font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.3rem}
+.tl-title{font-size:1rem;font-weight:600;color:var(--ink);margin-bottom:.5rem}
+.tl-items{list-style:none;padding:0}
+.tl-items li{font-size:.83rem;color:var(--mid);padding:.2rem 0;display:flex;gap:.5rem}
+.tl-items li::before{content:'→';color:var(--accent);flex-shrink:0}
+</style>
+</head>
+<body>
+<nav class="site-nav">
+  <a href="/" class="nav-logo">⬡ <span>TherapOS</span></a>
+  <div class="nav-links">
+    <a href="../index.html#features">Features</a>
+    <a href="../index.html#pricing">Pricing</a>
+    <a href="index.html" style="color:var(--accent)">Docs</a>
+    <a href="../index.html#pricing" class="nav-cta">Start free trial</a>
+  </div>
+</nav>
+<div class="docs-layout">
+  <nav class="docs-sidebar">
+    <div class="group">Getting Started</div>
+    <a href="index.html">Overview</a>
+    <a href="quickstart.html">Quickstart</a>
+    <div class="group">Product</div>
+    <a href="plan.html">Full Product Plan</a>
+    <a href="features.html">Features</a>
+    <a href="pricing.html">Pricing</a>
+    <a href="roadmap.html" class="active">Roadmap</a>
+    <div class="group">Technical</div>
+    <a href="architecture.html">Architecture</a>
+    <a href="schema.html">Database Schema</a>
+    <a href="api.html">API Reference</a>
+    <a href="ai.html">AI &amp; Prompts</a>
+  </nav>
+  <main class="docs-content">
+    <span class="eyebrow">Product</span>
+    <h1>Roadmap</h1>
+    <p>Quarterly milestones from MVP to platform. The rule at every stage: when choosing between a CRUD feature and AI that saves 30 minutes, choose AI.</p>
+    <hr>
+
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-dot active"></div>
+        <div class="tl-label">Q3 2026 — Now</div>
+        <div class="tl-title">MVP — The Smallest Product That Creates Real Value</div>
+        <ul class="tl-items">
+          <li>Secure therapist signup + login (Clerk)</li>
+          <li>Patient profiles — name, concerns, diagnosis, modality</li>
+          <li>Session creation and management</li>
+          <li>Raw notes input → AI SOAP/DAP note generation (streaming)</li>
+          <li>Editable note fields — full therapist control</li>
+          <li>Session prep brief — AI-generated before every session</li>
+          <li>Treatment goals (CRUD + progress notes)</li>
+          <li>Patient session timeline</li>
+          <li>Dashboard — today's sessions, recently viewed</li>
+          <li>HIPAA-ready foundation — encryption, audit logs, BAA</li>
+        </ul>
+        <div class="callout" style="margin-top:1rem">
+          <div class="callout-label">MVP success signal</div>
+          <p>Therapist generates first AI note within 10 min of signup. Returns for session 2 without prompting. Says "this saved me 20 minutes" unprompted.</p>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-label">Q4 2026</div>
+        <div class="tl-title">Memory + Search — The Intelligence Layer</div>
+        <ul class="tl-items">
+          <li>Rolling AI patient summary — updated after every finalized note</li>
+          <li>Natural language search — pgvector across all session history</li>
+          <li>Homework generator — AI suggests 3 options post-session</li>
+          <li>⌘K command palette — search patients, notes, sessions globally</li>
+          <li>Note embedding pipeline — every finalized note becomes searchable</li>
+          <li>Billing integration — Stripe subscriptions, 14-day trial</li>
+          <li>Referral program — "give 1 month, get 1 month"</li>
+        </ul>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-label">Q1 2027</div>
+        <div class="tl-title">Insights — Progress Becomes Visible</div>
+        <ul class="tl-items">
+          <li>Goal progress timeline — visual chart across sessions</li>
+          <li>Cross-session pattern recognition — AI surfaces themes over months</li>
+          <li>Mood and affect trend tracking</li>
+          <li>Risk flag nudges — soft alerts for concerning language in notes</li>
+          <li>Progress report export — PDF for supervisors or insurance</li>
+          <li>Session statistics — duration, frequency, gap analysis</li>
+        </ul>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-label">Q2 2027</div>
+        <div class="tl-title">Collaboration — Small Clinics</div>
+        <ul class="tl-items">
+          <li>Multi-therapist clinic accounts — per-seat billing</li>
+          <li>Admin dashboard — practice owner sees all therapists</li>
+          <li>Supervisor review — flag notes for supervision</li>
+          <li>Shared patient transfers — when a patient changes therapists</li>
+          <li>Clinic-wide search and analytics</li>
+        </ul>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-label">Q3 2027</div>
+        <div class="tl-title">India Launch — New Market</div>
+        <ul class="tl-items">
+          <li>India pricing tier — ₹1,499/month Solo, ₹2,499/seat Clinic</li>
+          <li>Razorpay payment integration</li>
+          <li>DPDP Act compliance — Indian data stored in AWS ap-south-1</li>
+          <li>Data Protection Officer appointment</li>
+          <li>India-specific onboarding — local mental health licensing context</li>
+        </ul>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-label">Q4 2027</div>
+        <div class="tl-title">Platform — Content and Integrations</div>
+        <ul class="tl-items">
+          <li>Worksheet library — CBT, DBT, EMDR templates</li>
+          <li>Session templates by modality</li>
+          <li>Modality packs — structured protocols (CBT for anxiety, DBT skills)</li>
+          <li>Calendar integration — pull upcoming sessions from Google Cal</li>
+          <li>Public API — allow integrations with scheduling tools</li>
+        </ul>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-label">2028+</div>
+        <div class="tl-title">Network — Compound Intelligence</div>
+        <ul class="tl-items">
+          <li>UK and Canada expansion</li>
+          <li>Payer integrations — outcome reporting for value-based care</li>
+          <li>De-identified outcome research — aggregate insights across all sessions</li>
+          <li>CE credit partnership — AI ethics module for therapists</li>
+          <li>Referral network — match patients to therapists on the platform</li>
+          <li>API revenue — other tools integrate TherapOS clinical memory</li>
+        </ul>
+      </div>
+    </div>
+
+    <h2>What We Will Not Build (in this order)</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Feature</th><th>When (if ever)</th><th>Why not now</th></tr></thead>
+        <tbody>
+          <tr><td>Billing / insurance claims</td><td>V3 at earliest</td><td>Not our category. SimplePractice owns this and we don't want to compete.</td></tr>
+          <tr><td>Video sessions</td><td>V3 at earliest</td><td>Doxy, Zoom, Telehealth already solved this. Integration beats building.</td></tr>
+          <tr><td>Patient-facing portal</td><td>V2 maybe</td><td>Risk of scope creep. Therapist is the customer.</td></tr>
+          <tr><td>Medication management</td><td>Never MVP</td><td>Requires prescriber workflows. Different ICP.</td></tr>
+          <tr><td>Hospital / inpatient</td><td>Never MVP</td><td>Different regulatory environment, different buyer. Explicit non-goal.</td></tr>
+          <tr><td>Mobile app</td><td>V2</td><td>Desktop first. Therapists document on desktop. Mobile is convenience, not need.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+</div>
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-logo">⬡ <span>TherapOS</span></div>
+    <div class="footer-links"><a href="../index.html">Home</a><a href="plan.html">Full Plan</a><a href="features.html">Features</a></div>
+    <div class="footer-copy">© 2026 TherapOS</div>
+  </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Quickstart — TherapOS Docs</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⬡</text></svg>">
+<link rel="stylesheet" href="../styles/main.css">
+</head>
+<body>
+<nav class="site-nav">
+  <a href="/" class="nav-logo">⬡ <span>TherapOS</span></a>
+  <div class="nav-links">
+    <a href="../index.html#features">Features</a>
+    <a href="../index.html#pricing">Pricing</a>
+    <a href="index.html" style="color:var(--accent)">Docs</a>
+    <a href="../index.html#pricing" class="nav-cta">Start free trial</a>
+  </div>
+</nav>
+<div class="docs-layout">
+  <nav class="docs-sidebar">
+    <div class="group">Getting Started</div>
+    <a href="index.html">Overview</a>
+    <a href="quickstart.html" class="active">Quickstart</a>
+    <div class="group">Product</div>
+    <a href="plan.html">Full Product Plan</a>
+    <a href="features.html">Features</a>
+    <a href="pricing.html">Pricing</a>
+    <a href="roadmap.html">Roadmap</a>
+    <div class="group">Technical</div>
+    <a href="architecture.html">Architecture</a>
+    <a href="schema.html">Database Schema</a>
+    <a href="api.html">API Reference</a>
+    <a href="ai.html">AI &amp; Prompts</a>
+  </nav>
+  <main class="docs-content">
+    <span class="eyebrow">Getting Started</span>
+    <h1>Quickstart</h1>
+    <p>From signup to your first AI-generated SOAP note in under 10 minutes.</p>
+    <hr>
+
+    <h2>Step 1 — Sign up</h2>
+    <p>Go to <strong>app.therapos.com</strong> and click "Start free trial." Sign in with Google or email. No credit card required. Your 14-day trial starts immediately with full access.</p>
+    <p>After login, you'll be asked for three things:</p>
+    <ul>
+      <li>Your name</li>
+      <li>Your license type (LCSW, MFT, PhD, etc.)</li>
+      <li>Your primary therapeutic modality (CBT, DBT, Psychodynamic, etc.)</li>
+    </ul>
+    <p>That's it. You're in.</p>
+
+    <h2>Step 2 — Add your first patient</h2>
+    <p>From the dashboard, click <strong>"+ New patient"</strong> or press <code>⌘N</code>.</p>
+    <p>Fill in:</p>
+    <ul>
+      <li><strong>Name</strong> (first name is enough to start)</li>
+      <li><strong>Primary concerns</strong> — e.g., "anxiety, workplace stress"</li>
+      <li><strong>Therapeutic modality</strong> for this patient (defaults to your global setting)</li>
+    </ul>
+    <p>DOB, diagnosis codes, email, phone — all optional. Add them when relevant.</p>
+
+    <div class="callout">
+      <div class="callout-label">Privacy note</div>
+      <p>Patient data is encrypted at rest and never used to train AI models. You sign a BAA with TherapOS on the Solo plan. See our <a href="architecture.html#security">security architecture</a> for details.</p>
+    </div>
+
+    <h2>Step 3 — Create a session</h2>
+    <p>On the patient profile, click <strong>"+ New session"</strong>. Enter:</p>
+    <ul>
+      <li>Session date</li>
+      <li>Session number (auto-suggested based on previous sessions)</li>
+      <li>Session type (Individual, Couples, Family, Group)</li>
+    </ul>
+    <p>The session page opens. If this is your first session with this patient, the AI prep panel will say "No prior history — this is session 1." From session 2 onward, the prep brief auto-generates.</p>
+
+    <h2>Step 4 — Run the session</h2>
+    <p>TherapOS stays out of your way during the session. When you're ready to take notes, the right panel has a simple text area. You can:</p>
+    <ul>
+      <li>Type bullet points during or after the session</li>
+      <li>Write in any format — free text, shorthand, abbreviations</li>
+      <li>Use voice-to-text (browser native) if you prefer</li>
+    </ul>
+    <p>TherapOS doesn't record sessions. Your raw notes are the input.</p>
+
+    <h2>Step 5 — Generate your first AI note</h2>
+    <p>After the session, with your raw notes in the text area, click <strong>"Generate AI Draft"</strong>. Choose SOAP or DAP format.</p>
+    <p>In 8–12 seconds, TherapOS generates a complete, clinically-worded note using:</p>
+    <ul>
+      <li>Your raw notes from this session</li>
+      <li>Patient profile and concerns</li>
+      <li>AI patient summary (from prior sessions, if any)</li>
+      <li>Active treatment goals</li>
+    </ul>
+    <p>The draft appears in the note editor. <strong>Review every field.</strong> Edit anything that isn't right. The AI makes mistakes — your clinical judgment is always final.</p>
+
+    <h2>Step 6 — Finalize the note</h2>
+    <p>When you're satisfied with the note, click <strong>"Finalize."</strong> This:</p>
+    <ul>
+      <li>Locks the note (still editable, but requires unlocking)</li>
+      <li>Triggers embedding — your note becomes searchable via natural language</li>
+      <li>Refreshes the patient's AI summary to include this session</li>
+    </ul>
+    <p>The next time you open this patient before a session, the prep brief will include context from today's session.</p>
+
+    <h2>The aha moment</h2>
+    <p>For most therapists, the product becomes essential by session 3 with a patient. By then:</p>
+    <ul>
+      <li>The AI prep brief is genuinely useful — not generic</li>
+      <li>The AI summary captures the clinical arc accurately</li>
+      <li>You've saved ~90 minutes of note-writing</li>
+    </ul>
+    <p>By session 10, the question becomes: could you practice as well without it?</p>
+
+    <hr>
+
+    <h2>Keyboard shortcuts</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Action</th><th>Shortcut</th></tr></thead>
+        <tbody>
+          <tr><td>Open command palette / search</td><td><code>⌘K</code></td></tr>
+          <tr><td>New patient</td><td><code>⌘N</code></td></tr>
+          <tr><td>Generate AI note draft</td><td><code>⌘G</code></td></tr>
+          <tr><td>Finalize note</td><td><code>⌘Enter</code></td></tr>
+          <tr><td>Switch note format (SOAP/DAP)</td><td><code>⌘F</code></td></tr>
+          <tr><td>Go to dashboard</td><td><code>⌘H</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>Next steps</h2>
+    <div class="grid2" style="margin-top:1rem">
+      <a href="features.html" class="card" style="display:block;text-decoration:none">
+        <h3 style="color:var(--accent)">Features →</h3>
+        <p style="font-size:.83rem;margin:0">Deep dive into treatment goals, homework generator, NL search, and more.</p>
+      </a>
+      <a href="ai.html" class="card" style="display:block;text-decoration:none">
+        <h3 style="color:var(--accent)">How the AI works →</h3>
+        <p style="font-size:.83rem;margin:0">Prompts, memory architecture, and what the AI actually sees when generating notes.</p>
+      </a>
+    </div>
+  </main>
+</div>
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-logo">⬡ <span>TherapOS</span></div>
+    <div class="footer-links"><a href="../index.html">Home</a><a href="plan.html">Product Plan</a><a href="api.html">API</a></div>
+    <div class="footer-copy">© 2026 TherapOS</div>
+  </div>
+</footer>
+</body>
+</html>
