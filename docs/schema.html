@@ -36,20 +36,29 @@
   <main class="docs-content">
     <span class="eyebrow">Technical</span>
     <h1>Database Schema</h1>
-    <p>PostgreSQL via Prisma ORM with pgvector extension for embeddings. All tables use CUID primary keys. PHI fields are additionally encrypted at the application layer.</p>
+    <p class="page-desc">PostgreSQL 15 via Prisma ORM with the pgvector extension for embedding storage. All tables use CUID primary keys. PHI fields are additionally encrypted at the application layer via envelope encryption.</p>
     <hr>
 
-    <h2>Entity Map</h2>
-    <pre>User ──── Patient ──── Session ──── SessionNote ──── NoteEmbedding
-                │         │
-                │         └── Homework
-                │
-                ├── Goal
-                ├── Homework
-                └── PatientEmbedding
+    <h2>Entity Relationship Map</h2>
+    <pre>User ──────────────────── Patient ──── Session ──── SessionNote
+ │                          │              │              │
+ │                          │              │         NoteEmbedding
+ │                          │              │
+ │                          ├── Goal       └── Homework
+ │                          ├── Homework
+ │                          └── PatientEmbedding
+ │
+ ├── Subscription
+ └── AuditLog</pre>
 
-User ──── Subscription
-User ──── AuditLog</pre>
+    <h3>Key Design Decisions</h3>
+    <ul>
+      <li><strong>CUIDs over UUIDs:</strong> CUIDs are URL-safe by default, have better lexicographic properties than UUIDs v4, and sort naturally in most UI contexts without additional logic.</li>
+      <li><strong>Soft deletes on patients:</strong> Patients are never hard-deleted — HIPAA audit requirements mean we must retain records. Deletion sets <code>status = DISCHARGED</code> and <code>endDate</code>. PHI is removed on account cancellation per our data retention policy.</li>
+      <li><strong>JSON for flexible data:</strong> <code>Session.aiPrep</code> and <code>Goal.progressNotes</code> are JSON columns. This avoids schema migrations for structured data that evolves with the AI output format. The JSON shape is validated in application code via Zod.</li>
+      <li><strong>Separate embedding tables:</strong> <code>NoteEmbedding</code> and <code>PatientEmbedding</code> are separate tables rather than vector columns on the parent table. This keeps the main tables lean and allows independent indexing strategy for the vector data.</li>
+      <li><strong>therapistId on every leaf table:</strong> Sessions, Goals, Homework all carry a <code>therapistId</code> foreign key even though it's derivable through the Patient. This enables fast therapist-scoped queries without table joins, and is critical for the pgvector search query where we filter embeddings by therapist before similarity ranking.</li>
+    </ul>
 
     <h2>Full Prisma Schema</h2>
     <pre>generator client {
@@ -63,121 +72,160 @@ datasource db {
   extensions = [pgvector(map: "vector")]
 }
 
+// ── User ──────────────────────────────────────────────────────
+
 model User {
-  id            String   @id @default(cuid())
-  clerkId       String   @unique
-  email         String   @unique
+  id            String        @id @default(cuid())
+  clerkId       String        @unique  // Clerk's user ID
+  email         String        @unique
   name          String
   licenseNumber String?
-  licenseState  String?
-  credentials   String[] // ["LCSW", "MFT", "PhD"]
-  modalities    String[] // ["CBT", "DBT", "Psychodynamic"]
-  timezone      String   @default("UTC")
+  licenseState  String?       // US state abbreviation
+  credentials   String[]      // ["LCSW", "MFT", "PhD", "LPC"]
+  modalities    String[]      // ["CBT", "DBT", "Psychodynamic"]
+  timezone      String        @default("UTC")
   subscription  Subscription?
   patients      Patient[]
   sessions      Session[]
   auditLogs     AuditLog[]
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
 }
 
+// ── Patient ───────────────────────────────────────────────────
+
 model Patient {
-  id              String        @id @default(cuid())
+  id              String            @id @default(cuid())
   therapistId     String
-  therapist       User          @relation(fields: [therapistId], references: [id])
+  therapist       User              @relation(fields: [therapistId], references: [id])
+  // PHI — application-layer encrypted
   firstName       String
   lastName        String
   preferredName   String?
   dateOfBirth     DateTime?
   email           String?
   phone           String?
-  primaryConcerns String[]
-  diagnoses       String[]
-  modality        String?
-  sessionFreq     String?       // "weekly", "biweekly"
-  status          PatientStatus @default(ACTIVE)
-  startDate       DateTime      @default(now())
+  // Clinical
+  primaryConcerns String[]          // ["anxiety", "workplace stress"]
+  diagnoses       String[]          // ["F41.1 GAD", "F43.10 PTSD"]
+  modality        String?           // Per-patient override of therapist default
+  sessionFreq     String?           // "weekly" | "biweekly" | "monthly"
+  status          PatientStatus     @default(ACTIVE)
+  startDate       DateTime          @default(now())
   endDate         DateTime?
-  // AI-maintained rolling summary (regenerated after each finalized note)
+  // AI-maintained — updated after each finalized note via BullMQ
   aiSummary          String?
   aiSummaryUpdatedAt DateTime?
+  // Relations
   sessions        Session[]
   goals           Goal[]
   homework        Homework[]
   embeddings      PatientEmbedding[]
-  createdAt       DateTime      @default(now())
-  updatedAt       DateTime      @updatedAt
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+
   @@index([therapistId])
-  @@index([therapistId, status])
+  @@index([therapistId, status])    // Dashboard: active patients only
 }
 
-enum PatientStatus { ACTIVE INACTIVE WAITLIST DISCHARGED }
+enum PatientStatus {
+  ACTIVE
+  INACTIVE
+  WAITLIST
+  DISCHARGED
+}
+
+// ── Session ───────────────────────────────────────────────────
 
 model Session {
   id            String        @id @default(cuid())
   patientId     String
   patient       Patient       @relation(fields: [patientId], references: [id])
-  therapistId   String
+  therapistId   String        // Denormalized for fast therapist-scoped queries
   therapist     User          @relation(fields: [therapistId], references: [id])
-  sessionNumber Int
+  sessionNumber Int           // Auto-incremented per patient
   scheduledAt   DateTime
   startedAt     DateTime?
   endedAt       DateTime?
   durationMins  Int?
   type          SessionType   @default(INDIVIDUAL)
   status        SessionStatus @default(SCHEDULED)
-  // Pre-session AI prep (JSON: {recap, suggestedQuestions, homeworkFollowUp, patterns})
+  // AI prep brief — JSON: { recap, suggestedQuestions[], homeworkFollowUp, patterns }
   aiPrep        Json?
   aiPrepGenAt   DateTime?
-  // Raw therapist notes before AI processing
+  // Therapist's raw notes before AI processing
   rawNotes      String?
   note          SessionNote?
   homework      Homework[]
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
+
   @@index([patientId])
   @@index([therapistId])
-  @@index([therapistId, scheduledAt])
+  @@index([therapistId, scheduledAt])  // Dashboard: today's sessions
+  @@unique([patientId, sessionNumber]) // Enforce unique session numbers per patient
 }
 
-enum SessionType   { INDIVIDUAL COUPLES FAMILY GROUP }
-enum SessionStatus { SCHEDULED IN_PROGRESS COMPLETED CANCELLED NO_SHOW }
+enum SessionType {
+  INDIVIDUAL
+  COUPLES
+  FAMILY
+  GROUP
+}
+
+enum SessionStatus {
+  SCHEDULED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+  NO_SHOW
+}
+
+// ── SessionNote ───────────────────────────────────────────────
 
 model SessionNote {
   id            String     @id @default(cuid())
-  sessionId     String     @unique
+  sessionId     String     @unique  // One note per session
   session       Session    @relation(fields: [sessionId], references: [id])
   format        NoteFormat @default(SOAP)
-  // SOAP
+  // SOAP fields
   subjective    String?
   objective     String?
   assessment    String?
   plan          String?
-  // DAP
+  // DAP fields
   data          String?
   dapAssessment String?
   dapPlan       String?
-  // BIRP
+  // BIRP fields
   behavior      String?
   intervention  String?
   birpResponse  String?
   birpPlan      String?
   // Free text
   freeText      String?
-  // AI tracking
-  aiDraft       Json?
+  // AI tracking — never modify aiDraft after finalization
+  aiDraft       Json?      // Original AI output before therapist edits
   aiGenerated   Boolean    @default(false)
-  aiModel       String?
-  editedAt      DateTime?
+  aiModel       String?    // e.g. "claude-sonnet-4-6"
+  editedAt      DateTime?  // Last manual edit timestamp
   isFinalized   Boolean    @default(false)
   finalizedAt   DateTime?
-  wordCount     Int?
+  wordCount     Int?       // Computed on finalization
+  // Relations
   embedding     NoteEmbedding?
   createdAt     DateTime   @default(now())
   updatedAt     DateTime   @updatedAt
 }
 
-enum NoteFormat { SOAP DAP BIRP FREE }
+enum NoteFormat {
+  SOAP
+  DAP
+  BIRP
+  FREE
+}
+
+// ── Goal ─────────────────────────────────────────────────────
 
 model Goal {
   id            String     @id @default(cuid())
@@ -185,50 +233,69 @@ model Goal {
   patient       Patient    @relation(fields: [patientId], references: [id])
   title         String
   description   String?
-  category      String?    // "anxiety", "sleep", "relationships"
+  category      String?    // "anxiety" | "sleep" | "relationships" | "trauma" | ...
   status        GoalStatus @default(ACTIVE)
   startedAt     DateTime   @default(now())
   achievedAt    DateTime?
-  progressNotes Json[]     // [{date, sessionId, note}]
+  // Array of { date: ISO, sessionId?: string, note: string }
+  progressNotes Json[]     @default([])
   createdAt     DateTime   @default(now())
   updatedAt     DateTime   @updatedAt
+
   @@index([patientId])
+  @@index([patientId, status])
 }
 
-enum GoalStatus { ACTIVE ACHIEVED PAUSED ABANDONED }
+enum GoalStatus {
+  ACTIVE
+  ACHIEVED
+  PAUSED
+  ABANDONED
+}
+
+// ── Homework ──────────────────────────────────────────────────
 
 model Homework {
   id          String         @id @default(cuid())
   patientId   String
   patient     Patient        @relation(fields: [patientId], references: [id])
-  sessionId   String?
+  sessionId   String?        // Session when assigned (nullable for manually added homework)
   session     Session?       @relation(fields: [sessionId], references: [id])
   title       String
   description String
-  category    String?        // "journaling", "behavioral", "exposure", "mindfulness"
+  category    String?        // "journaling" | "behavioral" | "exposure" | "mindfulness" | "social"
   dueBy       DateTime?
   aiGenerated Boolean        @default(false)
   status      HomeworkStatus @default(ASSIGNED)
   completedAt DateTime?
-  notes       String?
+  notes       String?        // Therapist's completion notes
   createdAt   DateTime       @default(now())
   updatedAt   DateTime       @updatedAt
+
   @@index([patientId])
+  @@index([patientId, status])
 }
 
-enum HomeworkStatus { ASSIGNED COMPLETED PARTIAL SKIPPED }
+enum HomeworkStatus {
+  ASSIGNED
+  COMPLETED
+  PARTIAL
+  SKIPPED
+}
 
-// ── Vector tables ─────────────────────────────────────────────
+// ── Vector Tables ──────────────────────────────────────────────
 
 model NoteEmbedding {
-  id          String   @id @default(cuid())
-  noteId      String   @unique
+  id          String      @id @default(cuid())
+  noteId      String      @unique
   note        SessionNote @relation(fields: [noteId], references: [id])
-  patientId   String
-  therapistId String
-  content     String
+  patientId   String      // Denormalized for fast patient-scoped search
+  therapistId String      // Denormalized for therapist isolation in queries
+  content     String      // The text that was embedded (all note fields concatenated)
+  // pgvector column — 1536 dimensions for text-embedding-3-small
   embedding   Unsupported("vector(1536)")
-  createdAt   DateTime @default(now())
+  createdAt   DateTime    @default(now())
+
   @@index([patientId])
   @@index([therapistId])
 }
@@ -241,29 +308,48 @@ model PatientEmbedding {
   content   String
   embedding Unsupported("vector(1536)")
   createdAt DateTime @default(now())
+
   @@index([patientId])
 }
 
-// ── Billing ───────────────────────────────────────────────────
+// ── Subscription ──────────────────────────────────────────────
 
 model Subscription {
   id                 String    @id @default(cuid())
   userId             String    @unique
   user               User      @relation(fields: [userId], references: [id])
   plan               Plan      @default(TRIAL)
-  status             SubStatus @default(ACTIVE)
+  status             SubStatus @default(TRIALING)
   stripeCustomerId   String?
   stripeSubId        String?
   trialEndsAt        DateTime?
   currentPeriodStart DateTime?
   currentPeriodEnd   DateTime?
-  cancelAt           DateTime?
+  cancelAt           DateTime?  // Scheduled cancellation date
+  cancelledAt        DateTime?  // Actual cancellation date
+  pausedAt           DateTime?
+  pauseResumesAt     DateTime?
+  // India-specific
+  razorpayCustomerId String?
+  razorpaySubId      String?
+  currency           String    @default("USD")  // "USD" | "INR"
   createdAt          DateTime  @default(now())
   updatedAt          DateTime  @updatedAt
 }
 
-enum Plan      { TRIAL SOLO CLINIC }
-enum SubStatus { ACTIVE PAST_DUE CANCELLED TRIALING PAUSED }
+enum Plan {
+  TRIAL
+  SOLO
+  CLINIC
+}
+
+enum SubStatus {
+  TRIALING
+  ACTIVE
+  PAST_DUE
+  PAUSED
+  CANCELLED
+}
 
 // ── HIPAA Audit Log ───────────────────────────────────────────
 
@@ -271,52 +357,143 @@ model AuditLog {
   id         String   @id @default(cuid())
   userId     String
   user       User     @relation(fields: [userId], references: [id])
-  patientId  String?
-  action     String   // "NOTE_CREATED" | "PATIENT_VIEWED" | "AI_GENERATED"
-  resource   String
+  patientId  String?  // Null for non-patient actions (login, settings)
+  action     String   // "PATIENT_VIEWED" | "NOTE_CREATED" | "AI_GENERATED" | "NOTE_FINALIZED" | ...
+  resource   String   // "Patient" | "Session" | "SessionNote" | "Goal" | ...
   resourceId String
-  metadata   Json?
+  metadata   Json?    // Non-PHI context: format chosen, note word count, etc.
   ipAddress  String?
   userAgent  String?
   createdAt  DateTime @default(now())
+
   @@index([userId])
   @@index([patientId])
-  @@index([createdAt])
+  @@index([createdAt])  // Range queries for compliance reports
 }</pre>
 
-    <h2>pgvector Index Setup</h2>
-    <pre>-- Run after Prisma migrations
+    <h2>pgvector Setup</h2>
+    <p>Run these SQL commands once, after Prisma migrations have created the tables. These are not Prisma migrations — run them directly via <code>psql</code> or a migration script.</p>
+    <pre>-- Enable the pgvector extension
 CREATE EXTENSION IF NOT EXISTS vector;
 
--- HNSW index — best recall/speed tradeoff for &lt;1M vectors
+-- HNSW index on NoteEmbedding — best recall/latency for &lt;1M vectors
+-- m=16: number of bi-directional links per node (higher = better recall, more memory)
+-- ef_construction=64: size of the candidate list during index build (higher = better quality)
 CREATE INDEX note_embedding_hnsw_idx
 ON "NoteEmbedding"
 USING hnsw (embedding vector_cosine_ops)
 WITH (m = 16, ef_construction = 64);
 
--- Search query (therapist-scoped)
+-- Set the search quality parameter at query time (higher = more accurate, slower)
+SET hnsw.ef_search = 40;</pre>
+
+    <h2>Vector Search Query</h2>
+    <p>The NL search endpoint embeds the user's query and runs this SQL (parameterized). The <code>therapistId</code> filter ensures therapist isolation before similarity ranking.</p>
+    <pre>-- Natural language search — therapist-scoped, optionally patient-scoped
+-- $1 = query embedding (vector), $2 = therapistId, $3 = patientId (nullable)
 SELECT
   ne.content,
   ne."patientId",
   ne."noteId",
-  1 - (ne.embedding &lt;=&gt; $1::vector) AS score,
+  s."sessionId",
   s."scheduledAt",
-  p."firstName"
+  p."firstName",
+  p."lastName",
+  sn."format",
+  1 - (ne.embedding &lt;=&gt; $1::vector) AS score
 FROM "NoteEmbedding" ne
-JOIN "SessionNote" sn ON sn.id = ne."noteId"
-JOIN "Session" s ON s.id = sn."sessionId"
-JOIN "Patient" p ON p.id = ne."patientId"
+JOIN "SessionNote" sn  ON sn.id = ne."noteId"
+JOIN "Session"    s    ON s.id = sn."sessionId"
+JOIN "Patient"    p    ON p.id = ne."patientId"
 WHERE ne."therapistId" = $2
-  AND (ne."patientId" = $3 OR $3 IS NULL)
+  AND ($3::text IS NULL OR ne."patientId" = $3)
 ORDER BY ne.embedding &lt;=&gt; $1::vector
-LIMIT 10;</pre>
+LIMIT 10;
+
+-- The &lt;=&gt; operator is cosine distance (lower = more similar)
+-- 1 - distance = similarity score (higher = more similar)
+-- Filtered by therapistId before vector scan — pgvector uses the HNSW index</pre>
+
+    <h2>Index Strategy</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Index</th><th>Table</th><th>Purpose</th></tr></thead>
+        <tbody>
+          <tr><td><code>therapistId</code></td><td>Patient</td><td>All patient queries are therapist-scoped — this is the most-used index in the system</td></tr>
+          <tr><td><code>therapistId + status</code></td><td>Patient</td><td>Dashboard active patient list — composite avoids full patient scan</td></tr>
+          <tr><td><code>patientId</code></td><td>Session</td><td>Patient timeline — all sessions for a patient</td></tr>
+          <tr><td><code>therapistId + scheduledAt</code></td><td>Session</td><td>Dashboard: today's sessions — date-range query on therapist's sessions</td></tr>
+          <tr><td><code>patientId + sessionNumber</code> (unique)</td><td>Session</td><td>Enforces session number uniqueness per patient</td></tr>
+          <tr><td>HNSW <code>embedding</code></td><td>NoteEmbedding</td><td>Approximate nearest-neighbor search — cosine distance, HNSW algorithm</td></tr>
+          <tr><td><code>therapistId</code></td><td>NoteEmbedding</td><td>Pre-filter embeddings by therapist before vector scan</td></tr>
+          <tr><td><code>createdAt</code></td><td>AuditLog</td><td>Time-range queries for compliance reports and HIPAA audits</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>Audit Log Actions</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Action</th><th>Trigger</th></tr></thead>
+        <tbody>
+          <tr><td><code>PATIENT_VIEWED</code></td><td>Patient profile opened</td></tr>
+          <tr><td><code>PATIENT_CREATED</code></td><td>New patient form submitted</td></tr>
+          <tr><td><code>PATIENT_UPDATED</code></td><td>Patient profile fields edited</td></tr>
+          <tr><td><code>SESSION_CREATED</code></td><td>New session created</td></tr>
+          <tr><td><code>NOTE_CREATED</code></td><td>Session note first saved (draft)</td></tr>
+          <tr><td><code>NOTE_UPDATED</code></td><td>Therapist edits note fields</td></tr>
+          <tr><td><code>NOTE_FINALIZED</code></td><td>Therapist clicks "Finalize"</td></tr>
+          <tr><td><code>AI_GENERATED</code></td><td>AI note draft generated</td></tr>
+          <tr><td><code>AI_PREP_GENERATED</code></td><td>Session prep brief generated</td></tr>
+          <tr><td><code>SEARCH_PERFORMED</code></td><td>NL search query executed</td></tr>
+          <tr><td><code>EXPORT_REQUESTED</code></td><td>Patient PDF or JSON export</td></tr>
+          <tr><td><code>DATA_DELETED</code></td><td>Account cancellation data removal</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="doc-nav">
+      <a href="architecture.html" class="doc-nav-btn">
+        <span class="doc-nav-label">← Previous</span>
+        <span class="doc-nav-title">Architecture</span>
+      </a>
+      <a href="api.html" class="doc-nav-btn next">
+        <span class="doc-nav-label">Next →</span>
+        <span class="doc-nav-title">API Reference</span>
+      </a>
+    </div>
   </main>
+
+  <aside class="page-toc">
+    <span class="toc-label">On this page</span>
+    <a href="#entity-relationship-map">Entity Map</a>
+    <a href="#key-design-decisions" class="toc-sub">Design Decisions</a>
+    <a href="#full-prisma-schema">Full Prisma Schema</a>
+    <a href="#user-" class="toc-sub">User</a>
+    <a href="#patient-" class="toc-sub">Patient</a>
+    <a href="#session-" class="toc-sub">Session</a>
+    <a href="#sessionnote-" class="toc-sub">SessionNote</a>
+    <a href="#goal-" class="toc-sub">Goal</a>
+    <a href="#homework-" class="toc-sub">Homework</a>
+    <a href="#vector-tables-" class="toc-sub">Vector Tables</a>
+    <a href="#subscription-" class="toc-sub">Subscription</a>
+    <a href="#hipaa-audit-log-" class="toc-sub">AuditLog</a>
+    <a href="#pgvector-setup">pgvector Setup</a>
+    <a href="#vector-search-query">Search Query</a>
+    <a href="#index-strategy">Index Strategy</a>
+    <a href="#audit-log-actions">Audit Actions</a>
+  </aside>
 </div>
 <footer class="site-footer">
   <div class="footer-inner">
     <div class="footer-logo">⬡ <span>TherapOS</span></div>
-    <div class="footer-links"><a href="../index.html">Home</a><a href="api.html">API</a><a href="ai.html">AI</a></div>
-    <div class="footer-copy">© 2026 TherapOS</div>
+    <div class="footer-links">
+      <a href="../index.html">Home</a>
+      <a href="architecture.html">Architecture</a>
+      <a href="api.html">API</a>
+      <a href="ai.html">AI</a>
+    </div>
+    <div class="footer-copy">© 2026 TherapOS · HIPAA compliant</div>
   </div>
 </footer>
 </body>

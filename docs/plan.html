@@ -36,131 +36,440 @@
   <main class="docs-content">
     <span class="eyebrow">Product</span>
     <h1>Full Product Plan</h1>
-    <p>All 40 sections of the TherapOS founding document — from vision and competitive analysis to database schema, prompt engineering, go-to-market, and 5-year vision. This is the canonical product spec a founding engineer can start from immediately.</p>
-    <hr>
+    <p class="page-desc">All 40 sections of the TherapOS founding document — from vision and competitive analysis to database schema, prompt engineering, go-to-market, and 5-year vision. This is the canonical product spec a founding team can build from directly.</p>
 
-    <div class="callout">
-      <div class="callout-label">How to use this document</div>
-      <p>The detailed technical sections (schema, architecture, prompts, API) have dedicated pages in the sidebar with copy-paste-ready code. This page covers the product, business, and strategic sections.</p>
+    <div class="callout callout-info">
+      <div class="callout-icon">ℹ</div>
+      <div class="callout-body">
+        <div class="callout-label">Technical sections have dedicated pages</div>
+        <p>Database schema, system architecture, API endpoints, and AI prompts have their own detailed pages with copy-paste-ready code. This page covers vision, strategy, GTM, design, and the five-year arc.</p>
+      </div>
     </div>
 
     <div class="grid2" style="margin:1.5rem 0">
-      <a href="architecture.html" class="card" style="display:block;text-decoration:none">
-        <h3 style="color:var(--accent)">System Architecture →</h3>
-        <p style="font-size:.83rem;margin:0">Stack decisions, deployment, security, environment variables.</p>
-      </a>
-      <a href="schema.html" class="card" style="display:block;text-decoration:none">
-        <h3 style="color:var(--accent)">Database Schema →</h3>
-        <p style="font-size:.83rem;margin:0">Full Prisma schema, pgvector setup, entity relationships.</p>
-      </a>
-      <a href="api.html" class="card" style="display:block;text-decoration:none">
-        <h3 style="color:var(--accent)">API Reference →</h3>
-        <p style="font-size:.83rem;margin:0">All endpoints, request/response shapes, error codes.</p>
-      </a>
-      <a href="ai.html" class="card" style="display:block;text-decoration:none">
-        <h3 style="color:var(--accent)">AI &amp; Prompts →</h3>
-        <p style="font-size:.83rem;margin:0">Prompt templates, context assembly, memory architecture.</p>
-      </a>
+      <a href="architecture.html" class="card card-link"><h4>System Architecture →</h4><p>Stack decisions, deployment, security, environment variables.</p></a>
+      <a href="schema.html" class="card card-link"><h4>Database Schema →</h4><p>Full Prisma schema, pgvector setup, entity relationships.</p></a>
+      <a href="api.html" class="card card-link"><h4>API Reference →</h4><p>All endpoints, request/response shapes, curl examples.</p></a>
+      <a href="ai.html" class="card card-link"><h4>AI &amp; Prompts →</h4><p>Prompt templates, context assembly, memory architecture.</p></a>
     </div>
 
+    <hr>
+
     <h2>§1 — Product Vision</h2>
-    <p>TherapOS is the AI-native operating system for independent therapists. It is not an EHR. It is not a therapy app. It is the AI copilot that therapists open before every session — and cannot practice without after 30 days of use.</p>
+    <p>TherapOS is the AI-native operating system for independent therapists. It is not an EHR. It is not a therapy app. It is not another AI chatbot companion. It is the AI copilot that therapists open before every session — and cannot practice without after 30 days of use.</p>
     <p>The product handles the clinical workflow that happens <em>around</em> therapy sessions: preparation, documentation, memory, and search. The AI remembers everything, prepares everything, and handles the busywork. The therapist remains completely in control.</p>
-    <p><strong>The long-term vision:</strong> Every session makes the AI smarter about that patient. After 20 sessions, TherapOS understands the treatment arc better than any EHR ever could. Eventually, the question is not "can a therapist use TherapOS?" — it is "can a therapist practice as well without it?" The answer becomes no.</p>
+    <p><strong>The 10-year vision:</strong> Every session makes the AI smarter about that patient. After 20 sessions, TherapOS understands the treatment arc better than any EHR ever could. Eventually, the question is not "can a therapist use TherapOS?" — it is "can a therapist practice as well without it?" The answer becomes no. That is the product goal: not lock-in through friction, but lock-in through indispensability.</p>
 
     <h2>§2 — Positioning</h2>
-    <p><strong>Category:</strong> AI Practice Management — not EHR, not therapy app, not AI chatbot.</p>
+    <p><strong>Category:</strong> AI Practice Management — not EHR, not therapy app, not AI chatbot companion.</p>
     <p><strong>One-liner:</strong> "The AI copilot independent therapists open before every session — and can't practice without."</p>
-    <p><strong>Unlike:</strong> SimplePractice (billing-first EHR), Upheal (transcription only), Mentalyc (AI notes without memory or prep), TherapyNotes (billing ledger with no AI).</p>
-    <p><strong>Target ICP priority:</strong> (1) Independent US therapists — highest pain, highest WTP, fastest sales cycle. (2) Small US clinics (2–10 therapists). (3) Independent therapists in India — high volume, lower WTP, separate pricing.</p>
+    <p><strong>Tag line alternatives:</strong></p>
+    <ul>
+      <li>"Your sessions deserve better than a blank SOAP template."</li>
+      <li>"Document less. Prepare more. Remember everything."</li>
+      <li>"What if your notes already knew the patient?"</li>
+    </ul>
+    <p><strong>Unlike:</strong> SimplePractice (billing-first EHR), Upheal (transcription only), Mentalyc (AI notes without memory or prep), TherapyNotes (billing ledger with no AI), Eleos Health (enterprise-only, expensive).</p>
+    <p><strong>Target ICP priority:</strong></p>
+    <ol>
+      <li>Independent US therapists (LCSW, MFT, PhD, LPC, LMHC) in private practice — highest pain, highest willingness to pay, fastest sales cycle, most referral-network-dense</li>
+      <li>Small US clinics (2–10 therapists) where the practice owner is also a clinician</li>
+      <li>Independent therapists in India — large market, lower WTP, separate pricing, DPDP Act compliance required</li>
+    </ol>
 
     <h2>§3 — Competitive Analysis</h2>
     <div class="table-wrap">
       <table>
-        <thead><tr><th>Product</th><th>AI Notes</th><th>Session Prep</th><th>Memory</th><th>NL Search</th><th>Modern UI</th><th>Price</th></tr></thead>
+        <thead><tr><th>Product</th><th>AI Notes</th><th>Session Prep</th><th>Memory</th><th>NL Search</th><th>Price</th></tr></thead>
         <tbody>
-          <tr><td>SimplePractice</td><td>❌</td><td>❌</td><td>❌</td><td>❌</td><td>Good</td><td>$49–99/mo</td></tr>
-          <tr><td>TherapyNotes</td><td>❌</td><td>❌</td><td>❌</td><td>❌</td><td>Poor</td><td>$49/mo</td></tr>
-          <tr><td>Upheal</td><td>✅ transcript</td><td>❌</td><td>❌</td><td>❌</td><td>Good</td><td>$69/mo</td></tr>
-          <tr><td>Mentalyc</td><td>✅ basic</td><td>❌</td><td>❌</td><td>❌</td><td>OK</td><td>$39/mo</td></tr>
-          <tr><td><strong>TherapOS ✦</strong></td><td>✅ full</td><td>✅</td><td>✅</td><td>✅</td><td>Premium</td><td>$29/mo</td></tr>
+          <tr><td>SimplePractice</td><td>❌</td><td>❌</td><td>❌</td><td>❌</td><td>$49–99/mo</td></tr>
+          <tr><td>TherapyNotes</td><td>❌</td><td>❌</td><td>❌</td><td>❌</td><td>$49/mo</td></tr>
+          <tr><td>Upheal</td><td>✅ transcript</td><td>❌</td><td>❌</td><td>❌</td><td>$69/mo</td></tr>
+          <tr><td>Mentalyc</td><td>✅ basic</td><td>❌</td><td>❌</td><td>❌</td><td>$39/mo</td></tr>
+          <tr><td>Eleos Health</td><td>✅ advanced</td><td>❌</td><td>Partial</td><td>❌</td><td>$200+/mo</td></tr>
+          <tr><td><strong>TherapOS ✦</strong></td><td><strong>✅ full</strong></td><td><strong>✅</strong></td><td><strong>✅</strong></td><td><strong>✅</strong></td><td><strong>$29/mo</strong></td></tr>
         </tbody>
       </table>
     </div>
-    <p>No competitor has built AI session prep + cross-session memory + natural language search as one integrated product. The OS layer — the thing that makes every session build on the last — does not exist in any current product.</p>
+    <p>No competitor has built AI session prep + cross-session memory + natural language search as one integrated, affordable product. The "OS layer" — the compound intelligence that makes every session build on the last — does not exist anywhere in the current market. That is the opening.</p>
 
     <h2>§4 — Why Therapists Would Switch</h2>
-    <p>They don't have to switch anything. TherapOS explicitly excludes billing, scheduling, and insurance. The pitch: "Keep SimplePractice for billing. Use TherapOS for everything clinical." Zero migration cost, zero switching risk.</p>
-    <p>The value is immediate: a therapist can generate their first AI note within 10 minutes of signup. The compound value (memory, patterns, search) builds over months and creates the switching cost that keeps them.</p>
+    <p><strong>They don't have to switch anything.</strong> TherapOS explicitly excludes billing, scheduling, and insurance. The pitch: "Keep SimplePractice for billing. Use TherapOS for everything clinical." Zero migration cost, zero switching risk.</p>
+    <p>The value is immediate: a therapist can generate their first AI note within 10 minutes of signup, without importing any data. The compound value (memory, patterns, search) builds over months and creates the natural switching cost that keeps them.</p>
+    <p>Contrast with SimplePractice: switching SimplePractice requires migrating billing records, insurance history, scheduling, and patient intake forms — a multi-day project. TherapOS's add-on positioning eliminates this barrier entirely.</p>
 
     <h2>§5 — The Moat</h2>
-    <p><strong>Compound memory:</strong> Every finalized note deepens the AI's understanding of the patient. After 20 sessions, the context is richer than anything a generic AI can generate. Switching means losing that memory.</p>
-    <p><strong>Workflow lock-in:</strong> Patient histories, notes, goals, and patterns are in TherapOS. The switching cost is not software — it's two years of clinical context.</p>
-    <p><strong>Aggregate intelligence:</strong> As the platform scales, de-identified aggregate patterns across thousands of therapy arcs improve the AI for everyone. Individual therapists can't replicate this.</p>
-    <p><strong>Speed advantage:</strong> Incumbents are billing companies. Rebuilding their data model to support clinical memory takes 2–3 years. TherapOS starts with a 24-month structural head start.</p>
+    <p><strong>Compound memory:</strong> Every finalized note deepens the AI's understanding of the patient. After 20 sessions, the context is richer than anything a generic AI can generate. Switching to a competitor means losing 20 sessions of memory — that's the real switching cost.</p>
+    <p><strong>Workflow lock-in:</strong> Patient histories, notes, goals, and patterns are in TherapOS. The switching cost is not software — it's two years of clinical context. Therapists feel this acutely.</p>
+    <p><strong>Aggregate intelligence (V2 → V3):</strong> As the platform scales, de-identified aggregate patterns across thousands of therapy arcs improve the AI for everyone. Individual therapists can't replicate population-level pattern detection.</p>
+    <p><strong>Speed advantage:</strong> Incumbents are billing companies. Rebuilding their data model to support clinical memory takes 2–3 years of product work. TherapOS starts with a 24-month structural head start.</p>
 
-    <h2>§6-7 — Feature Prioritization &amp; MVP</h2>
-    <p>See the <a href="features.html">Features page</a> for full detail. The MVP solves one painful problem with extreme quality: <strong>AI-generated, context-aware session notes that actually know the patient.</strong></p>
-    <p>MVP scope (build this, nothing else): patient profiles, session creation, raw notes input, AI SOAP/DAP note generation (streaming), editable notes, session prep brief, treatment goals, patient timeline, dashboard. That's it.</p>
+    <h2>§6 — Feature Prioritization Framework</h2>
+    <p>Every feature decision runs through this filter: <em>Does this save time or improve care? Is the benefit felt in the first session, or does it compound over time? Would a therapist notice if we removed it?</em></p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Tier</th><th>Criteria</th><th>Examples</th></tr></thead>
+        <tbody>
+          <tr><td><span class="badge badge-red">Build now</span></td><td>Core to the value prop. Immediate time savings. Felt in session 1.</td><td>AI note generation, session prep, patient profiles</td></tr>
+          <tr><td><span class="badge badge-yellow">Build next</span></td><td>Compounds over time. Increases switching cost. Users ask for it.</td><td>NL search, homework generator, goal tracking</td></tr>
+          <tr><td><span class="badge badge-muted">Build later</span></td><td>Nice-to-have. Doesn't drive retention. Could be an integration.</td><td>Calendar sync, mobile app, billing integration</td></tr>
+          <tr><td><span class="badge badge-accent">Never build</span></td><td>Different ICP. Increases regulatory risk. Out of category.</td><td>Telehealth video, medication management, hospital EHR</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>§7 — MVP Scope</h2>
+    <p>The MVP solves exactly one painful problem with extreme quality: <strong>AI-generated, context-aware session notes that actually know the patient.</strong> Everything else can wait.</p>
+    <p><strong>MVP ships with:</strong> Therapist signup + Clerk auth, patient profiles (name/concerns/modality/diagnoses), session creation, raw notes input, AI SOAP/DAP note generation (streaming via SSE), editable notes editor, one-click finalization, session prep brief (from session 2 onward), treatment goals (CRUD + progress notes), patient session timeline, dashboard with today's sessions.</p>
+    <p><strong>Not in MVP:</strong> natural language search (add in Q4 2026), homework generator, multi-therapist accounts, India launch, mobile app, billing integration, public API.</p>
+    <div class="callout callout-tip">
+      <div class="callout-icon">✓</div>
+      <div class="callout-body">
+        <div class="callout-label">MVP success signal</div>
+        <p>A therapist generates their first AI note within 10 minutes of signup. They return for session 2 without any prompting. At 30 days they say, unprompted, "I can't imagine going back."</p>
+      </div>
+    </div>
 
     <h2>§8 — Roadmap</h2>
-    <p>See the <a href="roadmap.html">Roadmap page</a> for the full quarterly breakdown through 2028.</p>
+    <p>See the <a href="roadmap.html">Roadmap page</a> for the full quarterly breakdown from Q3 2026 through 2028+. Rule at every stage: when choosing between a CRUD feature and AI that saves 30 minutes — choose AI.</p>
+
+    <h2>§9–11 — Technical Implementation</h2>
+    <p>The technical architecture, database schema, folder structure, and API design have dedicated pages with copy-paste-ready code:</p>
+    <ul>
+      <li><a href="architecture.html">System Architecture</a> — stack decisions, monorepo, deployment, security</li>
+      <li><a href="schema.html">Database Schema</a> — full Prisma schema, pgvector setup, design decisions</li>
+      <li><a href="api.html">API Reference</a> — all endpoints, request/response shapes, curl examples</li>
+      <li><a href="ai.html">AI Architecture &amp; Prompts</a> — model routing, context assembly, all 4 prompt templates</li>
+    </ul>
+
+    <h2>§15 — Memory Architecture</h2>
+    <p>The memory system is the structural moat. Three tiers, each serving a different purpose:</p>
+    <div class="grid3" style="margin:.75rem 0">
+      <div class="card card-sm">
+        <h4>Tier 1 — Redis</h4>
+        <p>Active session state. Session prep brief cache (24h TTL). In-progress note draft. Fast reads during live sessions. No persistence beyond TTL.</p>
+      </div>
+      <div class="card card-sm">
+        <h4>Tier 2 — PostgreSQL</h4>
+        <p>Rolling AI patient summary (3–5 sentences). Updated after every finalized note via BullMQ job. Injected into every AI call for this patient.</p>
+      </div>
+      <div class="card card-sm">
+        <h4>Tier 3 — pgvector</h4>
+        <p>Every finalized note embedded (text-embedding-3-small, 1536d). Searched via cosine similarity for NL search. Permanent — enables recall of any session content.</p>
+      </div>
+    </div>
+
+    <h2>§16 — Vector Search Design</h2>
+    <p>pgvector with HNSW indexing was chosen over Pinecone for the MVP. Reasons: no extra infrastructure, cost efficiency at scale below 500k embeddings, and PostgreSQL's row-level security means therapist data isolation is enforced at the index level without additional middleware.</p>
+    <p>Migration path: if vector count exceeds 500k or metadata filtering complexity outgrows pgvector, migrate to Pinecone. This is a single-service change — the rest of the system doesn't need to change.</p>
+
+    <h2>§17 — Auth Flow</h2>
+    <p>Authentication via Clerk. No custom auth — Clerk handles session management, MFA, OAuth (Google, Apple), and device trust. Clerk webhooks sync user creation/deletion events to the TherapOS <code>User</code> table. The <code>ClerkGuard</code> NestJS guard verifies the JWT on every API call and extracts the therapist ID for row-level isolation.</p>
+
+    <h2>§18–20 — User Journeys</h2>
+    <h3>New Therapist Onboarding</h3>
+    <p>Sign up → set license + modality → dashboard (empty state: "Add your first patient") → create patient → create session → run session → generate AI note → finalize → aha moment. Target: first note in under 10 minutes.</p>
+
+    <h3>Returning Therapist (weekly use)</h3>
+    <p>Open TherapOS → dashboard shows today's sessions → click patient → read 90-second prep brief → run session → type raw notes → generate AI draft → review and edit → finalize → move to next patient. Total time: 3–5 minutes per session.</p>
+
+    <h3>Patient Profile Journey</h3>
+    <p>Open patient → Overview (summary, active goals, stats) → Timeline (full history) → search "when did we first talk about X?" → find session → open note → reference for today's session. TherapOS is the memory layer between sessions — not just the documentation tool.</p>
+
+    <h2>§21–25 — Wireframes</h2>
+
+    <h3>Dashboard</h3>
+    <div class="wireframe">┌────────────────────────────────────────────────────────────────┐
+│  ⬡ TherapOS                           [⌘K]   [+ New patient]  │
+├────────────────────────────────────────────────────────────────┤
+│  Good morning, Dr. Sarah.  You have 4 sessions today.          │
+├────────────────────────────────────────────────────────────────┤
+│  TODAY — Mon, Jul 20                                           │
+│  ┌─────────────────────────┬──────────┬────────────────────┐  │
+│  │ Patient                 │ Time     │ Status             │  │
+│  ├─────────────────────────┼──────────┼────────────────────┤  │
+│  │ ●  Maya Chen            │  9:00 AM │ Scheduled          │  │
+│  │    James Okafor         │ 11:00 AM │ Scheduled          │  │
+│  │    Sarah Winters        │  2:00 PM │ Completed ✓        │  │
+│  │    David Park           │  4:00 PM │ ⚠ Note needed      │  │
+│  └─────────────────────────┴──────────┴────────────────────┘  │
+│                                                                │
+│  RECENT PATIENTS                                               │
+│  [Maya C.]  [James O.]  [David P.]  [Emily R.]                 │
+│                                                                │
+│  QUICK ACTIONS                                                 │
+│  [+ New patient]    [+ New session]    [⌘K Search]             │
+└────────────────────────────────────────────────────────────────┘</div>
+
+    <h3>Session Page</h3>
+    <div class="wireframe">┌────────────────────────────────────────────────────────────────┐
+│  ← Patients  /  Maya Chen  /  Session 4            [SOAP ▾]   │
+├───────────────────────────────┬────────────────────────────────┤
+│  RAW NOTES                    │  AI SESSION PREP ✦             │
+│  ─────────────────────────    │  ─────────────────────────    │
+│  Type your session notes...   │  Recap                        │
+│  ┌───────────────────────┐    │  Maya focused on workplace     │
+│  │ - pt came in anxious  │    │  anxiety last session.         │
+│  │ - breathing exercise  │    │  Completed breathing log       │
+│  │   worked 4/7 days     │    │  4 of 7 days...               │
+│  │ - discussed review    │    │                               │
+│  │   catastrophizing     │    │  Suggested Questions           │
+│  └───────────────────────┘    │  → How was work this week?    │
+│                               │  → What felt different in the │
+│  [Generate AI Draft ✦] [⌘G]  │    breathing exercises?       │
+│                               │  → What's the narrative       │
+│  ─────────────────────────    │    around the review?         │
+│  AI DRAFT  ✦                  │                               │
+│  ─────────────────────────    │  Homework Check-in            │
+│  Subjective                   │  Breathing log — check if     │
+│  Maya reported continued...   │  4/7 days is accurate and    │
+│                               │  explore what blocked         │
+│  Objective                    │  the other 3 days.            │
+│  Patient presented...         │                               │
+│                               │  Patterns                     │
+│  [Finalize ⌘↵]  [Edit]       │  Anxiety spikes before        │
+│                               │  evaluation events.           │
+└───────────────────────────────┴────────────────────────────────┘</div>
+
+    <h3>Patient Profile</h3>
+    <div class="wireframe">┌────────────────────────────────────────────────────────────────┐
+│  ← Patients                                                    │
+│  Maya Chen    ACTIVE ●    CBT    Weekly    Session 4          │
+│                                                                │
+│  [Overview]  [Sessions]  [Goals]  [Homework]  [Timeline]      │
+├────────────────────────────────────────────────────────────────┤
+│  AI SUMMARY ✦  (Updated Jul 19, 2026)                         │
+│  Maya has shown steady progress in managing workplace          │
+│  anxiety over 4 sessions. Avoidance behaviors have            │
+│  decreased. Primary stressor remains performance reviews.     │
+│  Breathing exercises partially adopted (4/7 days).            │
+│  Goal 1 on track; Goal 2 not yet started.                     │
+│                                                                │
+│  CLINICAL INFO                   ACTIVE GOALS                 │
+│  Primary concerns:               1. Reduce workplace anxiety  │
+│    Workplace anxiety             2. Improve sleep quality     │
+│    Performance anxiety           3. Address avoidance         │
+│  Modality: CBT                                                │
+│  Frequency: Weekly                                            │
+│  Started: Apr 2, 2026                                         │
+│                                                                │
+│  RECENT SESSIONS                                              │
+│  Session 4 · Jul 20 · Note pending                           │
+│  Session 3 · Jul 13 · ✓ Finalized                            │
+│  Session 2 · Jul 06 · ✓ Finalized                            │
+└────────────────────────────────────────────────────────────────┘</div>
 
     <h2>§26–29 — Design System</h2>
-    <p><strong>Visual identity:</strong> Dark, minimal, information-dense. Like Linear meets a clinical tool. AI is ambient — never intrusive, always editable. One accent color (indigo). No rainbow UI.</p>
-    <p><strong>Palette:</strong> Background <code>#0B0F19</code> · Surface <code>#111827</code> · Accent <code>#6366F1</code> · Text <code>#E2E8F0</code> · Mid <code>#94A3B8</code></p>
-    <p><strong>Typography:</strong> Inter (system-ui) for all UI. JetBrains Mono for code and session numbers. Scale: 11/13/14/16/20/24px.</p>
-    <p><strong>Stack:</strong> Next.js + Tailwind + shadcn/ui. Custom components: AiBadge, SessionPrepCard, NoteEditor (Tiptap), PatientTimeline, CommandPalette, GoalTracker.</p>
+    <p><strong>Visual identity:</strong> Dark, minimal, information-dense. Like Linear meets a clinical tool. AI is ambient — never intrusive, always editable. One accent color (indigo). No rainbow UI, no celebration animations, no UX clutter.</p>
+
+    <h3>Color Palette</h3>
+    <div class="grid4" style="margin:.75rem 0">
+      <div class="card card-sm" style="border-color:var(--border2)">
+        <div style="width:100%;height:40px;background:#0B0F19;border-radius:4px;margin-bottom:.5rem"></div>
+        <code style="font-size:.72rem">#0B0F19</code>
+        <p style="font-size:.75rem;margin:.1rem 0 0">Background</p>
+      </div>
+      <div class="card card-sm" style="border-color:var(--border2)">
+        <div style="width:100%;height:40px;background:#111827;border-radius:4px;margin-bottom:.5rem"></div>
+        <code style="font-size:.72rem">#111827</code>
+        <p style="font-size:.75rem;margin:.1rem 0 0">Surface 1</p>
+      </div>
+      <div class="card card-sm" style="border-color:var(--border2)">
+        <div style="width:100%;height:40px;background:#6366F1;border-radius:4px;margin-bottom:.5rem"></div>
+        <code style="font-size:.72rem">#6366F1</code>
+        <p style="font-size:.75rem;margin:.1rem 0 0">Accent (indigo)</p>
+      </div>
+      <div class="card card-sm" style="border-color:var(--border2)">
+        <div style="width:100%;height:40px;background:#E2E8F0;border-radius:4px;margin-bottom:.5rem"></div>
+        <code style="font-size:.72rem">#E2E8F0</code>
+        <p style="font-size:.75rem;margin:.1rem 0 0">Primary text</p>
+      </div>
+    </div>
+
+    <h3>Typography</h3>
+    <ul>
+      <li><strong>UI / body:</strong> system-ui, -apple-system, 'Segoe UI' — native rendering, fast, accessible</li>
+      <li><strong>Code / session numbers:</strong> JetBrains Mono — clear distinction between code and content</li>
+      <li><strong>Type scale:</strong> 11 / 13 / 14 / 16 / 20 / 24 / 32px</li>
+    </ul>
+
+    <h3>Component Library</h3>
+    <p>shadcn/ui for base components (buttons, inputs, selects, dialogs, dropdowns). Custom TherapOS components: <code>AiBadge</code>, <code>SessionPrepCard</code>, <code>NoteEditor</code> (Tiptap), <code>PatientTimeline</code>, <code>CommandPalette</code>, <code>GoalTracker</code>, <code>HomeworkCard</code>.</p>
 
     <h2>§30 — Pricing Strategy</h2>
-    <p>See the <a href="pricing.html">Pricing page</a> for full detail. The logic: $29 vs. SimplePractice's $49–99 (with no AI). At $150/session, TherapOS costs less than 1/5 of one session per month.</p>
+    <p>See the <a href="pricing.html">Pricing page</a> for full detail.</p>
+    <p>The logic: $29/month vs. SimplePractice's $49–99 (with no AI). At $150/session, TherapOS costs less than one-fifth of a single session per month. The ROI is self-evident. The goal is to be priced low enough that no therapist delays the decision — the value is felt immediately, and the switching cost comes from compound memory, not pricing.</p>
 
-    <h2>§31–34 — Go-To-Market &amp; First 100</h2>
-    <p><strong>Do the unscalable thing first.</strong> Find 10 therapists. Offer 6 months free for weekly 30-min calls. Watch them use it over Zoom. Fix every friction point within 24 hours. Ask for 2 referrals each. That's 30. Ask those 30 for 2. That's 90. Convert betas to paid.</p>
-    <p><strong>Top channels:</strong> (1) Therapist Facebook groups — "Private Practice Therapists" has 80k+ members. (2) r/therapists + r/socialwork. (3) SEO content — "SOAP note template therapist", "how to write DAP notes faster". (4) Therapist podcasts — 20 shows with 5k–50k listeners. (5) Referral program — "give 1 month, get 1 month."</p>
-    <p><strong>Launch plan:</strong> Product Hunt (Tuesday 12:01am PST) + Show HN ("I built an AI OS for therapists") simultaneously. Beta therapists share in their networks. Week 1: personal onboarding calls with every signup.</p>
-
-    <h2>§35–36 — Metrics</h2>
-    <p><strong>Activation:</strong> First AI note generated &lt;10 min from signup. Target: &gt;70% of signups.</p>
-    <p><strong>Retention:</strong> Week-4 retention target: &gt;60%. Month-3 retention: &gt;45%.</p>
-    <p><strong>Business:</strong> MRR growth 15–20%/month early stage. CAC &lt;$50 (organic-first). LTV &gt;$500 (18mo at $29). NPS &gt;55.</p>
-
-    <h2>§37–38 — Risks &amp; Regulatory</h2>
-    <p><strong>HIPAA:</strong> Encrypt at rest (AES-256) and in transit (TLS 1.3). Sign BAAs with all data processors. Audit logs on all PHI access, retained 6 years. MFA enforced.</p>
-    <p><strong>FDA:</strong> TherapOS is documentation software. No clinical decisions, no diagnoses. Outside FDA SaMD Class II/III — as long as we don't add risk scoring that makes specific clinical recommendations. Consult a regulatory attorney before shipping any risk-scoring feature.</p>
-    <p><strong>India DPDP Act:</strong> Store Indian user data in AWS Mumbai (ap-south-1). Explicit consent for health data. Data localization compliance.</p>
-    <p><strong>Biggest risk:</strong> AI generates inaccurate clinical content. Mitigation: always a draft, mandatory edit step, never auto-finalize, clear AI disclosure. The system is designed so the AI has no authority — the therapist decides everything.</p>
-
-    <h2>§39 — How AI Should Behave</h2>
+    <h2>§31 — Go-To-Market Strategy</h2>
+    <p><strong>Phase 1 — Unscalable (months 1–3):</strong> Find 10 therapists personally. Offer 6 months free for a commitment to weekly 30-minute product feedback calls. Watch them use it over Zoom screen share. Fix every friction point within 24 hours. Create 10 raving fans before acquiring 100 users.</p>
+    <p><strong>Phase 2 — Community (months 2–6):</strong> Independent therapist communities are dense and referral-heavy. Target:</p>
     <ul>
-      <li><strong>Always a draft.</strong> Every AI output is explicitly labeled. Finalizing requires a deliberate click.</li>
-      <li><strong>Never fabricate.</strong> If information is missing, write "[Therapist to complete]" — never invent clinical details.</li>
-      <li><strong>No diagnosis.</strong> No DSM codes, no clinical diagnoses in AI outputs. Prompts explicitly prohibit this.</li>
-      <li><strong>Editable at every step.</strong> Every AI-generated field is a plain text editor. Therapist can delete the entire draft.</li>
+      <li>Facebook Groups: "Private Practice Therapists" (80k+ members), "Therapists in Business" (40k+)</li>
+      <li>Reddit: r/therapists, r/socialwork, r/psychotherapy</li>
+      <li>LinkedIn: therapist networks, NASW groups</li>
+      <li>Therapist podcasts: 20+ shows with 5k–50k listeners each</li>
+    </ul>
+    <p><strong>Phase 3 — SEO (months 3–12):</strong> Content for high-intent search terms:</p>
+    <ul>
+      <li>"SOAP note template therapist" — 8,200 monthly searches</li>
+      <li>"How to write DAP notes faster" — 3,400 monthly searches</li>
+      <li>"AI therapy notes HIPAA" — 1,200 monthly searches</li>
+      <li>"Session prep template therapist" — 900 monthly searches</li>
+    </ul>
+    <p><strong>Phase 4 — Referral program:</strong> "Give 1 month, get 1 month." Therapists are deeply trusted by their colleagues. A referral from a trusted peer converts at 5–8x a cold ad. This is the highest-leverage channel at scale.</p>
+
+    <h2>§32–34 — First 100 Customers</h2>
+    <p><strong>Week 1–2:</strong> Contact 50 therapists in your personal network. Target: 10 beta users. Offer 6 months free.</p>
+    <p><strong>Week 3–4:</strong> Post in 3 therapist Facebook groups. Share genuine context: "I'm building an AI tool for therapists and need 10 people to test it." Don't sell. Invite.</p>
+    <p><strong>Month 2:</strong> Each beta user refers 2 people. You're at 30 users. Personal onboarding call for every new user — understand their workflow before you try to change it.</p>
+    <p><strong>Month 3:</strong> Product Hunt launch (Tuesday, 12:01am PST) + Show HN simultaneously. Beta users share in their networks. Target: 500 signups, 50 conversions.</p>
+    <p><strong>Month 4–6:</strong> Start converting betas from free to paid. Your 10 original users are now advocates. Ask each for a testimonial and a video walkthrough. Use testimonials in all acquisition channels.</p>
+    <p><strong>Month 6 target:</strong> 100 paying customers, $2,900 MRR, 60%+ month-4 retention, NPS &gt;55.</p>
+
+    <h2>§35–36 — Metrics &amp; Analytics</h2>
+    <h3>Activation Metrics</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Metric</th><th>Definition</th><th>Target</th></tr></thead>
+        <tbody>
+          <tr><td>Time to first note</td><td>Signup → first finalized AI note</td><td>&lt;10 minutes</td></tr>
+          <tr><td>Session 2 return rate</td><td>Users who create a second session</td><td>&gt;70%</td></tr>
+          <tr><td>Week-1 activation</td><td>Users who finalize 3+ notes in first 7 days</td><td>&gt;50%</td></tr>
+          <tr><td>Trial conversion</td><td>Trial users who upgrade to paid</td><td>&gt;25%</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <h3>Retention Metrics</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Metric</th><th>Target</th><th>Why it matters</th></tr></thead>
+        <tbody>
+          <tr><td>Week-4 retention</td><td>&gt;60%</td><td>By week 4, compound memory value is felt</td></tr>
+          <tr><td>Month-3 retention</td><td>&gt;45%</td><td>At 3 months, the AI knows 12+ sessions per patient</td></tr>
+          <tr><td>Month-12 retention</td><td>&gt;70% (paid)</td><td>Annual subscribers — high LTV signal</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <h3>Business Metrics</h3>
+    <ul>
+      <li><strong>MRR growth:</strong> 15–20% month-over-month early stage</li>
+      <li><strong>CAC:</strong> &lt;$50 (organic-first, referral-driven)</li>
+      <li><strong>LTV:</strong> &gt;$500 (at 18 months average retention and $29/month)</li>
+      <li><strong>NPS:</strong> &gt;55 by month 6</li>
+    </ul>
+    <h3>What We Don't Track</h3>
+    <p>No PHI in analytics. PostHog and Sentry receive no patient names, note content, or session data. All analytics are behavioral: button clicks, feature usage, timing. The audit log is the only system that has full context — and it is not connected to any analytics tool.</p>
+
+    <h2>§37 — Risk Register</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Risk</th><th>Severity</th><th>Mitigation</th></tr></thead>
+        <tbody>
+          <tr><td>AI generates inaccurate clinical content</td><td><span class="badge badge-red">High</span></td><td>Always a draft. Mandatory review. No auto-finalize. Clear AI disclosure. Hallucination flagging.</td></tr>
+          <tr><td>Data breach / PHI exposure</td><td><span class="badge badge-red">High</span></td><td>AES-256 encryption, TLS 1.3, MFA, audit logs, access controls, BAAs with all processors.</td></tr>
+          <tr><td>AI provider outage (Anthropic/OpenAI)</td><td><span class="badge badge-yellow">Medium</span></td><td>Product works without AI (raw notes still savable). Manual override mode. Retry queue via BullMQ.</td></tr>
+          <tr><td>HIPAA violation (accidental PHI in logs)</td><td><span class="badge badge-red">High</span></td><td>Audit interceptor scrubs PHI from all structured logs. PostHog/Sentry receive zero PHI. Annual HIPAA training for all team members.</td></tr>
+          <tr><td>Therapist over-relies on AI draft</td><td><span class="badge badge-yellow">Medium</span></td><td>UX design: AI note is always presented as draft. Finalize requires scroll-through. Consider adding a "Read before finalizing" confirmation after 90 seconds of editing time.</td></tr>
+          <tr><td>Competitor replicates core features</td><td><span class="badge badge-yellow">Medium</span></td><td>Speed to market + compound memory moat. A competitor copying our feature set starts with zero memory. We have 12–24 months before a credible alternative exists.</td></tr>
+          <tr><td>FDA reclassification (SaMD)</td><td><span class="badge badge-yellow">Medium</span></td><td>Strict scope: documentation only, no clinical decisions. Never add risk scoring that makes specific clinical recommendations without regulatory review.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>§38 — Regulatory</h2>
+    <h3>HIPAA</h3>
+    <ul>
+      <li>Encrypt at rest (AES-256 via AWS RDS encryption + application-layer envelope encryption for PHI fields)</li>
+      <li>Encrypt in transit (TLS 1.3 enforced, HSTS headers, no HTTP fallback)</li>
+      <li>Audit logs on all PHI access — retained 6 years, user ID + patient ID + action + IP + timestamp</li>
+      <li>MFA enforced via Clerk for all accounts</li>
+      <li>BAAs signed with: AWS, Anthropic, OpenAI, Clerk, Stripe, Resend</li>
+      <li>Annual HIPAA security risk assessment (Drata or Vanta for continuous monitoring)</li>
+    </ul>
+    <h3>FDA</h3>
+    <p>TherapOS is documentation software. It assists with note-writing — it does not make clinical decisions, does not produce diagnoses, and does not prescribe or recommend treatment. This places TherapOS outside FDA Software as a Medical Device (SaMD) Class II/III as long as we maintain this scope. Adding risk-scoring features that make specific clinical recommendations (e.g., "Patient has elevated suicide risk — recommend hospitalization") would require regulatory review. We have a policy commitment to consult a regulatory attorney before shipping any such feature.</p>
+    <h3>India DPDP Act 2023</h3>
+    <ul>
+      <li>Health data is classified as Sensitive Personal Data under DPDP Act 2023</li>
+      <li>Indian user data stored and processed exclusively in AWS ap-south-1 (Mumbai)</li>
+      <li>Explicit consent required for collection and processing of health data</li>
+      <li>Data Protection Officer appointment required and in place</li>
+      <li>Cross-border data transfer restrictions honored — no Indian PHI enters US regions</li>
+    </ul>
+
+    <h2>§39 — AI Behavioral Contract</h2>
+    <p>These rules are baked into every prompt template and cannot be overridden by user input:</p>
+    <ul>
+      <li><strong>Always a draft.</strong> Every AI output is explicitly labeled as a draft. Finalizing requires a deliberate therapist action.</li>
+      <li><strong>Never fabricate.</strong> If information is missing, write "[Therapist to complete]" — never invent clinical details, quotes, or observations.</li>
+      <li><strong>No diagnosis.</strong> No DSM codes, no clinical diagnoses in any AI outputs. Prompts explicitly prohibit this.</li>
+      <li><strong>Editable at every step.</strong> Every AI-generated field is a plain text editor. The therapist can delete the entire draft.</li>
       <li><strong>Transparent.</strong> All AI content shows a ✦ AI indicator. Audit log records AI generation events separately from therapist edits.</li>
-      <li><strong>Risk nudge only.</strong> If note content suggests imminent risk, the AI shows a soft nudge: "Content may warrant a safety review." Never a diagnosis, never an alarm.</li>
+      <li><strong>Risk nudge only.</strong> If note content contains language suggesting imminent risk, a soft nudge appears: "Content may warrant a safety review." Never a diagnosis, never an alarm, never a required action.</li>
+      <li><strong>Modality-aware.</strong> Suggested questions and homework always respect the therapist's stated therapeutic modality.</li>
     </ul>
 
     <h2>§40 — Five-Year Vision</h2>
     <div class="table-wrap">
       <table>
-        <thead><tr><th>Year</th><th>State</th><th>Revenue signal</th></tr></thead>
+        <thead><tr><th>Year</th><th>State of TherapOS</th><th>Revenue Signal</th><th>Key Milestone</th></tr></thead>
         <tbody>
-          <tr><td>2026</td><td>MVP live. 500 paying US therapists. AI notes + session prep + search.</td><td>~$15k MRR</td></tr>
-          <tr><td>2027</td><td>1,000 therapists. India launch. Clinic accounts. Progress insights.</td><td>~$60k MRR</td></tr>
-          <tr><td>2028</td><td>5,000 therapists. Payer conversations begin. Treatment outcome data is the moat.</td><td>~$250k MRR</td></tr>
-          <tr><td>2029</td><td>Platform play. Other tools integrate TherapOS clinical memory. API revenue begins.</td><td>~$1M MRR</td></tr>
-          <tr><td>2030</td><td>Default clinical OS for independent mental health care. Research partnerships, payer programs built on TherapOS data.</td><td>~$3–5M MRR</td></tr>
+          <tr><td><strong>2026</strong></td><td>MVP live. AI notes + prep + search. 500 paying US therapists.</td><td>~$15k MRR</td><td>Product-market fit signal: &gt;60% W4 retention</td></tr>
+          <tr><td><strong>2027</strong></td><td>1,000 therapists. India launch. Clinic accounts. Progress insights. Goal arc visualization.</td><td>~$60k MRR</td><td>India launch, first clinic accounts (2–10 therapists)</td></tr>
+          <tr><td><strong>2028</strong></td><td>5,000 therapists. Outcome data begins to matter. Worksheet library. Calendar integration. Public API.</td><td>~$250k MRR</td><td>First payer conversations about outcome-based reporting</td></tr>
+          <tr><td><strong>2029</strong></td><td>Platform play. Other tools integrate TherapOS clinical memory via API. API revenue begins. UK and Canada expansion.</td><td>~$1M MRR</td><td>Third-party integrations, API revenue line</td></tr>
+          <tr><td><strong>2030</strong></td><td>Default clinical OS for independent mental health care. Research partnerships. De-identified outcome datasets. Payer programs built on TherapOS data.</td><td>~$3–5M MRR</td><td>First research publication using TherapOS outcome data</td></tr>
         </tbody>
       </table>
     </div>
+    <p>The 10-year question is not whether TherapOS becomes the tool therapists use — it is whether therapists who start their practice without TherapOS are structurally disadvantaged compared to those who use it. We believe the answer will be yes. Compound memory, aggregate intelligence, and outcome data create a flywheel that individual practitioners cannot replicate. That is the durable competitive position.</p>
+
+    <div class="doc-nav">
+      <a href="quickstart.html" class="doc-nav-btn">
+        <span class="doc-nav-label">← Previous</span>
+        <span class="doc-nav-title">Quickstart</span>
+      </a>
+      <a href="features.html" class="doc-nav-btn next">
+        <span class="doc-nav-label">Next →</span>
+        <span class="doc-nav-title">Features</span>
+      </a>
+    </div>
   </main>
+
+  <aside class="page-toc">
+    <span class="toc-label">On this page</span>
+    <a href="#1-product-vision">§1 Vision</a>
+    <a href="#2-positioning">§2 Positioning</a>
+    <a href="#3-competitive-analysis">§3 Competitive</a>
+    <a href="#4-why-therapists-would-switch">§4 Why Switch</a>
+    <a href="#5-the-moat">§5 Moat</a>
+    <a href="#6-feature-prioritization-framework">§6 Prioritization</a>
+    <a href="#7-mvp-scope">§7 MVP</a>
+    <a href="#15-memory-architecture">§15 Memory</a>
+    <a href="#17-auth-flow">§17 Auth</a>
+    <a href="#18-20-user-journeys">§18–20 Journeys</a>
+    <a href="#21-25-wireframes">§21–25 Wireframes</a>
+    <a href="#26-29-design-system">§26–29 Design</a>
+    <a href="#31-go-to-market-strategy">§31 GTM</a>
+    <a href="#32-34-first-100-customers">§32–34 First 100</a>
+    <a href="#35-36-metrics-analytics">§35–36 Metrics</a>
+    <a href="#37-risk-register">§37 Risks</a>
+    <a href="#38-regulatory">§38 Regulatory</a>
+    <a href="#39-ai-behavioral-contract">§39 AI Rules</a>
+    <a href="#40-five-year-vision">§40 5-Year Vision</a>
+  </aside>
 </div>
 <footer class="site-footer">
   <div class="footer-inner">
     <div class="footer-logo">⬡ <span>TherapOS</span></div>
-    <div class="footer-links"><a href="../index.html">Home</a><a href="architecture.html">Architecture</a><a href="api.html">API</a><a href="ai.html">AI</a></div>
-    <div class="footer-copy">© 2026 TherapOS</div>
+    <div class="footer-links">
+      <a href="../index.html">Home</a>
+      <a href="features.html">Features</a>
+      <a href="pricing.html">Pricing</a>
+      <a href="roadmap.html">Roadmap</a>
+      <a href="architecture.html">Architecture</a>
+    </div>
+    <div class="footer-copy">© 2026 TherapOS · HIPAA compliant</div>
   </div>
 </footer>
 </body>

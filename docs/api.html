@@ -36,171 +36,478 @@
   <main class="docs-content">
     <span class="eyebrow">Technical</span>
     <h1>API Reference</h1>
-    <p>All endpoints are prefixed <code>/api/v1</code>. Authentication uses a Clerk JWT in the <code>Authorization: Bearer &lt;token&gt;</code> header. All responses follow <code>{"data": ..., "meta": ...}</code>.</p>
+    <p class="page-desc">All endpoints are prefixed <code>/api/v1</code>. Authentication uses a Clerk JWT in the <code>Authorization: Bearer</code> header. All responses follow a consistent envelope. Errors include a typed <code>errors</code> array.</p>
     <hr>
 
-    <h2>Authentication</h2>
-    <pre>Authorization: Bearer &lt;clerk_session_token&gt;
-Content-Type: application/json</pre>
-    <p>Get the session token from Clerk's client SDK: <code>await getToken()</code>. All endpoints return <code>401</code> without a valid token and <code>403</code> when trying to access another therapist's data.</p>
+    <h2>Base URL &amp; Authentication</h2>
+    <pre>Base URL:  https://api.therapos.com/api/v1
+Auth:      Authorization: Bearer &lt;clerk_session_token&gt;
+Content:   Content-Type: application/json</pre>
+
+    <p>Get the session token from Clerk's client SDK:</p>
+    <pre>// React / Next.js
+import { useAuth } from '@clerk/nextjs'
+const { getToken } = useAuth()
+const token = await getToken()
+
+// curl example
+TOKEN=$(clerk session token)
+curl -H "Authorization: Bearer $TOKEN" https://api.therapos.com/api/v1/patients</pre>
+
+    <h3>Response Envelope</h3>
+    <pre>// Success
+{
+  "data": { ... } | [...],
+  "meta": {          // Present on paginated responses
+    "page": 1,
+    "limit": 20,
+    "total": 47,
+    "pages": 3
+  }
+}
+
+// Error
+{
+  "statusCode": 400,
+  "error": "Bad Request",
+  "message": "Validation failed",
+  "errors": [
+    { "field": "firstName", "message": "Required" },
+    { "field": "primaryConcerns", "message": "Must be an array" }
+  ]
+}</pre>
 
     <h2>Patients</h2>
-    <pre>GET    /patients
-  Query: ?status=active|inactive|all &amp;q=search_string &amp;page=1 &amp;limit=20
-  Returns: paginated patient list with basic profile
+    <h3>List patients</h3>
+    <pre>GET /patients
+Query: ?status=active|inactive|all&amp;q=search_string&amp;page=1&amp;limit=20
 
-POST   /patients
-  Body: { firstName, lastName, preferredName?, dateOfBirth?,
-          primaryConcerns[], diagnoses[], modality?, sessionFreq? }
-  Returns: created patient
+// curl
+curl -H "Authorization: Bearer $TOKEN" \
+  "https://api.therapos.com/api/v1/patients?status=active&amp;page=1"
 
-GET    /patients/:id
-  Returns: full patient profile + aiSummary + session count
+// Response
+{
+  "data": [
+    {
+      "id": "clx...",
+      "firstName": "Maya",
+      "lastName": "Chen",
+      "preferredName": null,
+      "status": "ACTIVE",
+      "modality": "CBT",
+      "sessionCount": 4,
+      "lastSessionAt": "2026-07-13T14:00:00Z",
+      "aiSummaryUpdatedAt": "2026-07-13T15:30:00Z"
+    }
+  ],
+  "meta": { "page": 1, "limit": 20, "total": 23, "pages": 2 }
+}</pre>
 
-PATCH  /patients/:id
-  Body: partial patient fields
-  Returns: updated patient
+    <h3>Create patient</h3>
+    <pre>POST /patients
+Body:
+{
+  "firstName": "Maya",           // Required
+  "lastName": "Chen",
+  "preferredName": "Maya",
+  "dateOfBirth": "1990-04-15",   // ISO 8601 date
+  "email": "maya@example.com",
+  "phone": "+1-555-0100",
+  "primaryConcerns": ["anxiety", "workplace stress"],
+  "diagnoses": ["F41.1"],
+  "modality": "CBT",             // Overrides therapist default for this patient
+  "sessionFreq": "weekly"        // "weekly" | "biweekly" | "monthly"
+}
 
-DELETE /patients/:id
-  Soft-delete: sets status = DISCHARGED, sets endDate
-  Returns: { success: true }
+// curl
+curl -X POST \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"firstName":"Maya","primaryConcerns":["anxiety"]}' \
+  https://api.therapos.com/api/v1/patients
 
-GET    /patients/:id/timeline
-  Returns: all sessions + goals + homework in chronological order
+// Response: 201 Created
+{ "data": { "id": "clx...", "firstName": "Maya", ... } }</pre>
 
-GET    /patients/:id/sessions
-  Query: ?page=1 &amp;limit=20
-  Returns: paginated sessions with note status
+    <h3>Get patient</h3>
+    <pre>GET /patients/:id
 
-GET    /patients/:id/goals
-  Returns: all goals with progressNotes array
+// Response includes full profile + AI summary + session stats
+{
+  "data": {
+    "id": "clx...",
+    "firstName": "Maya",
+    "lastName": "Chen",
+    "primaryConcerns": ["anxiety", "workplace stress"],
+    "diagnoses": ["F41.1"],
+    "modality": "CBT",
+    "sessionFreq": "weekly",
+    "status": "ACTIVE",
+    "startDate": "2026-04-02T00:00:00Z",
+    "aiSummary": "Maya has shown steady progress...",
+    "aiSummaryUpdatedAt": "2026-07-13T15:30:00Z",
+    "sessionCount": 4,
+    "lastSessionAt": "2026-07-13T14:00:00Z"
+  }
+}</pre>
 
-GET    /patients/:id/homework
-  Query: ?status=assigned|completed|all
-  Returns: homework history</pre>
+    <h3>Update patient</h3>
+    <pre>PATCH /patients/:id
+Body: any subset of patient fields (partial update)
+
+// Response: 200 OK — updated patient object</pre>
+
+    <h3>Discharge patient</h3>
+    <pre>DELETE /patients/:id
+// Soft-delete: sets status = DISCHARGED, endDate = now()
+// Patient data is retained — HIPAA compliance
+// Response: { "data": { "success": true } }</pre>
+
+    <h3>Patient sub-resources</h3>
+    <pre>GET /patients/:id/timeline
+// All sessions + goals + homework events, newest first
+// Response: { "data": [{ "type": "session"|"goal"|"homework", "date": ..., ... }] }
+
+GET /patients/:id/sessions?page=1&amp;limit=20
+// Paginated session list with note status
+
+GET /patients/:id/goals
+// All goals, grouped by status (ACTIVE first)
+
+GET /patients/:id/homework?status=assigned|completed|all</pre>
 
     <h2>Sessions</h2>
-    <pre>POST   /sessions
-  Body: { patientId, scheduledAt, sessionNumber, type? }
-  Returns: created session
+    <h3>Create session</h3>
+    <pre>POST /sessions
+Body:
+{
+  "patientId": "clx...",
+  "scheduledAt": "2026-07-20T09:00:00Z",
+  "sessionNumber": 5,            // Auto-suggested if omitted
+  "type": "INDIVIDUAL",          // INDIVIDUAL | COUPLES | FAMILY | GROUP
+  "durationMins": 50
+}
 
-GET    /sessions/:id
-  Returns: session + note (if exists) + aiPrep (if generated)
+// Response: 201 Created — session object</pre>
 
-PATCH  /sessions/:id
-  Body: { status?, rawNotes?, scheduledAt?, durationMins? }
-  Returns: updated session
+    <h3>Get session</h3>
+    <pre>GET /sessions/:id
+// Returns session + note (if exists) + aiPrep (if generated)
+{
+  "data": {
+    "id": "clx...",
+    "patientId": "clx...",
+    "sessionNumber": 5,
+    "scheduledAt": "2026-07-20T09:00:00Z",
+    "status": "SCHEDULED",
+    "aiPrep": {
+      "recap": "Maya focused on workplace anxiety...",
+      "suggestedQuestions": ["How was your week at work?", "..."],
+      "homeworkFollowUp": "Check breathing log completion...",
+      "patterns": "Anxiety spikes before evaluation events"
+    },
+    "note": null                  // null until note is created
+  }
+}</pre>
+
+    <h3>Session lifecycle</h3>
+    <pre>PATCH  /sessions/:id
+Body: { "status", "rawNotes", "scheduledAt", "durationMins" }
 
 POST   /sessions/:id/start
-  Marks session as IN_PROGRESS, sets startedAt
-  Returns: updated session
+// status → IN_PROGRESS, startedAt = now()
 
 POST   /sessions/:id/complete
-  Marks session as COMPLETED, sets endedAt
-  Returns: updated session</pre>
+// status → COMPLETED, endedAt = now()</pre>
 
     <h2>Notes</h2>
-    <pre>GET    /sessions/:id/note
-  Returns: SessionNote or 404 if not created yet
+    <h3>Get note</h3>
+    <pre>GET /sessions/:sessionId/note
+// Returns SessionNote or 404 if not yet created</pre>
 
-POST   /sessions/:id/note
-  Body: { format: "SOAP"|"DAP"|"BIRP"|"FREE",
-          subjective?, objective?, assessment?, plan?,
-          data?, dapAssessment?, dapPlan?,
-          freeText? }
-  Returns: created/updated note
+    <h3>Save note (create or update)</h3>
+    <pre>POST /sessions/:sessionId/note
+Body (SOAP):
+{
+  "format": "SOAP",
+  "subjective": "Patient reported continued anxiety...",
+  "objective": "Patient presented alert and engaged...",
+  "assessment": "Patient continues to make progress...",
+  "plan": "Continue breathing practice..."
+}
 
-PATCH  /sessions/:id/note
-  Body: partial note fields (same as POST)
-  Returns: updated note
+Body (DAP):
+{
+  "format": "DAP",
+  "data": "Patient reported and therapist observed...",
+  "dapAssessment": "Clinical synthesis...",
+  "dapPlan": "Next steps..."
+}
 
-POST   /sessions/:id/note/finalize
-  Locks note, triggers embedding + summary refresh jobs
-  Returns: { success: true, note: SessionNote }</pre>
+// Response: 200 OK — full note object with aiGenerated flag</pre>
+
+    <h3>Finalize note</h3>
+    <pre>POST /sessions/:sessionId/note/finalize
+// Requires: note must exist and not already be finalized
+// Effect:
+//   - isFinalized = true, finalizedAt = now()
+//   - BullMQ: queues 'embed-note' job (async)
+//   - BullMQ: queues 'refresh-summary' job (after embed)
+//   - AuditLog: NOTE_FINALIZED action recorded
+// Returns immediately — embedding/summary happen async
+
+// Response: 200 OK
+{
+  "data": {
+    "success": true,
+    "note": { "id": "clx...", "isFinalized": true, "finalizedAt": "..." }
+  }
+}</pre>
 
     <h2>AI Endpoints</h2>
-    <pre>POST   /ai/prep/:sessionId
-  Generates AI session prep brief.
-  Returns: SSE stream → final JSON:
-    { recap, suggestedQuestions[], homeworkFollowUp, patterns }
-  Cached: yes (re-use until rawNotes changes)
+    <div class="callout callout-warn">
+      <div class="callout-icon">⚠</div>
+      <div class="callout-body">
+        <div class="callout-label">Rate limits on AI endpoints</div>
+        <p>AI endpoints are rate-limited to 20 requests/minute per user. Exceeding this returns <code>429</code> with a <code>Retry-After</code> header.</p>
+      </div>
+    </div>
 
-POST   /ai/note/draft
-  Body: { sessionId, format: "SOAP"|"DAP" }
-  Streams AI note draft token-by-token via SSE.
-  Returns: SSE stream → final JSON note fields
+    <h3>Generate session prep brief</h3>
+    <pre>POST /ai/prep/:sessionId
+// Generates AI prep brief from patient context
+// Cached in Redis for 24h — subsequent calls return cached version
+// To force regeneration, add ?force=true
 
-POST   /ai/homework/suggest
-  Body: { sessionId, goalIds?: string[] }
-  Returns: { options: [{ title, description, category, rationale }] }
+// Response: Server-Sent Events (SSE) stream
+// Content-Type: text/event-stream
 
-POST   /ai/summary/:patientId
-  Regenerates rolling patient AI summary.
-  Runs async (returns immediately, updates DB when done).
-  Returns: { jobId: string }</pre>
+// Events during streaming:
+data: {"type":"delta","content":"Maya focused on..."}
+data: {"type":"delta","content":" workplace anxiety"}
+// ... more deltas
+// Final event:
+data: {"type":"done","result":{
+  "recap": "Maya focused on workplace anxiety last session.",
+  "suggestedQuestions": ["How was work this week?", "..."],
+  "homeworkFollowUp": "Check in on breathing log...",
+  "patterns": "Anxiety correlates with evaluation events"
+}}
+
+// Frontend usage:
+const source = new EventSource('/api/v1/ai/prep/' + sessionId)
+source.onmessage = (e) => {
+  const { type, content, result } = JSON.parse(e.data)
+  if (type === 'delta') updateStreamingText(content)
+  if (type === 'done') { setPrep(result); source.close() }
+}</pre>
+
+    <h3>Generate AI note draft</h3>
+    <pre>POST /ai/note/draft
+Body: { "sessionId": "clx...", "format": "SOAP" | "DAP" | "BIRP" | "FREE" }
+
+// Prerequisites: session must have rawNotes set
+// Response: SSE stream
+
+// Stream events:
+data: {"type":"delta","field":"subjective","content":"Patient reported..."}
+data: {"type":"delta","field":"objective","content":" continued anxiety"}
+// ... fields stream in order: subjective, objective, assessment, plan
+// Final event:
+data: {"type":"done","result":{
+  "subjective": "Patient reported continued workplace anxiety...",
+  "objective": "Patient presented alert and engaged...",
+  "assessment": "Patient continues to make progress...",
+  "plan": "Continue breathing practice..."
+}}
+
+// On error (AI provider unavailable):
+data: {"type":"error","message":"AI service temporarily unavailable. Your notes are saved."}
+
+// curl (for testing — SSE doesn't work great with curl, use -N flag):
+curl -N -X POST \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"sessionId":"clx...","format":"SOAP"}' \
+  https://api.therapos.com/api/v1/ai/note/draft</pre>
+
+    <h3>Generate homework suggestions</h3>
+    <pre>POST /ai/homework/suggest
+Body: { "sessionId": "clx...", "goalIds": ["clx..."] }  // goalIds optional
+
+// Response: 200 OK (not streamed — usually &lt;3 seconds)
+{
+  "data": {
+    "options": [
+      {
+        "title": "Daily Thought Record",
+        "description": "Each evening, take 5 minutes to write down one anxious thought...",
+        "category": "journaling",
+        "rationale": "Thought records are a core CBT tool for workplace anxiety..."
+      },
+      { "title": "...", "description": "...", "category": "behavioral", "rationale": "..." },
+      { "title": "...", "description": "...", "category": "mindfulness", "rationale": "..." }
+    ]
+  }
+}</pre>
+
+    <h3>Refresh patient AI summary</h3>
+    <pre>POST /ai/summary/:patientId
+// Manually triggers a summary refresh (usually happens automatically after finalization)
+// Runs async — returns immediately
+
+// Response: 202 Accepted
+{ "data": { "jobId": "bull:patient-summaries:42" } }</pre>
 
     <h2>Search</h2>
-    <pre>GET    /search
-  Query: ?q=natural+language+query &amp;patientId=optional
-  Embeds query → cosine similarity search over NoteEmbedding
-  Returns: [{ sessionId, patientId, snippet, score, date, patientName }]
-  Example: GET /search?q=what coping strategies have worked&amp;patientId=clx...</pre>
+    <h3>Natural language search</h3>
+    <pre>GET /search?q=query&amp;patientId=optional_patient_id&amp;limit=10
+
+// Examples:
+GET /search?q=what+coping+strategies+worked+for+maya&amp;patientId=clx...
+GET /search?q=sleep+issues+across+my+practice
+GET /search?q=sessions+where+we+discussed+workplace+stress
+
+// Behavior:
+// 1. Embeds query using text-embedding-3-small
+// 2. Cosine similarity search on NoteEmbedding (therapist-scoped)
+// 3. Optional patientId filter applied before vector scan
+
+// Response: 200 OK
+{
+  "data": [
+    {
+      "noteId": "clx...",
+      "sessionId": "clx...",
+      "patientId": "clx...",
+      "patientName": "Maya Chen",
+      "sessionNumber": 3,
+      "sessionDate": "2026-07-13T14:00:00Z",
+      "snippet": "...patient reported coping with breathing exercises...",
+      "score": 0.87
+    }
+  ],
+  "meta": { "query": "coping strategies", "total": 4, "limit": 10 }
+}</pre>
 
     <h2>Goals</h2>
-    <pre>POST   /goals
-  Body: { patientId, title, description?, category? }
-  Returns: created goal
+    <pre>POST /goals
+Body: { "patientId": "clx...", "title": "Reduce workplace anxiety", "category": "anxiety", "description": "..." }
 
-PATCH  /goals/:id
-  Body: { status?, progressNote?: { note, sessionId? } }
-  Returns: updated goal
+PATCH /goals/:id
+Body: {
+  "status": "ACHIEVED" | "PAUSED" | "ABANDONED",
+  "progressNote": {             // Add a progress note to this goal
+    "note": "Significant improvement this session",
+    "sessionId": "clx..."       // Optional: link to session
+  }
+}
 
 DELETE /goals/:id
-  Returns: { success: true }</pre>
+// Hard delete — only before any progress notes are added
+// Returns: { "data": { "success": true } }</pre>
 
     <h2>Homework</h2>
-    <pre>POST   /homework
-  Body: { patientId, sessionId?, title, description,
-          category?, dueBy? }
-  Returns: created homework
+    <pre>POST /homework
+Body: {
+  "patientId": "clx...",
+  "sessionId": "clx...",   // Optional: link to session when assigned
+  "title": "Daily Thought Record",
+  "description": "Each evening...",
+  "category": "journaling",
+  "dueBy": "2026-07-27T00:00:00Z"
+}
 
-PATCH  /homework/:id
-  Body: { status?, completedAt?, notes? }
-  Returns: updated homework</pre>
+PATCH /homework/:id
+Body: {
+  "status": "COMPLETED" | "PARTIAL" | "SKIPPED",
+  "completedAt": "2026-07-22T08:00:00Z",
+  "notes": "Completed 5 of 7 days — good effort"
+}</pre>
 
-    <h2>Webhooks (internal)</h2>
-    <pre>POST   /webhooks/clerk
-  Clerk webhook: user.created → create User row
-                 user.updated → sync profile
-                 user.deleted → soft-delete (retain audit logs)
-  Verified via Clerk webhook signature
+    <h2>Webhooks (Internal)</h2>
+    <pre>POST /webhooks/clerk
+// Verified via Clerk webhook signature (SVIX)
+// Events handled:
+//   user.created → create User row with therapistId = clerkId
+//   user.updated → sync name, email
+//   user.deleted → soft-delete (audit logs retained, PHI removed)
 
-POST   /webhooks/stripe
-  Stripe webhook: customer.subscription.updated/deleted
-  Updates Subscription table</pre>
+POST /webhooks/stripe
+// Verified via Stripe webhook signature
+// Events handled:
+//   customer.subscription.created → update Subscription row
+//   customer.subscription.updated → update plan/status/period dates
+//   customer.subscription.deleted → cancel, set status = CANCELLED
+//   invoice.payment_failed → set status = PAST_DUE, trigger email</pre>
 
-    <h2>Error Codes</h2>
+    <h2>Error Reference</h2>
     <div class="table-wrap">
       <table>
-        <thead><tr><th>Code</th><th>Meaning</th></tr></thead>
+        <thead><tr><th>Status</th><th>Code</th><th>Cause</th><th>Resolution</th></tr></thead>
         <tbody>
-          <tr><td><code>400</code></td><td>Invalid request body (Zod validation failure — errors array included)</td></tr>
-          <tr><td><code>401</code></td><td>Missing or invalid Clerk JWT</td></tr>
-          <tr><td><code>403</code></td><td>Authenticated but accessing another therapist's data</td></tr>
-          <tr><td><code>404</code></td><td>Resource not found (or not owned by this therapist)</td></tr>
-          <tr><td><code>429</code></td><td>Rate limited — AI endpoints: 20 req/min per user</td></tr>
-          <tr><td><code>500</code></td><td>Server error — check Sentry for details</td></tr>
-          <tr><td><code>503</code></td><td>AI provider unavailable — product works without AI, retry later</td></tr>
+          <tr><td><code>400</code></td><td>Bad Request</td><td>Zod validation failure — body or query params invalid</td><td>Check <code>errors</code> array for field-level detail</td></tr>
+          <tr><td><code>401</code></td><td>Unauthorized</td><td>Missing or expired Clerk JWT</td><td>Call <code>getToken()</code> to refresh and retry</td></tr>
+          <tr><td><code>403</code></td><td>Forbidden</td><td>Authenticated but accessing another therapist's resource</td><td>Verify resource ownership — check patient/session IDs</td></tr>
+          <tr><td><code>404</code></td><td>Not Found</td><td>Resource not found or not owned by this therapist</td><td>Verify resource ID and that it belongs to the authenticated therapist</td></tr>
+          <tr><td><code>409</code></td><td>Conflict</td><td>Duplicate unique constraint — e.g., session number already exists for patient</td><td>Check the conflict details in the error message and use a different value</td></tr>
+          <tr><td><code>422</code></td><td>Unprocessable</td><td>Business logic failure — e.g., finalizing an already-finalized note</td><td>Read the error message for the specific rule violation</td></tr>
+          <tr><td><code>429</code></td><td>Rate Limited</td><td>AI endpoints: &gt;20 req/min. General: &gt;200 req/min</td><td>Respect the <code>Retry-After</code> header value (seconds)</td></tr>
+          <tr><td><code>500</code></td><td>Internal Error</td><td>Unhandled exception — captured in Sentry</td><td>Check Sentry for stack trace. Include the <code>X-Request-ID</code> response header when reporting</td></tr>
+          <tr><td><code>503</code></td><td>Service Unavailable</td><td>AI provider (Anthropic/OpenAI) unavailable</td><td>Product continues to function without AI. Retry AI calls after delay. Notes auto-saved.</td></tr>
         </tbody>
       </table>
     </div>
+
+    <h2>Pagination</h2>
+    <p>Paginated endpoints accept <code>?page=N&amp;limit=M</code> query params. Default: <code>page=1</code>, <code>limit=20</code>. Maximum <code>limit=100</code>. Responses include a <code>meta</code> object with <code>page</code>, <code>limit</code>, <code>total</code> (total matching records), and <code>pages</code> (total pages).</p>
+
+    <div class="doc-nav">
+      <a href="schema.html" class="doc-nav-btn">
+        <span class="doc-nav-label">← Previous</span>
+        <span class="doc-nav-title">Database Schema</span>
+      </a>
+      <a href="ai.html" class="doc-nav-btn next">
+        <span class="doc-nav-label">Next →</span>
+        <span class="doc-nav-title">AI &amp; Prompts</span>
+      </a>
+    </div>
   </main>
+
+  <aside class="page-toc">
+    <span class="toc-label">On this page</span>
+    <a href="#base-url-authentication">Base URL &amp; Auth</a>
+    <a href="#patients">Patients</a>
+    <a href="#list-patients" class="toc-sub">List patients</a>
+    <a href="#create-patient" class="toc-sub">Create patient</a>
+    <a href="#get-patient" class="toc-sub">Get patient</a>
+    <a href="#patient-sub-resources" class="toc-sub">Sub-resources</a>
+    <a href="#sessions">Sessions</a>
+    <a href="#notes">Notes</a>
+    <a href="#finalize-note" class="toc-sub">Finalize note</a>
+    <a href="#ai-endpoints">AI Endpoints</a>
+    <a href="#generate-session-prep-brief" class="toc-sub">Prep brief (SSE)</a>
+    <a href="#generate-ai-note-draft" class="toc-sub">Note draft (SSE)</a>
+    <a href="#generate-homework-suggestions" class="toc-sub">Homework</a>
+    <a href="#search">Search</a>
+    <a href="#goals">Goals</a>
+    <a href="#homework">Homework</a>
+    <a href="#webhooks-internal">Webhooks</a>
+    <a href="#error-reference">Error Reference</a>
+    <a href="#pagination">Pagination</a>
+  </aside>
 </div>
 <footer class="site-footer">
   <div class="footer-inner">
     <div class="footer-logo">⬡ <span>TherapOS</span></div>
-    <div class="footer-links"><a href="../index.html">Home</a><a href="schema.html">Schema</a><a href="ai.html">AI</a></div>
-    <div class="footer-copy">© 2026 TherapOS</div>
+    <div class="footer-links">
+      <a href="../index.html">Home</a>
+      <a href="schema.html">Schema</a>
+      <a href="ai.html">AI</a>
+      <a href="architecture.html">Architecture</a>
+    </div>
+    <div class="footer-copy">© 2026 TherapOS · HIPAA compliant</div>
   </div>
 </footer>
 </body>

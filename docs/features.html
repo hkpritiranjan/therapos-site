@@ -36,81 +36,346 @@
   <main class="docs-content">
     <span class="eyebrow">Product</span>
     <h1>Features</h1>
-    <p>Every feature in TherapOS exists to answer one question: how can AI remove work instead of creating it?</p>
+    <p class="page-desc">Every feature in TherapOS exists to answer one question: how can AI remove work instead of creating it? This page documents every feature in detail — usage, configuration, keyboard shortcuts, and what happens under the hood.</p>
     <hr>
 
-    <h2>AI Session Notes (SOAP &amp; DAP)</h2>
-    <p>The core feature. Type your raw session notes — bullet points, shorthand, stream of consciousness. Click "Generate Draft." In 8–12 seconds, TherapOS produces a complete, professionally-worded clinical note.</p>
-    <ul>
-      <li><strong>Formats supported:</strong> SOAP (Subjective / Objective / Assessment / Plan), DAP (Data / Assessment / Plan), BIRP, and Free Text</li>
-      <li><strong>Context-aware:</strong> The AI reads your patient's history, goals, and recent sessions before drafting. The note reflects continuity, not just today's session.</li>
-      <li><strong>Always a draft:</strong> Every field is editable. The AI never finalizes anything. You click "Finalize" when you're satisfied.</li>
-      <li><strong>AI indicator:</strong> A subtle <span class="ai-tag">AI Draft</span> badge marks AI-generated content so you always know what was generated vs. what you wrote.</li>
-    </ul>
+    <h2>AI Session Notes</h2>
+    <p>The core feature. Type your raw session notes — bullet points, shorthand, stream of consciousness. Click "Generate AI Draft" (<code>⌘G</code>). In 8–12 seconds, TherapOS produces a complete, professionally-worded clinical note using your therapeutic context.</p>
 
-    <h2>Session Prep Brief</h2>
-    <p>Before every session, TherapOS generates a 90-second preparation brief that surfaces what actually matters from the patient's history.</p>
+    <h3>Supported Note Formats</h3>
+    <div class="grid2" style="margin:.75rem 0">
+      <div class="card card-sm">
+        <h4>SOAP</h4>
+        <p><strong>S</strong>ubjective — what the patient reported<br><strong>O</strong>bjective — therapist's behavioral observations<br><strong>A</strong>ssessment — clinical synthesis and progress<br><strong>P</strong>lan — next session focus, homework, referrals</p>
+        <p style="margin-top:.5rem"><span class="badge badge-green">Most common</span></p>
+      </div>
+      <div class="card card-sm">
+        <h4>DAP</h4>
+        <p><strong>D</strong>ata — what was observed and reported<br><strong>A</strong>ssessment — clinical interpretation<br><strong>P</strong>lan — next steps</p>
+        <p style="margin-top:.5rem"><span class="badge badge-muted">Streamlined</span></p>
+      </div>
+      <div class="card card-sm">
+        <h4>BIRP</h4>
+        <p><strong>B</strong>ehavior — observable behaviors<br><strong>I</strong>ntervention — therapeutic techniques used<br><strong>R</strong>esponse — patient's response to intervention<br><strong>P</strong>lan — next steps</p>
+        <p style="margin-top:.5rem"><span class="badge badge-muted">Community mental health</span></p>
+      </div>
+      <div class="card card-sm">
+        <h4>Free Text</h4>
+        <p>Narrative prose note — no rigid sections. AI generates flowing clinical documentation. Good for certain specialties and supervisor-preferred formats.</p>
+        <p style="margin-top:.5rem"><span class="badge badge-muted">Flexible</span></p>
+      </div>
+    </div>
+
+    <h3>What Makes the AI Note Context-Aware</h3>
+    <p>Unlike generic AI note generators, TherapOS injects your patient's full treatment arc into every note generation call. The AI sees:</p>
     <ul>
-      <li><strong>Recap:</strong> 2–3 sentences on what happened last session and the key themes that emerged</li>
-      <li><strong>Suggested questions:</strong> 3–5 questions tailored to your therapeutic modality and current treatment arc</li>
-      <li><strong>Homework check-in:</strong> How to approach checking in on assigned homework (and whether it was completed)</li>
-      <li><strong>Cross-session patterns:</strong> Notable patterns the AI has detected across recent sessions (e.g., "anxiety spikes in sessions following workplace events")</li>
+      <li>Patient profile — name, primary concerns, diagnoses, therapeutic modality</li>
+      <li>Rolling AI summary — a 3–5 sentence summary updated after every finalized note, capturing the treatment arc, patterns, and current clinical picture</li>
+      <li>Last 5 session notes — truncated to 400 tokens each to stay within budget</li>
+      <li>Active treatment goals — what the therapist and patient are working toward</li>
+      <li>Recent homework — what was assigned and whether it was completed</li>
     </ul>
-    <p>Auto-generated before every session. Available on the session page. Takes less than 2 minutes to read.</p>
+    <p>On session 1, only your raw notes and patient profile are available. By session 5, the AI has a rich treatment arc. The output quality improves measurably with each session.</p>
+
+    <h3>AI Note Settings</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Setting</th><th>Location</th><th>Effect</th></tr></thead>
+        <tbody>
+          <tr><td>Default note format</td><td>Settings → Notes</td><td>Pre-selects SOAP / DAP / BIRP / Free for every new session</td></tr>
+          <tr><td>Per-patient format override</td><td>Patient profile → Settings</td><td>Overrides the global default for this specific patient</td></tr>
+          <tr><td>AI disclosure in notes</td><td>Settings → Notes</td><td>Optional: automatically appends "Note generated with AI assistance and reviewed by therapist"</td></tr>
+          <tr><td>Note word count target</td><td>Settings → Notes</td><td>Hints to the AI for note length (concise / standard / detailed)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout callout-accent">
+      <div class="callout-icon">✦</div>
+      <div class="callout-body">
+        <div class="callout-label">AI behavioral rules</div>
+        <p>The AI never diagnoses, never fabricates clinical details, and never auto-finalizes. Missing information gets "[Therapist to complete]" — not invented content. See <a href="ai.html">AI &amp; Prompts</a> for the full rule set baked into every prompt.</p>
+      </div>
+    </div>
+
+    <hr>
+
+    <h2>Session Prep Briefs</h2>
+    <p>Before every session (from session 2 onward), TherapOS generates a 90-second preparation brief that surfaces what actually matters. Open the session page — it's already there.</p>
+
+    <h3>What the Brief Contains</h3>
+    <div class="grid2" style="margin:.75rem 0">
+      <div class="card card-sm">
+        <h4>Recap</h4>
+        <p>2–3 sentences on what happened last session — key themes, breakthroughs, concerns the patient raised. Written for a therapist who hasn't looked at their notes since last week.</p>
+      </div>
+      <div class="card card-sm">
+        <h4>Suggested Questions</h4>
+        <p>3–5 questions tailored to your therapeutic modality and current treatment arc. A CBT-modality patient gets different questions than a psychodynamic-modality patient.</p>
+      </div>
+      <div class="card card-sm">
+        <h4>Homework Check-In</h4>
+        <p>How to approach checking in on assigned homework. Includes the specific homework title and a suggested follow-up framing.</p>
+      </div>
+      <div class="card card-sm">
+        <h4>Cross-Session Patterns</h4>
+        <p>Notable patterns the AI has detected across recent sessions — e.g., "anxiety intensity correlates with upcoming family events." Null if no pattern is detected.</p>
+      </div>
+    </div>
+
+    <h3>How It's Generated</h3>
+    <p>The prep brief calls GPT-4o with enforced JSON response format. The system prompt instructs the model to use the patient's modality to shape suggested questions — CBT, DBT, psychodynamic, ACT, and EMDR each have distinct questioning styles. The brief is cached (Redis, 24h TTL) so it doesn't regenerate every time you open the session page.</p>
+
+    <h3>Regenerating a Brief</h3>
+    <p>If you've updated raw notes or the patient's goals since the brief was cached, click <strong>"Regenerate"</strong> in the prep panel. The brief will be refreshed and the cache updated.</p>
+
+    <hr>
 
     <h2>Patient Memory (Rolling AI Summary)</h2>
-    <p>After every finalized note, TherapOS regenerates a 3–5 sentence AI summary of the patient's clinical arc. This summary is injected into every subsequent AI call — making every prep brief and note draft smarter over time.</p>
-    <p>The summary captures: what's improved, what persists, recent breakthroughs, patterns, and current clinical picture. It never replaces the session notes — it complements them.</p>
+    <p>After every finalized note, TherapOS automatically regenerates a 3–5 sentence AI summary of the patient's clinical arc. This runs as a BullMQ background job — you see the note as finalized immediately, and the summary updates within 30 seconds.</p>
+
+    <h3>What the Summary Captures</h3>
+    <ul>
+      <li>What has improved since treatment began</li>
+      <li>What patterns or concerns persist</li>
+      <li>Recent breakthroughs or therapeutic milestones</li>
+      <li>Current clinical picture (how the patient is presenting now)</li>
+      <li>Key goals and progress</li>
+    </ul>
+    <p>The summary is intentionally brief — 3–5 sentences max. It's not meant to replace the notes; it's meant to quickly orient the AI for the next call. You can view and edit the current summary in the patient profile under "AI Summary."</p>
+
+    <h3>Editing the Summary</h3>
+    <p>If the AI summary is inaccurate (it sometimes is, especially early in treatment), you can manually edit it in the patient profile. Your edit is preserved — the next <code>refresh-summary</code> job will incorporate it rather than overwriting it.</p>
+
+    <hr>
 
     <h2>Natural Language Search</h2>
-    <p>Press <code>⌘K</code> and ask anything:</p>
-    <ul>
-      <li>"What coping strategies have worked for Maya?"</li>
-      <li>"When did sleep problems start for James?"</li>
-      <li>"What homework has David completed vs. skipped?"</li>
-      <li>"Show all sessions where we discussed his mother."</li>
-    </ul>
-    <p>Search uses vector similarity (pgvector) across all finalized session notes. Results include the relevant snippet, session number, and date. Filter by patient or search across your entire practice.</p>
+    <p>Press <code>⌘K</code> anywhere in TherapOS to open the command palette. Natural language search runs across all finalized session notes via vector similarity search.</p>
+
+    <h3>Example Queries</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Query</th><th>What it finds</th></tr></thead>
+        <tbody>
+          <tr><td>"What coping strategies have worked for Maya?"</td><td>Notes mentioning successful coping interventions for this patient</td></tr>
+          <tr><td>"When did James first mention sleep problems?"</td><td>Earliest session notes containing sleep-related content</td></tr>
+          <tr><td>"Homework David has skipped"</td><td>Sessions where homework completion was noted as partial or not completed</td></tr>
+          <tr><td>"Sessions where we discussed his father"</td><td>Notes containing references to the patient's father across all sessions</td></tr>
+          <tr><td>"Anxiety triggers for all my patients"</td><td>Cross-patient search — surfaces anxiety trigger content across your practice</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Scoping Your Search</h3>
+    <p>By default, search is scoped to your entire practice. You can filter by patient using the patient dropdown in the search panel. Results show: the relevant snippet, session number, date, patient name (for cross-patient searches), and a relevance score.</p>
+
+    <h3>How It Works</h3>
+    <p>When you type a query, TherapOS embeds it using OpenAI's text-embedding-3-small (1,536 dimensions), then performs cosine similarity search against all <code>NoteEmbedding</code> vectors scoped to your therapist ID. Results are ordered by similarity score. The HNSW index makes this sub-100ms for up to ~500,000 embeddings.</p>
+
+    <div class="callout callout-info">
+      <div class="callout-icon">ℹ</div>
+      <div class="callout-body">
+        <div class="callout-label">Search only covers finalized notes</div>
+        <p>Notes must be finalized and embedded before they're searchable. Embedding typically completes within 30 seconds of finalization. In-progress drafts and raw notes are not indexed.</p>
+      </div>
+    </div>
+
+    <hr>
 
     <h2>Treatment Goals</h2>
-    <p>Set treatment goals per patient. Track progress across sessions. See the entire goal arc at a glance on the patient profile.</p>
+    <p>Create and track treatment goals per patient. Goals are injected into every AI call — the AI knows what you're working toward and reflects that in notes and session prep.</p>
+
+    <h3>Goal Lifecycle</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Status</th><th>Meaning</th><th>AI behavior</th></tr></thead>
+        <tbody>
+          <tr><td><span class="badge badge-green">Active</span></td><td>Currently being worked on</td><td>Included in every AI context call</td></tr>
+          <tr><td><span class="badge badge-accent">Achieved</span></td><td>Goal reached and documented</td><td>Mentioned in summary as a win; removed from active context</td></tr>
+          <tr><td><span class="badge badge-yellow">Paused</span></td><td>Temporarily deprioritized</td><td>Not included in active AI context</td></tr>
+          <tr><td><span class="badge badge-red">Abandoned</span></td><td>No longer relevant</td><td>Excluded from AI context entirely</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Goal Fields</h3>
     <ul>
-      <li>Create goals with a title, category (anxiety, relationships, sleep, etc.), and description</li>
-      <li>Add progress notes to any goal — linked to a specific session</li>
-      <li>Mark goals as Achieved, Paused, or Abandoned</li>
-      <li>Goals appear in the AI session prep brief so the AI knows what you're working toward</li>
+      <li><strong>Title:</strong> Short name — e.g., "Reduce workplace anxiety"</li>
+      <li><strong>Description:</strong> Optional longer description — the AI uses this for context</li>
+      <li><strong>Category:</strong> anxiety / depression / relationships / sleep / trauma / substance / career / self-esteem / other</li>
+      <li><strong>Progress notes:</strong> Timestamped notes attached to any goal — linked to a specific session</li>
     </ul>
+
+    <h3>Adding Progress Notes to a Goal</h3>
+    <p>Open any goal on the patient profile and click "Add progress note." You can link the note to a specific session. Progress notes appear in the goal's history and are visible in the patient timeline. The AI doesn't automatically read progress note text, but goal status and recent progress are included in context.</p>
+
+    <hr>
 
     <h2>Homework Generator</h2>
-    <p>After a session, click "Suggest Homework." TherapOS generates 3 options based on the session's themes, active goals, and your therapeutic modality. Each includes:</p>
+    <p>After a session, click <strong>"Suggest Homework"</strong> in the session panel. TherapOS calls GPT-4o with the session themes, active goals, and your therapeutic modality, and generates 3 homework options.</p>
+
+    <h3>What Each Suggestion Includes</h3>
     <ul>
-      <li>A title and detailed patient-facing description</li>
-      <li>Category (journaling, behavioral, exposure, mindfulness, social)</li>
-      <li>Rationale explaining why this fits the session and modality</li>
+      <li><strong>Title:</strong> Short, patient-friendly name for the assignment</li>
+      <li><strong>Description:</strong> Detailed instructions written from the therapist's perspective — ready to share or adapt</li>
+      <li><strong>Category:</strong> journaling / behavioral / exposure / mindfulness / social / psychoeducation</li>
+      <li><strong>Rationale:</strong> Why this homework fits the session themes and modality — for your clinical judgment</li>
     </ul>
-    <p>Choose one, edit it, or write your own. Track completion in the next session.</p>
+    <p>Choose one, edit it, or dismiss all three and write your own. The selected or custom homework is saved to the patient's record and tracked for completion in the next session.</p>
+
+    <h3>Tracking Completion</h3>
+    <p>At the start of the next session, the session prep brief prompts you on how to approach the homework check-in. You can mark homework as Completed / Partial / Skipped from the session panel or the homework tab on the patient profile. Completion history is visible in the patient timeline.</p>
+
+    <hr>
 
     <h2>Patient Timeline</h2>
-    <p>Every patient has a chronological timeline showing all sessions, goals created, and homework assigned. Each session entry shows: session number, date, status (scheduled / completed / cancelled), and a note snippet if finalized. Click any session to open the full note.</p>
+    <p>Every patient has a chronological timeline showing all clinical activity in one scroll. Access it via the "Timeline" tab on the patient profile.</p>
+
+    <h3>Timeline Events</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Event type</th><th>What it shows</th></tr></thead>
+        <tbody>
+          <tr><td>Session (Completed)</td><td>Session #, date, duration, note status (finalized / draft / missing), snippet from finalized note</td></tr>
+          <tr><td>Session (Cancelled / No-show)</td><td>Session # and date, cancellation note if added</td></tr>
+          <tr><td>Goal created</td><td>Goal title, category</td></tr>
+          <tr><td>Goal status change</td><td>Previous → new status with date</td></tr>
+          <tr><td>Homework assigned</td><td>Homework title, category, due date</td></tr>
+          <tr><td>Homework completed</td><td>Completion date, therapist completion note</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Click any session event to open the full session note. Click any goal event to jump to the goal on the patient profile. The timeline is read-only — editing happens in the session or goal context.</p>
+
+    <hr>
 
     <h2>Dashboard</h2>
-    <p>The first thing you see when you open TherapOS. Shows:</p>
+    <p>The first thing you see when you open TherapOS. Designed to get you into a session or back to a patient in two clicks or fewer.</p>
+
+    <div class="wireframe">┌────────────────────────────────────────────────────────┐
+│  ⬡ TherapOS                     [⌘K]   [+ New patient]│
+├────────────────────────────────────────────────────────┤
+│  Good morning, Dr. Sarah.                              │
+│  You have 4 sessions today.                            │
+├────────────────────────────────────────────────────────┤
+│  TODAY                                                 │
+│  ┌─────────────────────┬───────────┬──────────────┐   │
+│  │ Patient             │ Time      │ Status       │   │
+│  ├─────────────────────┼───────────┼──────────────┤   │
+│  │ ● Maya Chen         │  9:00 AM  │ Scheduled    │   │
+│  │   James Okafor      │ 11:00 AM  │ Scheduled    │   │
+│  │   Sarah Winters     │  2:00 PM  │ Completed ✓  │   │
+│  │   David Park        │  4:00 PM  │ Note needed  │   │
+│  └─────────────────────┴───────────┴──────────────┘   │
+│                                                        │
+│  RECENT PATIENTS                                       │
+│  Maya Chen · James Okafor · David Park                 │
+│                                                        │
+│  QUICK ACTIONS                                         │
+│  [+ New patient]  [+ New session]  [⌘K Search]        │
+└────────────────────────────────────────────────────────┘</div>
+
+    <h3>Dashboard Elements</h3>
     <ul>
-      <li>Today's sessions with scheduled times</li>
-      <li>AI snapshot for the next upcoming session</li>
-      <li>Recently viewed patients for quick navigation</li>
-      <li>Quick actions: new patient, new session</li>
+      <li><strong>Today's sessions:</strong> All sessions scheduled for today, sorted by time, with status indicators. Click any row to open the session page.</li>
+      <li><strong>Note needed indicator:</strong> Sessions marked as Completed where the note hasn't been finalized. Click to go directly to the note editor.</li>
+      <li><strong>Recently viewed patients:</strong> The last 5–8 patients you opened, for quick re-access without searching.</li>
+      <li><strong>Quick actions:</strong> New patient, new session, search. The three most common actions in TherapOS.</li>
     </ul>
 
+    <hr>
+
     <h2>Command Palette (⌘K)</h2>
-    <p>Global search and action launcher. Search by patient name, session date, or note content. Launch actions: "New patient," "New session." Accessible from anywhere in the app.</p>
+    <p>Press <code>⌘K</code> from anywhere in TherapOS to open the global command palette. It's the fastest way to navigate, search, and take actions.</p>
+
+    <h3>What You Can Do From ⌘K</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Type</th><th>Example</th><th>Result</th></tr></thead>
+        <tbody>
+          <tr><td>Search by patient name</td><td>"maya"</td><td>Opens Maya's patient profile</td></tr>
+          <tr><td>Natural language search</td><td>"sleep issues James"</td><td>Returns session snippets mentioning sleep for James</td></tr>
+          <tr><td>Cross-patient search</td><td>"coping strategies anxiety"</td><td>Returns matching snippets across all patients</td></tr>
+          <tr><td>Actions</td><td>"new patient"</td><td>Opens the new patient form</td></tr>
+          <tr><td>Actions</td><td>"new session"</td><td>Opens the session creation form</td></tr>
+          <tr><td>Settings</td><td>"settings"</td><td>Opens Settings</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>The palette distinguishes patient-name matches (shown at the top with avatar) from content search results (shown below with a snippet and session date). Use <code>↑↓</code> to navigate, <code>Enter</code> to open, <code>Esc</code> to close.</p>
+
+    <hr>
+
+    <h2>Patient Profile</h2>
+    <p>The complete clinical record for a patient. Tabs: Overview · Sessions · Goals · Homework · Timeline · Settings.</p>
+
+    <h3>Overview Tab</h3>
+    <ul>
+      <li>Patient info: name, DOB, contact, status</li>
+      <li>Clinical info: primary concerns, diagnoses, modality, session frequency</li>
+      <li>AI Summary: the rolling AI summary — viewable and editable</li>
+      <li>Active goals: quick view of open goals with status</li>
+      <li>Session stats: total sessions, last session date, average session frequency</li>
+    </ul>
+
+    <h3>Sessions Tab</h3>
+    <p>Paginated list of all sessions — session number, date, type, status, note status (finalized / draft / not created). Click any row to open the session.</p>
+
+    <h3>Goals Tab</h3>
+    <p>All goals grouped by status (Active first). Each goal shows title, category, creation date, status, and a collapsible progress notes history.</p>
+
+    <h3>Homework Tab</h3>
+    <p>All homework items — filterable by status (Assigned / Completed / Partial / Skipped). Shows assigned session, due date, category, and completion notes.</p>
+
+    <hr>
+
+    <h2>Export and Data Portability</h2>
+    <p>Your data is always exportable. From Settings → Export:</p>
+    <ul>
+      <li><strong>Patient PDF:</strong> Full clinical record for a single patient — all sessions, notes, goals, homework in a formatted PDF</li>
+      <li><strong>Practice export:</strong> All patient data as JSON — includes all notes, goals, homework, audit log. For migration or archiving.</li>
+    </ul>
+    <p>On cancellation, data is retained for 30 days in exportable form, then PHI is anonymized (audit logs are retained for 6 years per HIPAA requirements but PHI is removed from them).</p>
+
+    <div class="doc-nav">
+      <a href="plan.html" class="doc-nav-btn">
+        <span class="doc-nav-label">← Previous</span>
+        <span class="doc-nav-title">Full Product Plan</span>
+      </a>
+      <a href="pricing.html" class="doc-nav-btn next">
+        <span class="doc-nav-label">Next →</span>
+        <span class="doc-nav-title">Pricing</span>
+      </a>
+    </div>
   </main>
+
+  <aside class="page-toc">
+    <span class="toc-label">On this page</span>
+    <a href="#ai-session-notes">AI Session Notes</a>
+    <a href="#supported-note-formats" class="toc-sub">Note Formats</a>
+    <a href="#ai-note-settings" class="toc-sub">Settings</a>
+    <a href="#session-prep-briefs">Session Prep Briefs</a>
+    <a href="#patient-memory-rolling-ai-summary">Patient Memory</a>
+    <a href="#natural-language-search">NL Search</a>
+    <a href="#treatment-goals">Treatment Goals</a>
+    <a href="#homework-generator">Homework Generator</a>
+    <a href="#patient-timeline">Patient Timeline</a>
+    <a href="#dashboard">Dashboard</a>
+    <a href="#command-palette-k">Command Palette</a>
+    <a href="#patient-profile">Patient Profile</a>
+    <a href="#export-and-data-portability">Export</a>
+  </aside>
 </div>
 <footer class="site-footer">
   <div class="footer-inner">
     <div class="footer-logo">⬡ <span>TherapOS</span></div>
-    <div class="footer-links"><a href="../index.html">Home</a><a href="pricing.html">Pricing</a><a href="roadmap.html">Roadmap</a></div>
-    <div class="footer-copy">© 2026 TherapOS</div>
+    <div class="footer-links">
+      <a href="../index.html">Home</a>
+      <a href="quickstart.html">Quickstart</a>
+      <a href="pricing.html">Pricing</a>
+      <a href="ai.html">AI Architecture</a>
+    </div>
+    <div class="footer-copy">© 2026 TherapOS · HIPAA compliant</div>
   </div>
 </footer>
 </body>

@@ -36,129 +36,322 @@
   <main class="docs-content">
     <span class="eyebrow">Technical</span>
     <h1>System Architecture</h1>
-    <p>TherapOS is a monorepo (Turborepo) with a Next.js frontend and a NestJS API. PostgreSQL with pgvector handles both relational data and vector search. All AI calls are async — the product works without AI as a fallback.</p>
+    <p class="page-desc">TherapOS is a Turborepo monorepo with a Next.js frontend and NestJS API. PostgreSQL with pgvector handles relational data and vector search. All AI calls are non-blocking — the product works without AI as a graceful fallback.</p>
     <hr>
 
-    <h2>Overview</h2>
-    <pre>┌──────────────────────────────────────────────────────────┐
-│                  CLIENT (Next.js 14)                     │
-│  App Router · TypeScript · Tailwind · shadcn/ui          │
-│  Zustand (UI state) · SWR (server state)                 │
-└──────────────────┬───────────────────────────────────────┘
-                   │ HTTPS / REST + SSE streaming
-┌──────────────────▼───────────────────────────────────────┐
-│               API GATEWAY (NestJS)                       │
-│  Clerk JWT auth · Rate limiting · Audit interceptor      │
-│  Zod validation · HIPAA logging middleware               │
-├──────────┬───────────────┬──────────────┬────────────────┤
-│ Patients │   Sessions    │  Notes / AI  │    Search      │
-└──────────┴───────┬───────┴──────┬───────┴────────┬───────┘
-                   │              │                │
-         ┌─────────▼──────┐  ┌───▼──────────┐ ┌───▼──────────┐
-         │  PostgreSQL    │  │  AI Services │ │  pgvector    │
-         │  (Prisma ORM)  │  │  Anthropic   │ │  Embeddings  │
-         │                │  │  OpenAI      │ │  Similarity  │
-         └────────────────┘  └──────┬───────┘ └──────────────┘
-                  ▲                 │
-         ┌────────┴───────┐  ┌──────▼───────┐
-         │     Redis      │  │   BullMQ     │
-         │  Session cache │  │  Async jobs  │
-         │  Rate limits   │  │  Embedding   │
-         └────────────────┘  └──────────────┘
+    <h2>System Overview</h2>
+    <pre>┌────────────────────────────────────────────────────────────────┐
+│                    CLIENT (Next.js 14)                         │
+│  App Router · TypeScript · Tailwind CSS · shadcn/ui            │
+│  Zustand (UI state) · SWR (server state) · Tiptap (editor)     │
+└──────────────────────────┬─────────────────────────────────────┘
+                           │ HTTPS + SSE streaming
+┌──────────────────────────▼─────────────────────────────────────┐
+│                    API GATEWAY (NestJS)                        │
+│  ClerkGuard (JWT) · Rate limiting · HIPAA Audit Interceptor    │
+│  Zod validation · Request logging (no PHI)                     │
+├───────────┬──────────────┬─────────────────┬───────────────────┤
+│ /patients │ /sessions    │ /notes + /ai    │ /search           │
+└───────────┴──────┬───────┴────────┬────────┴────────┬──────────┘
+                   │                │                 │
+        ┌──────────▼────────┐ ┌─────▼──────────┐ ┌───▼──────────┐
+        │   PostgreSQL 15   │ │  AI Services   │ │  pgvector    │
+        │   (Prisma ORM)    │ │  Anthropic API │ │  HNSW index  │
+        │   Row-level ISO   │ │  OpenAI API    │ │  1536d cosine│
+        └──────────┬────────┘ └─────┬──────────┘ └──────────────┘
+                   │                │
+        ┌──────────▼────────┐ ┌─────▼──────────┐
+        │    Redis 7        │ │   BullMQ       │
+        │  Session cache    │ │  embed-note    │
+        │  Prep brief cache │ │  refresh-sum.  │
+        │  Rate limit state │ │  Retry queue   │
+        └───────────────────┘ └────────────────┘
 
-Infrastructure:
-  Auth:    Clerk
-  Storage: AWS S3 (encrypted)
-  Email:   Resend
-  Billing: Stripe
-  Monitor: Sentry + PostHog (no PHI)
-  Deploy:  Docker → AWS ECS / Vercel</pre>
+Third-party services:
+  Auth:     Clerk  (JWTs, MFA, OAuth, webhooks)
+  Billing:  Stripe  (subscriptions, webhooks) / Razorpay (India)
+  Email:    Resend  (transactional — no PHI in subject/body)
+  Monitor:  Sentry (errors) + PostHog (behavior — zero PHI)
+  Storage:  AWS S3  (encrypted, exports)
+  Deploy:   AWS ECS (API, Blue/Green) + Vercel (Next.js)</pre>
 
     <h2>Repository Structure</h2>
-    <pre>therapos/                    # Turborepo monorepo
+    <pre>therapos/                           # Turborepo monorepo root
 ├── apps/
-│   ├── web/                 # Next.js 14 (App Router)
-│   └── api/                 # NestJS API
+│   ├── web/                        # Next.js 14 (App Router)
+│   │   ├── app/
+│   │   │   ├── (auth)/             # Auth pages (Clerk hosted)
+│   │   │   ├── dashboard/          # Dashboard route
+│   │   │   ├── patients/
+│   │   │   │   ├── page.tsx        # Patient list
+│   │   │   │   └── [id]/
+│   │   │   │       ├── page.tsx    # Patient profile (Overview tab)
+│   │   │   │       ├── sessions/   # Sessions tab
+│   │   │   │       ├── goals/      # Goals tab
+│   │   │   │       ├── homework/   # Homework tab
+│   │   │   │       └── timeline/   # Timeline tab
+│   │   │   └── sessions/
+│   │   │       └── [id]/
+│   │   │           └── page.tsx    # Session page (notes + prep)
+│   │   ├── components/
+│   │   │   ├── ui/                 # shadcn/ui re-exports
+│   │   │   ├── AiBadge.tsx
+│   │   │   ├── CommandPalette.tsx
+│   │   │   ├── GoalTracker.tsx
+│   │   │   ├── HomeworkCard.tsx
+│   │   │   ├── NoteEditor.tsx      # Tiptap editor wrapper
+│   │   │   ├── PatientTimeline.tsx
+│   │   │   └── SessionPrepCard.tsx
+│   │   └── lib/
+│   │       ├── api.ts              # SWR fetchers + mutations
+│   │       └── useAiStream.ts      # SSE streaming hook
+│   │
+│   └── api/                        # NestJS application
+│       ├── src/
+│       │   ├── main.ts
+│       │   ├── app.module.ts
+│       │   ├── auth/               # Clerk JWT guard
+│       │   │   ├── clerk.guard.ts
+│       │   │   └── clerk.strategy.ts
+│       │   ├── patients/           # /patients module
+│       │   ├── sessions/           # /sessions module
+│       │   ├── notes/              # /notes module
+│       │   ├── ai/                 # /ai module
+│       │   │   ├── ai.service.ts   # AI call orchestration
+│       │   │   ├── context.service.ts  # PatientContext assembly
+│       │   │   └── prompts/        # Prompt templates
+│       │   ├── search/             # /search module (pgvector)
+│       │   ├── goals/              # /goals module
+│       │   ├── homework/           # /homework module
+│       │   ├── jobs/               # BullMQ processors
+│       │   │   ├── embed-note.job.ts
+│       │   │   └── refresh-summary.job.ts
+│       │   └── common/
+│       │       ├── audit.interceptor.ts  # HIPAA audit logging
+│       │       └── encryption.service.ts
+│       └── prisma/                 # Shared with monorepo root
+│
 ├── packages/
-│   ├── shared/              # Shared TypeScript types
-│   └── config/              # Shared ESLint, TS config
+│   ├── shared/                     # Shared TypeScript types
+│   │   └── src/
+│   │       ├── types/              # Patient, Session, Note, Goal...
+│   │       └── schemas/            # Zod schemas for API contracts
+│   └── config/                     # Shared ESLint, TS, Tailwind config
+│
 ├── prisma/
 │   ├── schema.prisma
 │   └── migrations/
-└── docker-compose.yml       # postgres, redis, pgvector</pre>
+├── docker-compose.yml              # Local: postgres+pgvector, redis
+├── turbo.json
+└── package.json                    # Workspace root</pre>
 
     <h2>Key Architectural Decisions</h2>
 
-    <h3>1. Monolith first, microservices later</h3>
-    <p>The NestJS API is a single deployable unit. AI processing, search, and data are all in one service. Extract the AI module into a separate service only when you need independent scaling — at approximately 10,000 active users.</p>
+    <h3>1. Monolith First, Microservices Later</h3>
+    <p>The NestJS API is a single deployable unit. AI processing, search, and CRUD are all in one service. The benefit: simpler debugging, shared transactions, one deployment target.</p>
+    <p><strong>Extract the AI module</strong> into a separate service only when you need independent scaling — typically at ~10,000 active users where AI inference is the bottleneck. The NestJS module boundary makes this extraction clean.</p>
 
-    <h3>2. pgvector over Pinecone for MVP</h3>
-    <p>Pinecone adds infrastructure complexity and cost. pgvector in PostgreSQL handles millions of embeddings efficiently with HNSW indexing. Migrate to Pinecone when you exceed 500k note embeddings or need metadata filtering complexity that pgvector can't support cleanly.</p>
+    <h3>2. pgvector Over Pinecone for MVP</h3>
+    <p>Pinecone adds infrastructure complexity (another service to manage, another cost center) and an extra network hop. pgvector in PostgreSQL handles millions of embeddings efficiently with HNSW indexing, with the added benefit that row-level therapist isolation is enforced at the database layer.</p>
+    <p><strong>Migration trigger:</strong> If note embedding count exceeds 500k, or if metadata filtering requirements become complex enough that raw pgvector queries are difficult to maintain, migrate to Pinecone. The <code>search/</code> NestJS module is the only code that changes.</p>
 
-    <h3>3. BullMQ for all AI jobs</h3>
-    <p>Note generation streams directly to the client via Server-Sent Events (SSE). Embedding and patient summary refresh run asynchronously via BullMQ after note finalization. The product is never blocked waiting for AI.</p>
+    <h3>3. SSE Over WebSockets for AI Streaming</h3>
+    <p>AI note generation streams token-by-token to the frontend using Server-Sent Events. SSE is simpler than WebSockets for one-directional streaming (server → client), works through HTTP/2 without special infrastructure, and requires no WebSocket server management.</p>
+    <p>The frontend uses a custom <code>useAiStream</code> hook that manages the EventSource lifecycle, error handling, and reconnection. When the stream ends, the full JSON note object is returned in the final event.</p>
 
-    <h3>4. SSE over WebSockets for streaming</h3>
-    <p>AI note generation streams token-by-token to the frontend using Server-Sent Events. SSE is simpler than WebSockets for one-directional streaming and works through HTTP/2 without special infrastructure.</p>
+    <h3>4. BullMQ for All Post-Finalization Jobs</h3>
+    <p>Note generation itself streams directly. But the post-finalization memory pipeline (embedding and summary refresh) runs entirely via BullMQ jobs. Benefits: the therapist sees "Finalized" immediately, jobs are retried on failure, job history is inspectable.</p>
+    <p>Two queues: <code>note-embeddings</code> and <code>patient-summaries</code>. Both use Redis as the queue backend. Summary refresh is chained to fire after embedding completes (not in parallel) to ensure the embedding is available when the summary is generated.</p>
+
+    <h3>5. Row-Level Therapist Isolation in Every Query</h3>
+    <p>Every Prisma query that touches a Patient, Session, Note, Goal, or Homework record filters by <code>therapistId = authenticatedUserId</code>. This is enforced in the service layer — not just the controller layer — to prevent accidental cross-therapist data exposure. Automated tests verify that therapist A cannot access therapist B's data even with a valid JWT.</p>
+
+    <h2>Frontend Architecture</h2>
+    <h3>State Management</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>State type</th><th>Tool</th><th>Examples</th></tr></thead>
+        <tbody>
+          <tr><td>Server state (async data)</td><td>SWR</td><td>Patient list, session data, note content — fetched from API, cached, revalidated</td></tr>
+          <tr><td>UI state (local)</td><td>Zustand</td><td>Command palette open/closed, note format selection, active tab</td></tr>
+          <tr><td>AI stream state</td><td>useAiStream hook</td><td>Streaming note content, generation status, error handling</td></tr>
+          <tr><td>Auth state</td><td>Clerk (useUser, useAuth)</td><td>Current user, session token, sign-out</td></tr>
+          <tr><td>Form state</td><td>React Hook Form + Zod</td><td>Patient creation, session creation, goal editing</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Route Structure</h3>
+    <p>All routes require authentication (Clerk middleware). Unauthenticated requests redirect to the Clerk sign-in page. The App Router's layout hierarchy: Root Layout → Auth Layout → Dashboard Layout → Patient/Session Layout. Streaming (React Suspense) is used on session pages for the AI prep brief.</p>
 
     <h2 id="security">Security Architecture</h2>
 
     <h3>Encryption</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Layer</th><th>Method</th><th>What's protected</th></tr></thead>
+        <tbody>
+          <tr><td>Storage (DB)</td><td>AWS RDS encryption (AES-256)</td><td>All data at rest — automatic, managed by AWS</td></tr>
+          <tr><td>Application layer</td><td>Envelope encryption via AWS KMS</td><td>PHI fields: patient name, DOB, email, phone</td></tr>
+          <tr><td>Transport</td><td>TLS 1.3 + HSTS</td><td>All data in transit — no HTTP fallback</td></tr>
+          <tr><td>Keys</td><td>AWS KMS — annual rotation</td><td>Encryption keys — never stored in application code</td></tr>
+          <tr><td>API keys</td><td>AWS Secrets Manager</td><td>Anthropic, OpenAI, Stripe secrets — not in env files in prod</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Access Control</h3>
     <ul>
-      <li><strong>At rest:</strong> AWS RDS encryption (AES-256). Sensitive fields (patient name, DOB, email) additionally encrypted at the application layer using envelope encryption.</li>
-      <li><strong>In transit:</strong> TLS 1.3 enforced. HSTS headers set. No HTTP fallback.</li>
-      <li><strong>Keys:</strong> AWS KMS for key management. Keys rotated annually.</li>
+      <li><strong>Authentication:</strong> Every API endpoint is guarded by <code>ClerkGuard</code> — verifies JWT signature, extracts <code>therapistId</code>, rejects expired or malformed tokens.</li>
+      <li><strong>Authorization:</strong> Every patient/session/note query filters by <code>therapistId = req.user.id</code>. A valid JWT for therapist A cannot retrieve therapist B's data — enforced in service layer, verified by automated tests.</li>
+      <li><strong>MFA:</strong> Enforced via Clerk for all accounts. Cannot be disabled by users. Reminder in onboarding flow.</li>
+      <li><strong>Rate limiting:</strong> AI endpoints — 20 requests/minute per user. General API — 200 requests/minute per user. Redis-backed.</li>
     </ul>
 
-    <h3>Access control</h3>
-    <ul>
-      <li>Every API endpoint is guarded by <code>ClerkGuard</code> — verifies JWT, extracts therapist ID.</li>
-      <li>Every patient/session/note query is scoped to the authenticated therapist's ID. Row-level isolation enforced in every Prisma query.</li>
-      <li>No endpoint exposes data across therapist accounts — verified by automated tests.</li>
-    </ul>
+    <h3>Audit Logging</h3>
+    <p>A NestJS interceptor runs on every request that touches PHI. For each such request, it writes an <code>AuditLog</code> row containing: <code>userId</code>, <code>patientId</code> (if applicable), action verb (<code>PATIENT_VIEWED</code>, <code>NOTE_CREATED</code>, <code>AI_GENERATED</code>, etc.), resource type, resource ID, IP address, user agent, timestamp.</p>
+    <p>Audit logs are retained for 6 years per HIPAA requirements. After retention expires, logs are permanently deleted. The <code>createdAt</code> index ensures efficient time-range queries. Therapists can view their own audit log in Settings → Privacy → Audit Log.</p>
 
-    <h3>Audit logging</h3>
-    <p>An NestJS interceptor logs every request that touches PHI to the <code>AuditLog</code> table: user ID, patient ID, action, resource, IP address, timestamp. Logs are retained for 6 years (HIPAA requirement). Therapists can view their own audit log in Settings.</p>
-
-    <h3>BAA (Business Associate Agreement)</h3>
-    <p>TherapOS signs a BAA with every Solo and Clinic subscriber. BAAs are also signed with: AWS, Clerk, OpenAI, Anthropic, Stripe, and Resend before any PHI touches those systems.</p>
+    <h3>Business Associate Agreements</h3>
+    <p>BAAs signed with every vendor that may process PHI:</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Vendor</th><th>PHI contact</th><th>BAA status</th></tr></thead>
+        <tbody>
+          <tr><td>AWS</td><td>Database, S3, KMS</td><td>✓ Standard AWS BAA</td></tr>
+          <tr><td>Anthropic</td><td>Note content sent to API</td><td>✓ Enterprise BAA</td></tr>
+          <tr><td>OpenAI</td><td>Prep brief, homework, embeddings</td><td>✓ Enterprise BAA</td></tr>
+          <tr><td>Clerk</td><td>User email, name</td><td>✓ Clerk BAA</td></tr>
+          <tr><td>Stripe</td><td>Billing email, name</td><td>✓ Stripe BAA</td></tr>
+          <tr><td>Resend</td><td>Email address only</td><td>✓ Resend BAA</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout callout-warn">
+      <div class="callout-icon">⚠</div>
+      <div class="callout-body">
+        <div class="callout-label">PostHog and Sentry receive zero PHI</div>
+        <p>Analytics (PostHog) and error monitoring (Sentry) are deliberately excluded from the BAA list because they never receive PHI. The HIPAA audit interceptor explicitly strips all patient-identifying data before any event is sent to these services. This is verified in CI.</p>
+      </div>
+    </div>
 
     <h2>Deployment Pipeline</h2>
-    <pre>git push → GitHub Actions
+    <pre>Developer pushes to main branch
   │
-  ├── Lint + typecheck
-  ├── Unit tests
-  ├── Integration tests (real Postgres)
-  ├── Build Docker images
-  │
-  ├── Deploy API → AWS ECS (Blue/Green)
-  └── Deploy Web → Vercel (automatic)</pre>
+  └─► GitHub Actions CI
+        ├─ ESLint + TypeScript typecheck (no errors allowed)
+        ├─ Unit tests (jest) — service layer, utility functions
+        ├─ Integration tests — real PostgreSQL + pgvector in Docker
+        │   Tests include: cross-therapist isolation, embedding pipeline,
+        │   BullMQ job execution, HIPAA audit log generation
+        ├─ Build Docker images (API + web)
+        ├─ Security scan (Trivy) — no critical CVEs
+        │
+        ├─► API deploy — AWS ECS (Blue/Green deployment)
+        │     Blue/Green ensures zero downtime
+        │     Old version stays live until health check passes on new
+        │     Rollback is automatic if health check fails
+        │
+        └─► Web deploy — Vercel (automatic on push to main)
+              Preview deployments for all PRs
+              Production deploy gated on CI passing</pre>
+
+    <h2>BullMQ Job Details</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Job</th><th>Queue</th><th>Trigger</th><th>What it does</th><th>Retries</th></tr></thead>
+        <tbody>
+          <tr><td><code>embed-note</code></td><td>note-embeddings</td><td>Note finalized</td><td>Concatenate note fields → OpenAI embedding API → upsert NoteEmbedding with vector</td><td>3x with exp. backoff</td></tr>
+          <tr><td><code>refresh-summary</code></td><td>patient-summaries</td><td>After embed-note completes</td><td>Fetch last 3 notes + old summary → Claude Haiku → update Patient.aiSummary</td><td>3x with exp. backoff</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Jobs are chained: <code>refresh-summary</code> fires in the <code>embed-note</code> completion callback. If <code>embed-note</code> fails after 3 retries, <code>refresh-summary</code> does not fire for that session. The summary is regenerated on the next successful note finalization. This is an acceptable tradeoff — the summary is eventually consistent, not strongly consistent.</p>
 
     <h2>Environment Variables</h2>
-    <pre>## API (.env)
-DATABASE_URL=postgresql://...
-REDIS_URL=redis://...
+    <pre>## API (apps/api/.env)
+DATABASE_URL=postgresql://user:pass@host:5432/therapos
+REDIS_URL=redis://localhost:6379
+
+# Auth
 CLERK_SECRET_KEY=sk_...
 CLERK_WEBHOOK_SECRET=whsec_...
+
+# AI
 OPENAI_API_KEY=sk-...
 ANTHROPIC_API_KEY=sk-ant-...
-STRIPE_SECRET_KEY=sk_...
+
+# Billing
+STRIPE_SECRET_KEY=sk_live_...
 STRIPE_WEBHOOK_SECRET=whsec_...
+RAZORPAY_KEY_ID=rzp_live_...      # India
+RAZORPAY_KEY_SECRET=...           # India
+
+# AWS
 AWS_ACCESS_KEY_ID=...
 AWS_SECRET_ACCESS_KEY=...
+AWS_REGION=us-east-1
 AWS_S3_BUCKET=therapos-prod
-ENCRYPTION_KEY=...  # 32-byte hex for envelope encryption
 
-## Web (.env.local)
+# Security
+ENCRYPTION_KEY=...   # 32-byte hex — for application-layer envelope encryption
+KMS_KEY_ID=...       # AWS KMS CMK ARN
+
+## Web (apps/web/.env.local)
 NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_...
-NEXT_PUBLIC_API_URL=https://api.therapos.com</pre>
+NEXT_PUBLIC_API_URL=https://api.therapos.com
+CLERK_SECRET_KEY=sk_...           # For server-side Clerk calls</pre>
+
+    <div class="callout callout-danger">
+      <div class="callout-icon">⚠</div>
+      <div class="callout-body">
+        <div class="callout-label">Never commit secrets</div>
+        <p>All production secrets are managed via AWS Secrets Manager, not <code>.env</code> files. The <code>.env</code> files listed here are for local development only. The <code>.env.example</code> in the repo contains placeholder values — no real credentials ever touch version control.</p>
+      </div>
+    </div>
+
+    <div class="doc-nav">
+      <a href="roadmap.html" class="doc-nav-btn">
+        <span class="doc-nav-label">← Previous</span>
+        <span class="doc-nav-title">Roadmap</span>
+      </a>
+      <a href="schema.html" class="doc-nav-btn next">
+        <span class="doc-nav-label">Next →</span>
+        <span class="doc-nav-title">Database Schema</span>
+      </a>
+    </div>
   </main>
+
+  <aside class="page-toc">
+    <span class="toc-label">On this page</span>
+    <a href="#system-overview">System Overview</a>
+    <a href="#repository-structure">Repo Structure</a>
+    <a href="#key-architectural-decisions">Key Decisions</a>
+    <a href="#1-monolith-first" class="toc-sub">Monolith first</a>
+    <a href="#2-pgvector-over-pinecone" class="toc-sub">pgvector</a>
+    <a href="#3-sse-over-websockets" class="toc-sub">SSE streaming</a>
+    <a href="#4-bullmq-for-all-post-finalization-jobs" class="toc-sub">BullMQ jobs</a>
+    <a href="#5-row-level-therapist-isolation" class="toc-sub">Row isolation</a>
+    <a href="#frontend-architecture">Frontend</a>
+    <a href="#security">Security</a>
+    <a href="#encryption" class="toc-sub">Encryption</a>
+    <a href="#audit-logging" class="toc-sub">Audit Logs</a>
+    <a href="#business-associate-agreements" class="toc-sub">BAAs</a>
+    <a href="#deployment-pipeline">Deployment</a>
+    <a href="#bullmq-job-details">BullMQ Jobs</a>
+    <a href="#environment-variables">Env Vars</a>
+  </aside>
 </div>
 <footer class="site-footer">
   <div class="footer-inner">
     <div class="footer-logo">⬡ <span>TherapOS</span></div>
-    <div class="footer-links"><a href="../index.html">Home</a><a href="schema.html">Schema</a><a href="api.html">API</a></div>
-    <div class="footer-copy">© 2026 TherapOS</div>
+    <div class="footer-links">
+      <a href="../index.html">Home</a>
+      <a href="schema.html">Schema</a>
+      <a href="api.html">API</a>
+      <a href="ai.html">AI</a>
+    </div>
+    <div class="footer-copy">© 2026 TherapOS · HIPAA compliant</div>
   </div>
 </footer>
 </body>
