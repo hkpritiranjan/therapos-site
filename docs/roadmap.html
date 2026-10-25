@@ -28,7 +28,7 @@
     <a href="../index.html#features">Features</a>
     <a href="../index.html#pricing">Pricing</a>
     <a href="index.html" style="color:var(--accent)">Docs</a>
-    <a href="../index.html#pricing" class="nav-cta">Start free trial</a>
+    <a href="../index.html#pricing" class="nav-cta">Join the waitlist</a>
   </div>
 </nav>
 <div class="docs-layout">
@@ -38,6 +38,10 @@
     <a href="quickstart.html">Quickstart</a>
     <div class="group">Product</div>
     <a href="plan.html">Full Product Plan</a>
+    <a href="research.html">Market &amp; Regulatory Research</a>
+    <a href="competitors.html">Competitors &amp; Strategy</a>
+    <a href="case-study.html">Case Study</a>
+    <a href="review.html">Product Review</a>
     <a href="features.html">Features</a>
     <a href="pricing.html">Pricing</a>
     <a href="roadmap.html" class="active">Roadmap</a>
@@ -65,11 +69,11 @@
 
       <div class="tl-item">
         <div class="tl-dot active"></div>
-        <div class="tl-label">Q3 2026 — Now shipping</div>
+        <div class="tl-label">Q3 2026 — In build</div>
         <div class="tl-title">MVP — The Smallest Product That Creates Real Value</div>
-        <div class="tl-status"><span class="badge badge-accent">Active</span></div>
+        <div class="tl-status"><span class="badge badge-accent">In build</span></div>
         <ul class="tl-items">
-          <li>Secure therapist signup and login — Clerk (Google + email, MFA enforced)</li>
+          <li>Secure therapist signup and login — API is built (email and password, JWT); web login screen and MFA are not</li>
           <li>Therapist onboarding — license type, primary modality, timezone</li>
           <li>Patient profiles — name, concerns, diagnoses, modality, session frequency, status</li>
           <li>Session creation and lifecycle (Scheduled → In Progress → Completed → Cancelled)</li>
@@ -81,7 +85,9 @@
           <li>Treatment goals — create, track progress, update status (Active/Achieved/Paused/Abandoned)</li>
           <li>Patient session timeline — chronological view of all sessions and goals</li>
           <li>Dashboard — today's sessions, recent patients, quick actions</li>
-          <li>HIPAA-ready foundation — AES-256 encryption, audit logs, BAA, TLS 1.3</li>
+          <li>Privacy hardening — pseudonymise identifiers before AI calls; keep raw notes off analytics and optionally off the AI path</li>
+          <li>Provenance — every summary sentence links to its source note; copy-ready export to the therapist's EHR</li>
+          <li>Compliance foundation (launch gate) — audit logging, encryption controls, executed BAAs, MFA, TLS. None are complete yet; see the <a href="case-study.html#status">build status</a>.</li>
         </ul>
         <div class="callout callout-tip" style="margin:0">
           <div class="callout-icon">✓</div>
@@ -104,7 +110,7 @@
           <li>⌘K command palette — global search across patients, notes, and actions</li>
           <li>Homework generator — AI suggests 3 options post-session, tracks completion</li>
           <li>Patient profile improvements — AI summary visible and editable, session stats</li>
-          <li>Stripe billing integration — 14-day trial, Solo + Clinic plans, webhooks</li>
+          <li>Stripe billing integration — 30-day trial, Solo + Clinic plans, webhooks</li>
           <li>Referral program — unique links, "give 1 month, get 1 month" reward</li>
           <li>Data export — JSON full export, patient PDF export</li>
         </ul>
@@ -221,6 +227,7 @@
       </table>
     </div>
 
+    <div class="callout callout-info"><div class="callout-icon">ℹ</div><div class="callout-body"><div class="callout-label">Staged roadmap with gates</div><p>The 3 / 6 / 12 / 24-month horizons, entry conditions and the gated patient-activity pilot are in <a href="competitors.html#s15">Competitors &amp; Strategy §15</a>. Patient-facing features are exploratory until the continue/pivot/stop gates (<a href="competitors.html#s14">§14</a>) pass.</p></div></div>
     <h2>How We Decide What to Ship Next</h2>
     <p>Three criteria determine priority order:</p>
     <ol>
@@ -263,7 +270,7 @@
       <a href="features.html">Features</a>
       <a href="pricing.html">Pricing</a>
     </div>
-    <div class="footer-copy">© 2026 TherapOS · HIPAA compliant</div>
+    <div class="footer-copy">© 2026 TherapOS · Pre-launch · building toward HIPAA</div>
   </div>
 </footer>
 </body>

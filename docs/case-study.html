@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Case Study — TherapOS Docs</title>
+<meta name="description" content="The TherapOS story so far: the problem, what research changed, the key decisions, what was built in the first four days, what broke, and what is still unproven.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⬡</text></svg>">
+<link rel="stylesheet" href="../styles/main.css">
+</head>
+<body>
+<nav class="site-nav">
+  <a href="/" class="nav-logo">⬡ <span>TherapOS</span></a>
+  <div class="nav-links">
+    <a href="../index.html#features">Features</a>
+    <a href="../index.html#pricing">Pricing</a>
+    <a href="index.html" style="color:var(--accent)">Docs</a>
+    <a href="../index.html#pricing" class="nav-cta">Join the waitlist</a>
+  </div>
+</nav>
+<div class="docs-layout">
+  <nav class="docs-sidebar">
+    <div class="group">Getting Started</div>
+    <a href="index.html">Overview</a>
+    <a href="quickstart.html">Quickstart</a>
+    <div class="group">Product</div>
+    <a href="plan.html">Full Product Plan</a>
+    <a href="research.html">Market &amp; Regulatory Research</a>
+    <a href="competitors.html">Competitors &amp; Strategy</a>
+    <a href="case-study.html" class="active">Case Study</a>
+    <a href="review.html">Product Review</a>
+    <a href="features.html">Features</a>
+    <a href="pricing.html">Pricing</a>
+    <a href="roadmap.html">Roadmap</a>
+    <div class="group">Technical</div>
+    <a href="architecture.html">Architecture</a>
+    <a href="schema.html">Database Schema</a>
+    <a href="api.html">API Reference</a>
+    <a href="ai.html">AI &amp; Prompts</a>
+  </nav>
+  <main class="docs-content">
+    <span class="eyebrow">Product</span>
+    <h1>Case Study: Building TherapOS</h1>
+    <p class="page-desc">The TherapOS story so far: the problem, what research changed, the key decisions, what was built in the first four days, what broke, and what is still unproven.</p>
+
+    <div class="callout callout-warn">
+      <div class="callout-icon">⚠</div>
+      <div class="callout-body">
+        <div class="callout-label">Status: pre-launch, no customers yet</div>
+        <p>This case study documents what has been decided and built, and what is still unproven. It contains <strong>no customer results</strong> because there are no users yet. Sections marked "to be filled" will be completed with beta data. Last updated 25 October 2026.</p>
+      </div>
+    </div>
+
+    <h2 id="tldr">At a glance</h2>
+    <div class="grid3" style="margin:1rem 0">
+      <div class="card"><h4>The product</h4><p>An AI documentation and patient-memory tool for independent therapists. It sits beside the therapist's EHR and does not record sessions.</p></div>
+      <div class="card"><h4>The build</h4><p>Turborepo monorepo: NestJS API, Next.js app, Prisma on Postgres with pgvector. 38 TypeScript files, about 5,700 lines, 9 commits over 4 days (21–24 Jul 2026).</p></div>
+      <div class="card"><h4>The state</h4><p>Core loop works locally: patient → session → raw notes → AI draft → edit → finalize → memory. Production login, compliance and billing are not built.</p></div>
+    </div>
+
+    <h2 id="problem">1. The problem</h2>
+    <p>Independent therapists run a one-person clinical practice. After each session they write a progress note, and before the next one they try to remember what happened weeks ago. The tools they use were built for billing, not for clinical continuity: an EHR stores notes but does not help recall them, and a blank SOAP template starts from zero every time.</p>
+    <p>AI scribes now address the writing half. APA's 2025 survey shows the share of psychologists who have <em>never</em> used AI at work fell from 71% to 44% in a year, and use is mostly administrative (<a href="research.html#demand">Research §3</a>). But most of those tools want to <strong>record the session</strong>, which raises consent, retention and psychotherapy-notes questions that many clinicians are uncomfortable with. About nine in ten psychologists report concerns about AI.</p>
+    <p><strong>The gap we chose:</strong> notes and memory for the therapist who does not want a recording tool in the room.</p>
+
+    <h2 id="customer">2. The customer</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Segment</th><th>Why</th><th>Open questions</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Primary:</strong> US solo therapists (LCSW, LMFT, LPC, PsyD) in private practice</td><td>Own the buying decision, feel the paperwork directly, talk to each other in dense communities</td><td>Typical raw-note habits; how much they will type versus dictate</td></tr>
+          <tr><td><strong>Secondary:</strong> 2–10 therapist clinics where the owner also sees clients</td><td>Higher revenue per account; needs roles and admin views</td><td>Whether owners want visibility into notes (a privacy red line)</td></tr>
+          <tr><td><strong>Later:</strong> Indian clinicians</td><td>Large, underserved; Razorpay/UPI billing</td><td>Lower willingness to pay; "counsellor" is an unregulated title (<a href="research.html#regulation">Research §6</a>)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="research">3. What the research changed</h2>
+    <p>The original plan assumed a feature gap: "no competitor combines AI notes, session prep and cross-session memory." A competitor review in October 2026 found that was <strong>wrong</strong>. Upheal, Mentalyc and SimplePractice all advertise cross-session features. Pricing was also off: Eleos is an enterprise product, not a $200 solo plan, and TherapyNotes and Upheal cost more or less than we had written.</p>
+    <p>Two things survived scrutiny and now carry the strategy:</p>
+    <ol>
+      <li><strong>Text-first.</strong> No audio is recorded. That avoids recording consent, transcript retention and most of the psychotherapy-notes ambiguity, and it is a clear trust story in a market where SimplePractice began defaulting new users into de-identified transcript retention in June 2026.</li>
+      <li><strong>EHR-agnostic memory.</strong> Competitor AI that ships inside an EHR is locked to it. A therapist who already uses SimplePractice or TherapyNotes can add TherapOS with no migration.</li>
+    </ol>
+    <p>The full evidence, with confidence tags, is on the <a href="research.html">Research page</a>.</p>
+
+    <h2 id="decisions">4. Key product decisions and trade-offs</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Decision</th><th>Why</th><th>What it costs</th></tr></thead>
+        <tbody>
+          <tr><td>Documentation only: no billing, scheduling, claims</td><td>Stay out of the EHR category; zero migration for the user</td><td>Therapists keep a second tool; handoff is copy-paste until an export exists</td></tr>
+          <tr><td>AI output is always a draft; finalize is a deliberate human action</td><td>Clinical liability, ethics guidance, and Illinois-style "licensed review" rules</td><td>One extra step before a note is done</td></tr>
+          <tr><td>Therapist types raw notes; AI drafts structured note</td><td>No recording; works in any setting</td><td>Saves less time than ambient capture; dictation is the likely fix</td></tr>
+          <tr><td>Four note formats (SOAP, DAP, BIRP, free text) in one table</td><td>Match how therapists already document</td><td>Wide, sparse table; some fields unused per row</td></tr>
+          <tr><td>One NestJS service with modules, not microservices</td><td>One developer, four days, easy deploy</td><td>AI work shares a process with CRUD; extract later if needed</td></tr>
+          <tr><td>pgvector inside Postgres rather than a separate vector database</td><td>One datastore, simple backups, enough for the first ~500k vectors</td><td>Needs raw SQL (Prisma treats vectors as <code>Unsupported</code>)</td></tr>
+          <tr><td>SSE streaming for note drafts</td><td>Draft appears in seconds; feels responsive</td><td>The client must parse partial JSON-like text</td></tr>
+          <tr><td>Discharge instead of delete</td><td>Clinical records have retention duties</td><td>No hard-delete path yet for right-to-erasure requests</td></tr>
+          <tr><td>OpenAI for every model call in the first build</td><td>Fastest path to a working loop; JSON mode and embeddings in one SDK</td><td>Docs promised Claude for drafts; the two now disagree (see §7)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="how">5. How it works</h2>
+    <ol class="steps">
+      <li><div class="step-num"></div><div class="step-body"><h4>Prepare</h4><p>Before a session the therapist opens a prep brief built from goals, the last five completed sessions (note text truncated to a token budget), and recent homework: key topics, interventions to consider, goals to review, and homework to follow up.</p></div></li>
+      <li><div class="step-num"></div><div class="step-body"><h4>Capture</h4><p>During or after the session they type raw notes into the session page. Nothing is recorded.</p></div></li>
+      <li><div class="step-num"></div><div class="step-body"><h4>Draft</h4><p>The draft endpoint streams a structured note in the chosen format. The system prompt forbids fabrication and diagnosis, requires "[Therapist to complete]" for gaps, and uses neutral third-person clinical language.</p></div></li>
+      <li><div class="step-num"></div><div class="step-body"><h4>Edit and finalize</h4><p>The therapist edits every field and finalizes. Finalized notes cannot be edited.</p></div></li>
+      <li><div class="step-num"></div><div class="step-body"><h4>Remember</h4><p>Finalizing queues a background job: embed the note into pgvector, then regenerate the patient's rolling summary from the last ten finalized notes. The next prep brief starts from that memory.</p></div></li>
+    </ol>
+
+    <h2 id="timeline">6. Build log</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>When (2026)</th><th>Commit</th><th>What happened</th></tr></thead>
+        <tbody>
+          <tr><td>20 Jul</td><td>therapos-site</td><td>Landing page and ten documentation pages written first, so the plan existed before the code.</td></tr>
+          <tr><td>21 Jul</td><td>Initial scaffold</td><td>Turborepo, NestJS API, Next.js app, shared types, Prisma schema with pgvector, docker-compose for Postgres and Redis.</td></tr>
+          <tr><td>22 Jul</td><td>Patient/session UI, AI streaming</td><td>Dashboard, patient list and detail, new-patient form, session page, SSE note drafting, first round of bug fixes.</td></tr>
+          <tr><td>23 Jul (early)</td><td>JWT auth, embeddings, memory</td><td>Register/login, bcrypt, JWT guard; BullMQ job to embed finalized notes and refresh the patient summary; production config.</td></tr>
+          <tr><td>23 Jul</td><td>Deploy fixes (4 commits)</td><td>A free-tier Render fallback, then three Docker fixes in a row (below).</td></tr>
+          <tr><td>24 Jul</td><td>Vercel redeploy, first migration</td><td>Web app pointed at the production API; first Prisma migration committed after discovering migrations were git-ignored.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>What broke, and what it taught</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Problem</th><th>Cause</th><th>Fix</th><th>Lesson</th></tr></thead>
+        <tbody>
+          <tr><td>Container started but the database layer failed</td><td>Image never ran <code>prisma generate</code> or <code>migrate deploy</code></td><td>Added both to the Dockerfile</td><td>Deploy from a clean image early; local success hides missing steps</td></tr>
+          <tr><td>Prisma could not find a query engine on Alpine</td><td>Alpine uses musl and OpenSSL 3; default binary target did not match</td><td>Added <code>linux-musl-openssl-3.0.x</code> binary target</td><td>Pin engine targets for every runtime you ship to</td></tr>
+          <tr><td>Prisma could not detect the engine version</td><td>OpenSSL missing in the Alpine image</td><td><code>apk add openssl</code> in both build stages</td><td>Slim base images remove libraries the ORM assumes</td></tr>
+          <tr><td>Production database had no tables</td><td><code>.gitignore</code> excluded <code>prisma/migrations</code>, so none were deployed</td><td>Committed the init migration and un-ignored the directory</td><td>Migrations are source code</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="status">7. Honest status</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Area</th><th>State</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td>Patients: CRUD, search, discharge, timeline</td><td><span class="badge badge-green">Built</span></td><td>Per-therapist isolation enforced in the service layer</td></tr>
+          <tr><td>Sessions: create, start, complete</td><td><span class="badge badge-green">Built</span></td><td>Next session number computed read-then-insert (race possible)</td></tr>
+          <tr><td>Notes: create, edit, finalize, four formats</td><td><span class="badge badge-green">Built</span></td><td>Finalized notes are locked</td></tr>
+          <tr><td>AI note draft (streaming), prep brief, homework ideas</td><td><span class="badge badge-green">Built</span></td><td>GPT-4o; prep result is not saved to the session</td></tr>
+          <tr><td>Embeddings and rolling patient summary</td><td><span class="badge badge-yellow">Partial</span></td><td>Pipeline written; queue dependency and production Redis need verification; no search endpoint reads the vectors yet</td></tr>
+          <tr><td>Email/password auth and JWT</td><td><span class="badge badge-yellow">Partial</span></td><td>API done; the web app has no login page and does not send a token in production</td></tr>
+          <tr><td>Goals and homework: create, update</td><td><span class="badge badge-red">Not built</span></td><td>Only read today</td></tr>
+          <tr><td>Natural-language search</td><td><span class="badge badge-red">Not built</span></td><td>Documented; Q4 2026 on the roadmap</td></tr>
+          <tr><td>Audit logging, rate limits, field encryption, MFA</td><td><span class="badge badge-red">Not built</span></td><td>Audit table exists; nothing writes to it</td></tr>
+          <tr><td>Billing (Stripe / Razorpay)</td><td><span class="badge badge-red">Not built</span></td><td>Subscription row is created; no payment code</td></tr>
+          <tr><td>Automated tests</td><td><span class="badge badge-yellow">Minimal</span></td><td>Seven unit tests for the draft parser; nothing yet for the API, tenant isolation or note locking</td></tr>
+          <tr><td>App UI theme</td><td><span class="badge badge-green">Built</span></td><td>Light, AA-contrast theme on the shared palette; Poppins and Alegreya</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Where the docs and code still disagree</h3>
+    <ul>
+      <li><strong>Models:</strong> docs describe Claude for drafts and summaries; code uses GPT-4o everywhere with hard-coded IDs. Decision pending in §9.</li>
+      <li><strong>Auth:</strong> docs describe Clerk with MFA; code uses its own JWT.</li>
+      <li><strong>Response shapes:</strong> docs show <code>data</code> and <code>meta</code>; the API returns <code>success</code>, <code>data</code>, and top-level pagination fields.</li>
+      <li><strong>Editor and UI kit:</strong> docs name Tiptap and shadcn/ui; the app uses plain inputs and Tailwind.</li>
+    </ul>
+
+    <h2 id="risks">8. Risks we are carrying</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Risk</th><th>Severity</th><th>Next step</th></tr></thead>
+        <tbody>
+          <tr><td>Patient names are sent to OpenAI in prompts; no BAA exists</td><td><span class="badge badge-red">High</span></td><td>Pseudonymise before every call; execute BAAs before any real patient data</td></tr>
+          <tr><td>Production auth gap (no login UI, CORS locked to localhost, JWT secret has a fallback)</td><td><span class="badge badge-red">High</span></td><td>Build login/register, configure CORS from env, fail startup without a secret</td></tr>
+          <tr><td>Draft screen showed raw JSON: the API returns JSON, the page parsed labelled prose</td><td><span class="badge badge-green">Fixed</span></td><td>JSON-first parser, streaming-safe preview, 7 tests (<a href="review.html#scorecard">Review</a>)</td></tr>
+          <tr><td>Finalized notes cannot be amended; app has few form labels and ARIA attributes; Settings link is a dead end; dashboard "Today's sessions" count is not wired to data</td><td><span class="badge badge-yellow">Medium</span></td><td>Addenda, labels, settings page, real today-count (<a href="review.html#ux">Review §4</a>). The AA-contrast theme is done.</td></tr>
+          <tr><td>Differentiation is thinner than the plan claimed</td><td><span class="badge badge-yellow">Medium</span></td><td>Lead with text-first; ship provenance links and EHR export</td></tr>
+          <tr><td>Typing raw notes may save less time than ambient scribes</td><td><span class="badge badge-yellow">Medium</span></td><td>Measure in beta; add local dictation</td></tr>
+          <tr><td>State AI laws (Illinois and others)</td><td><span class="badge badge-yellow">Medium</span></td><td>Hold risk flags and affect inference; legal review</td></tr>
+          <tr><td>Low ARPU caps the outcome</td><td><span class="badge badge-yellow">Medium</span></td><td>Clinic tier and add-ons earlier than planned</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="metrics">9. Measuring it</h2>
+    <p>The plan's success signals are <em>hypotheses</em>. Here is how each will be measured, with no PHI in analytics.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Hypothesis</th><th>Metric</th><th>Instrument</th><th>Result</th></tr></thead>
+        <tbody>
+          <tr><td>First value inside 10 minutes</td><td>Time from signup to first finalized note</td><td>Event timestamps</td><td><em>to be filled</em></td></tr>
+          <tr><td>The draft is good enough to use</td><td>Share of draft words kept after editing</td><td>Word-diff counts (no text stored)</td><td><em>to be filled</em></td></tr>
+          <tr><td>Notes get faster</td><td>Minutes per note, before versus during beta</td><td>Self-reported baseline plus timestamps</td><td><em>to be filled</em></td></tr>
+          <tr><td>Memory earns return visits</td><td>Prep brief opened before session 2+</td><td>Event</td><td><em>to be filled</em></td></tr>
+          <tr><td>People keep using it</td><td>Week-4 retention</td><td>Active weeks</td><td><em>to be filled</em></td></tr>
+          <tr><td>People would pay</td><td>Waitlist conversion at $19 / $29 / $39</td><td>Landing-page test</td><td><em>to be filled</em></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="next">10. Next 90 days</h2>
+    <div class="grid3" style="margin:1rem 0">
+      <div class="card"><h4>Days 1–30: make it real</h4><ul style="margin:0;padding-left:1.1rem"><li>Login and register in the web app</li><li>CORS and secrets from environment</li><li>Pseudonymise before model calls</li><li>Decide model provider; move IDs to env</li><li>Tests for isolation and note locking</li></ul></div>
+      <div class="card"><h4>Days 31–60: make it safe</h4><ul style="margin:0;padding-left:1.1rem"><li>Audit log interceptor</li><li>Rate limiting</li><li>BAAs executed; zero-retention configured</li><li>Client-disclosure template</li><li>Legal review of raw notes and Illinois</li></ul></div>
+      <div class="card"><h4>Days 61–90: make it earn trust</h4><ul style="margin:0;padding-left:1.1rem"><li>10 beta therapists, weekly calls</li><li>Provenance links on summaries</li><li>Copy-to-EHR export</li><li>Time study and pricing test</li><li>Fill §9 with real numbers</li></ul></div>
+    </div>
+
+    <h2 id="lessons">11. What we would do differently</h2>
+    <ul>
+      <li><strong>Research before copy.</strong> The site was written before the competitor and regulatory review, and carried claims that did not survive it. Evidence first, marketing second.</li>
+      <li><strong>Deploy on day one.</strong> Six of nine commits were deployment work, and most of the fixes were things a day-one empty-service deploy would have caught.</li>
+      <li><strong>Keep docs and code in one place.</strong> The docs site and the app live in separate repos and drifted within days. A single "status" table, as in §7, should be updated in the same pull request as any behaviour change.</li>
+      <li><strong>Do not over-promise compliance.</strong> "HIPAA-ready" and "BAAs signed" are statements a regulator or customer can hold you to. Say what is built.</li>
+    </ul>
+
+    <div class="doc-nav">
+      <a href="research.html" class="doc-nav-btn">
+        <span class="doc-nav-label">← Previous</span>
+        <span class="doc-nav-title">Market & Regulatory Research</span>
+      </a>
+      <a href="features.html" class="doc-nav-btn next">
+        <span class="doc-nav-label">Next →</span>
+        <span class="doc-nav-title">Features</span>
+      </a>
+    </div>
+  </main>
+
+  <aside class="page-toc">
+    <span class="toc-label">On this page</span>
+    <a href="#tldr">At a glance</a>
+    <a href="#problem">Problem</a>
+    <a href="#customer">Customer</a>
+    <a href="#research">Research impact</a>
+    <a href="#decisions">Decisions</a>
+    <a href="#how">How it works</a>
+    <a href="#timeline">Build log</a>
+    <a href="#status">Honest status</a>
+    <a href="#risks">Risks</a>
+    <a href="#metrics">Measuring</a>
+    <a href="#next">Next 90 days</a>
+    <a href="#lessons">Lessons</a>
+  </aside>
+</div>
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-logo">⬡ <span>TherapOS</span></div>
+    <div class="footer-links">
+      <a href="../index.html">Home</a>
+      <a href="plan.html">Full Plan</a>
+      <a href="research.html">Research</a>
+      <a href="case-study.html">Case Study</a>
+      <a href="pricing.html">Pricing</a>
+    </div>
+    <div class="footer-copy">© 2026 TherapOS · Pre-launch</div>
+  </div>
+</footer>
+</body>
+</html>

@@ -14,7 +14,7 @@
     <a href="../index.html#features">Features</a>
     <a href="../index.html#pricing">Pricing</a>
     <a href="index.html" style="color:var(--accent)">Docs</a>
-    <a href="../index.html#pricing" class="nav-cta">Start free trial</a>
+    <a href="../index.html#pricing" class="nav-cta">Join the waitlist</a>
   </div>
 </nav>
 <div class="docs-layout">
@@ -24,6 +24,10 @@
     <a href="quickstart.html">Quickstart</a>
     <div class="group">Product</div>
     <a href="plan.html" class="active">Full Product Plan</a>
+    <a href="research.html">Market &amp; Regulatory Research</a>
+    <a href="competitors.html">Competitors &amp; Strategy</a>
+    <a href="case-study.html">Case Study</a>
+    <a href="review.html">Product Review</a>
     <a href="features.html">Features</a>
     <a href="pricing.html">Pricing</a>
     <a href="roadmap.html">Roadmap</a>
@@ -46,6 +50,14 @@
       </div>
     </div>
 
+    <div class="callout callout-warn">
+      <div class="callout-icon">⚠</div>
+      <div class="callout-body">
+        <div class="callout-label">Revised 25 October 2026</div>
+        <p>This plan was revised after a market, competitor and regulatory review. Sections §2–§5, §30–§31, §37–§40 changed materially: the "no competitor has prep and memory" claim was withdrawn, competitor pricing was corrected, compliance language was made accurate to what is built, and the revenue projections were reconciled. Evidence and sources are on the <a href="research.html">Research page</a> and the deeper <a href="competitors.html">Competitor Research &amp; Strategy page</a> (verified US/India competitor scan, market scenarios, discovery plan, continue/pivot/stop gates, 3/6/12/24-month roadmap); the build story is in the <a href="case-study.html">Case Study</a>.</p>
+      </div>
+    </div>
+
     <div class="grid2" style="margin:1.5rem 0">
       <a href="architecture.html" class="card card-link"><h4>System Architecture →</h4><p>Stack decisions, deployment, security, environment variables.</p></a>
       <a href="schema.html" class="card card-link"><h4>Database Schema →</h4><p>Full Prisma schema, pgvector setup, entity relationships.</p></a>
@@ -62,14 +74,15 @@
 
     <h2>§2 — Positioning</h2>
     <p><strong>Category:</strong> AI Practice Management — not EHR, not therapy app, not AI chatbot companion.</p>
-    <p><strong>One-liner:</strong> "The AI copilot independent therapists open before every session — and can't practice without."</p>
+    <p><strong>One-liner:</strong> "AI clinical notes and patient memory for therapists — without recording your sessions."</p>
+    <p><strong>Previous one-liner (retired):</strong> "The AI copilot independent therapists open before every session — and can't practice without." Retired because the claim of indispensability is a hope, not a position.</p>
     <p><strong>Tag line alternatives:</strong></p>
     <ul>
-      <li>"Your sessions deserve better than a blank SOAP template."</li>
-      <li>"Document less. Prepare more. Remember everything."</li>
-      <li>"What if your notes already knew the patient?"</li>
+      <li>"Your notes should already know the patient."</li>
+      <li>"Document less. Prepare more. Record nothing."</li>
+      <li>"AI that reads your notes, not your sessions."</li>
     </ul>
-    <p><strong>Unlike:</strong> SimplePractice (billing-first EHR), Upheal (transcription only), Mentalyc (AI notes without memory or prep), TherapyNotes (billing ledger with no AI), Eleos Health (enterprise-only, expensive).</p>
+    <p><strong>Versus:</strong> EHR-bundled AI (SimplePractice Note Taker, TherapyNotes TherapyFuel) — locked to one EHR. Ambient AI scribes (Upheal, Mentalyc, Freed, Heidi) — record the session and carry consent and retention obligations. Enterprise tools (Eleos) — sold to organisations. TherapOS is the EHR-agnostic, text-first option for individual clinicians.</p>
     <p><strong>Target ICP priority:</strong></p>
     <ol>
       <li>Independent US therapists (LCSW, MFT, PhD, LPC, LMHC) in private practice — highest pain, highest willingness to pay, fastest sales cycle, most referral-network-dense</li>
@@ -78,20 +91,22 @@
     </ol>
 
     <h2>§3 — Competitive Analysis</h2>
+    <p>Prices are <em>as reported by third-party sources in October 2026</em>, several of them competitors' own blogs. Re-verify on each vendor's site before publishing. Full table with confidence tags: <a href="research.html#competitors">Research §5</a>; verified per-vendor profiles, free tiers and the price floor (Mentalyc Basic annual $29.99, Carepatron/Upheal free): <a href="competitors.html#s3">Competitors §3</a>.</p>
     <div class="table-wrap">
       <table>
-        <thead><tr><th>Product</th><th>AI Notes</th><th>Session Prep</th><th>Memory</th><th>NL Search</th><th>Price</th></tr></thead>
+        <thead><tr><th>Product</th><th>Input</th><th>AI notes</th><th>Cross-session features</th><th>EHR-agnostic</th><th>Price (reported)</th></tr></thead>
         <tbody>
-          <tr><td>SimplePractice</td><td>❌</td><td>❌</td><td>❌</td><td>❌</td><td>$49–99/mo</td></tr>
-          <tr><td>TherapyNotes</td><td>❌</td><td>❌</td><td>❌</td><td>❌</td><td>$49/mo</td></tr>
-          <tr><td>Upheal</td><td>✅ transcript</td><td>❌</td><td>❌</td><td>❌</td><td>$69/mo</td></tr>
-          <tr><td>Mentalyc</td><td>✅ basic</td><td>❌</td><td>❌</td><td>❌</td><td>$39/mo</td></tr>
-          <tr><td>Eleos Health</td><td>✅ advanced</td><td>❌</td><td>Partial</td><td>❌</td><td>$200+/mo</td></tr>
-          <tr><td><strong>TherapOS ✦</strong></td><td><strong>✅ full</strong></td><td><strong>✅</strong></td><td><strong>✅</strong></td><td><strong>✅</strong></td><td><strong>$29/mo</strong></td></tr>
+          <tr><td>SimplePractice + Note Taker</td><td>Audio / dictation</td><td>✅</td><td>Reads previous note for style</td><td>❌</td><td>EHR from ~$49 + $35</td></tr>
+          <tr><td>TherapyNotes + TherapyFuel</td><td>Summary / transcript</td><td>✅</td><td>Limited</td><td>❌</td><td>~$69 + $40</td></tr>
+          <tr><td>Upheal</td><td>Audio</td><td>✅</td><td>Golden Thread, Case Snapshot, pre-session assistant</td><td>Partly</td><td>~$39 notes-only</td></tr>
+          <tr><td>Mentalyc</td><td>Audio</td><td>✅</td><td>Treatment planner, progress tracking</td><td>Partly</td><td>~$19.99–$119.99</td></tr>
+          <tr><td>Freed / Heidi</td><td>Audio</td><td>✅ (general medicine)</td><td>Limited</td><td>Partly</td><td>$39–$119 / free–$150</td></tr>
+          <tr><td>Eleos Health</td><td>Audio</td><td>✅</td><td>Advanced</td><td>n/a</td><td>Custom quote; enterprise</td></tr>
+          <tr><td><strong>TherapOS ✦ (planned)</strong></td><td><strong>Typed or dictated notes; no recording</strong></td><td><strong>✅</strong></td><td><strong>Prep brief, editable patient summary, search (search not yet built)</strong></td><td><strong>✅</strong></td><td><strong>$29</strong></td></tr>
         </tbody>
       </table>
     </div>
-    <p>No competitor has built AI session prep + cross-session memory + natural language search as one integrated, affordable product. The "OS layer" — the compound intelligence that makes every session build on the last — does not exist anywhere in the current market. That is the opening.</p>
+    <p><strong>Honest read:</strong> cross-session features are no longer a gap. The opening is trust and fit — no session recording (so no recording consent or transcript retention to manage), memory that works beside any EHR, summaries the therapist can inspect and edit, and a lower price than EHR add-ons. The trade-off is that typed notes save less time than ambient capture, which is why dictation is on the roadmap.</p>
 
     <h2>§4 — Why Therapists Would Switch</h2>
     <p><strong>They don't have to switch anything.</strong> TherapOS explicitly excludes billing, scheduling, and insurance. The pitch: "Keep SimplePractice for billing. Use TherapOS for everything clinical." Zero migration cost, zero switching risk.</p>
@@ -99,10 +114,10 @@
     <p>Contrast with SimplePractice: switching SimplePractice requires migrating billing records, insurance history, scheduling, and patient intake forms — a multi-day project. TherapOS's add-on positioning eliminates this barrier entirely.</p>
 
     <h2>§5 — The Moat</h2>
-    <p><strong>Compound memory:</strong> Every finalized note deepens the AI's understanding of the patient. After 20 sessions, the context is richer than anything a generic AI can generate. Switching to a competitor means losing 20 sessions of memory — that's the real switching cost.</p>
+    <p><strong>Compound memory (hypothesis):</strong> Every finalized note deepens the patient summary. Competitors also advertise cross-session features, so memory alone is not a moat. It becomes one only if ours is meaningfully better and inspectable: every summary sentence linked to its source note, editable by the therapist, and exportable so the therapist trusts it rather than feels trapped by it.</p>
     <p><strong>Workflow lock-in:</strong> Patient histories, notes, goals, and patterns are in TherapOS. The switching cost is not software — it's two years of clinical context. Therapists feel this acutely.</p>
-    <p><strong>Aggregate intelligence (V2 → V3):</strong> As the platform scales, de-identified aggregate patterns across thousands of therapy arcs improve the AI for everyone. Individual therapists can't replicate population-level pattern detection.</p>
-    <p><strong>Speed advantage:</strong> Incumbents are billing companies. Rebuilding their data model to support clinical memory takes 2–3 years of product work. TherapOS starts with a 24-month structural head start.</p>
+    <p><strong>Aggregate intelligence (V2 → V3, speculative):</strong> Using de-identified patterns across clients to improve the AI requires explicit opt-in, a defensible de-identification method, and likely legal review under HIPAA and state law. Treat it as an option, not an assumption.</p>
+    <p><strong>Speed advantage (withdrawn):</strong> An earlier version claimed a 24-month structural head start over incumbents. Upheal and Mentalyc already ship cross-session features and SimplePractice has an AI note taker, so there is no evidence for that figure. The real advantages to build are trust (no recording, transparent data flow), EHR-agnosticism, and price.</p>
 
     <h2>§6 — Feature Prioritization Framework</h2>
     <p>Every feature decision runs through this filter: <em>Does this save time or improve care? Is the benefit felt in the first session, or does it compound over time? Would a therapist notice if we removed it?</em></p>
@@ -298,25 +313,26 @@
 
     <h2>§30 — Pricing Strategy</h2>
     <p>See the <a href="pricing.html">Pricing page</a> for full detail.</p>
-    <p>The logic: $29/month vs. SimplePractice's $49–99 (with no AI). At $150/session, TherapOS costs less than one-fifth of a single session per month. The ROI is self-evident. The goal is to be priced low enough that no therapist delays the decision — the value is felt immediately, and the switching cost comes from compound memory, not pricing.</p>
+    <p>The logic: $29/month undercuts EHR AI add-ons (SimplePractice Note Taker ~$35, TherapyFuel ~$40, both requiring a base EHR plan) and most standalone scribes (Upheal notes ~$39, Freed from $39). Only Mentalyc's entry tier (~$19.99, 40 notes) is lower. At $150/session, $29 is under a fifth of one session. <strong>Caveat:</strong> a $29 seat has a low revenue ceiling (<a href="research.html#market">Research §2</a>), so the plan adds an earlier clinic tier and tests $19 / $29 / $39 on the waitlist before fixing price.</p>
 
     <h2>§31 — Go-To-Market Strategy</h2>
     <p><strong>Phase 1 — Unscalable (months 1–3):</strong> Find 10 therapists personally. Offer 6 months free for a commitment to weekly 30-minute product feedback calls. Watch them use it over Zoom screen share. Fix every friction point within 24 hours. Create 10 raving fans before acquiring 100 users.</p>
     <p><strong>Phase 2 — Community (months 2–6):</strong> Independent therapist communities are dense and referral-heavy. Target:</p>
     <ul>
-      <li>Facebook Groups: "Private Practice Therapists" (80k+ members), "Therapists in Business" (40k+)</li>
+      <li>Facebook Groups: "Private Practice Therapists" and "Therapists in Business" <em>(member counts previously cited here were unverified and have been removed; confirm current size and each group's self-promotion rules before posting)</em></li>
       <li>Reddit: r/therapists, r/socialwork, r/psychotherapy</li>
       <li>LinkedIn: therapist networks, NASW groups</li>
       <li>Therapist podcasts: 20+ shows with 5k–50k listeners each</li>
     </ul>
     <p><strong>Phase 3 — SEO (months 3–12):</strong> Content for high-intent search terms:</p>
     <ul>
-      <li>"SOAP note template therapist" — 8,200 monthly searches</li>
-      <li>"How to write DAP notes faster" — 3,400 monthly searches</li>
-      <li>"AI therapy notes HIPAA" — 1,200 monthly searches</li>
-      <li>"Session prep template therapist" — 900 monthly searches</li>
+      <li>"SOAP note template therapist"</li>
+      <li>"How to write DAP notes faster"</li>
+      <li>"AI therapy notes HIPAA" (only publish once our own compliance claims are true)</li>
+      <li>"Session prep template therapist"</li>
+      <li><em>Monthly search volumes previously listed here had no source. Pull current numbers from a keyword tool before prioritising.</em></li>
     </ul>
-    <p><strong>Phase 4 — Referral program:</strong> "Give 1 month, get 1 month." Therapists are deeply trusted by their colleagues. A referral from a trusted peer converts at 5–8x a cold ad. This is the highest-leverage channel at scale.</p>
+    <p><strong>Phase 4 — Referral program:</strong> "Give 1 month, get 1 month." Therapists are deeply trusted by their colleagues. Peer referral is commonly the strongest channel in professional communities, but the "5–8x" multiple we cited earlier was unsourced; measure our own conversion by channel.</p>
 
     <h2>§32–34 — First 100 Customers</h2>
     <p><strong>Week 1–2:</strong> Contact 50 therapists in your personal network. Target: 10 beta users. Offer 6 months free.</p>
@@ -366,11 +382,17 @@
         <thead><tr><th>Risk</th><th>Severity</th><th>Mitigation</th></tr></thead>
         <tbody>
           <tr><td>AI generates inaccurate clinical content</td><td><span class="badge badge-red">High</span></td><td>Always a draft. Mandatory review. No auto-finalize. Clear AI disclosure. Hallucination flagging.</td></tr>
-          <tr><td>Data breach / PHI exposure</td><td><span class="badge badge-red">High</span></td><td>AES-256 encryption, TLS 1.3, MFA, audit logs, access controls, BAAs with all processors.</td></tr>
+          <tr><td>Data breach / PHI exposure</td><td><span class="badge badge-red">High</span></td><td>Target controls: AES-256 at rest, TLS, MFA, audit logs, access controls, BAAs with all processors. <em>Status: TLS and per-therapist access checks exist; the rest are not yet built.</em></td></tr>
           <tr><td>AI provider outage (Anthropic/OpenAI)</td><td><span class="badge badge-yellow">Medium</span></td><td>Product works without AI (raw notes still savable). Manual override mode. Retry queue via BullMQ.</td></tr>
           <tr><td>HIPAA violation (accidental PHI in logs)</td><td><span class="badge badge-red">High</span></td><td>Audit interceptor scrubs PHI from all structured logs. PostHog/Sentry receive zero PHI. Annual HIPAA training for all team members.</td></tr>
           <tr><td>Therapist over-relies on AI draft</td><td><span class="badge badge-yellow">Medium</span></td><td>UX design: AI note is always presented as draft. Finalize requires scroll-through. Consider adding a "Read before finalizing" confirmation after 90 seconds of editing time.</td></tr>
-          <tr><td>Competitor replicates core features</td><td><span class="badge badge-yellow">Medium</span></td><td>Speed to market + compound memory moat. A competitor copying our feature set starts with zero memory. We have 12–24 months before a credible alternative exists.</td></tr>
+          <tr><td>Competitor replicates core features</td><td><span class="badge badge-yellow">Medium</span></td><td>Already largely true for cross-session features (see §3). Mitigation is the text-first trust position and quality of memory, not a time lead.</td></tr>
+          <tr><td>Compliance claims run ahead of reality ("HIPAA-ready," BAAs, MFA)</td><td><span class="badge badge-red">High</span></td><td>Publish only what is built. BAAs with OpenAI/Anthropic are conditional on zero-retention eligibility and must be executed before real patient data is processed. Status tracked on the <a href="case-study.html#status">Case Study</a>.</td></tr>
+          <tr><td>Patient identifiers sent to AI vendors in prompts</td><td><span class="badge badge-red">High</span></td><td>Pseudonymise names and identifiers before every model call; keep a local mapping.</td></tr>
+          <tr><td>Differentiation erodes (competitors already ship cross-session features)</td><td><span class="badge badge-yellow">Medium</span></td><td>Compete on trust, EHR-agnosticism and price; ship provenance links and EHR export.</td></tr>
+          <tr><td>State AI-in-mental-health laws (Illinois, Nevada, others)</td><td><span class="badge badge-yellow">Medium</span></td><td>Documentation with mandatory therapist review only. Defer risk flags, mood inference and AI-suggested interventions until legal review.</td></tr>
+          <tr><td>Raw session notes treated as psychotherapy notes</td><td><span class="badge badge-yellow">Medium</span></td><td>Isolate raw notes; exclude from analytics; option to keep off the AI path; counsel to confirm classification.</td></tr>
+          <tr><td>Low revenue per seat</td><td><span class="badge badge-yellow">Medium</span></td><td>Clinic tier earlier; price test; consider add-ons.</td></tr>
           <tr><td>FDA reclassification (SaMD)</td><td><span class="badge badge-yellow">Medium</span></td><td>Strict scope: documentation only, no clinical decisions. Never add risk scoring that makes specific clinical recommendations without regulatory review.</td></tr>
         </tbody>
       </table>
@@ -378,23 +400,30 @@
 
     <h2>§38 — Regulatory</h2>
     <h3>HIPAA</h3>
+    <p><strong>Status: not yet compliant.</strong> The list below is the target control set, not a description of what exists today. See <a href="case-study.html#status">Case Study §7</a> for what is built.</p>
     <ul>
-      <li>Encrypt at rest (AES-256 via AWS RDS encryption + application-layer envelope encryption for PHI fields)</li>
-      <li>Encrypt in transit (TLS 1.3 enforced, HSTS headers, no HTTP fallback)</li>
-      <li>Audit logs on all PHI access — retained 6 years, user ID + patient ID + action + IP + timestamp</li>
-      <li>MFA enforced via Clerk for all accounts</li>
-      <li>BAAs signed with: AWS, Anthropic, OpenAI, Clerk, Stripe, Resend</li>
-      <li>Annual HIPAA security risk assessment (Drata or Vanta for continuous monitoring)</li>
+      <li>Encrypt at rest (managed database encryption + application-layer envelope encryption for PHI fields) — <em>planned</em></li>
+      <li>Encrypt in transit (TLS enforced, HSTS, no HTTP fallback) — <em>partly in place via hosting</em></li>
+      <li>Audit logs on all PHI access, retained 6 years — <em>table exists; logging not implemented</em></li>
+      <li>MFA for all accounts — <em>planned</em></li>
+      <li>BAAs with every processor that handles PHI (cloud host, AI vendors, email, payments) — <em>none executed</em>. OpenAI and Anthropic BAAs are conditional on zero-retention-eligible endpoints and approval; see <a href="research.html#regulation">Research §6</a>.</li>
+      <li>Annual security risk assessment; continuous-monitoring tool once there are paying customers — <em>planned</em></li>
     </ul>
+    <h3>Psychotherapy notes vs progress notes</h3>
+    <p>HIPAA gives "psychotherapy notes" (45 CFR 164.501) extra protection when kept separate from the record. TherapOS finalized notes are progress notes in the record. Raw session notes the therapist types are the closest analogue to process notes, so they are treated as the most sensitive data: excluded from analytics, optionally kept off the AI path, and never shared across clinic accounts. Counsel must confirm this design.</p>
+    <h3>State AI laws</h3>
+    <p>Illinois (HB 1806, 2025) restricts AI from independent therapeutic decisions, unreviewed treatment plans and emotion or mental-state detection, while allowing administrative support. Nevada (AB 406) and others restrict AI-delivered care; Utah regulates mental-health chatbots. TherapOS is documentation software with mandatory therapist review, but features such as risk flags, mood inference and AI-suggested interventions need legal review per state before launch. Trackers disagree on 2026 additions, so verify against statutes.</p>
+    <h3>Professional ethics and consent</h3>
+    <p>Text-first design avoids audio recording and therefore APA Standard 4.03 recording consent. Therapists should still disclose AI use to clients; TherapOS will provide a disclosure template naming the tool and its vendors.</p>
     <h3>FDA</h3>
     <p>TherapOS is documentation software. It assists with note-writing — it does not make clinical decisions, does not produce diagnoses, and does not prescribe or recommend treatment. This places TherapOS outside FDA Software as a Medical Device (SaMD) Class II/III as long as we maintain this scope. Adding risk-scoring features that make specific clinical recommendations (e.g., "Patient has elevated suicide risk — recommend hospitalization") would require regulatory review. We have a policy commitment to consult a regulatory attorney before shipping any such feature.</p>
-    <h3>India DPDP Act 2023</h3>
+    <h3>India DPDP Act 2023 and Rules 2025</h3>
+    <p>The DPDP Rules were notified on 13 November 2025. Consent-manager provisions apply from 13 November 2026 and most substantive duties from about 13 May 2027. Our plan, subject to legal confirmation:</p>
     <ul>
-      <li>Health data is classified as Sensitive Personal Data under DPDP Act 2023</li>
-      <li>Indian user data stored and processed exclusively in AWS ap-south-1 (Mumbai)</li>
-      <li>Explicit consent required for collection and processing of health data</li>
-      <li>Data Protection Officer appointment required and in place</li>
-      <li>Cross-border data transfer restrictions honored — no Indian PHI enters US regions</li>
+      <li>Treat health data as high-risk regardless of statutory category. (To our reading the Act has no separate "sensitive personal data" class, although practitioner guides say otherwise; the Mental Healthcare Act 2017 also applies to consent.)</li>
+      <li>Host Indian accounts in an Indian region where feasible; assess cross-border transfer rules before sending any data to US AI vendors.</li>
+      <li>Explicit, granular consent and a Data Protection Officer or contact as the Rules require once applicable.</li>
+      <li>RCI (CRR) registration is mandatory only for clinical and rehabilitation psychologists; counsellors have no regulated title, so the India ICP needs defining.</li>
     </ul>
 
     <h2>§39 — AI Behavioral Contract</h2>
@@ -405,24 +434,26 @@
       <li><strong>No diagnosis.</strong> No DSM codes, no clinical diagnoses in any AI outputs. Prompts explicitly prohibit this.</li>
       <li><strong>Editable at every step.</strong> Every AI-generated field is a plain text editor. The therapist can delete the entire draft.</li>
       <li><strong>Transparent.</strong> All AI content shows a ✦ AI indicator. Audit log records AI generation events separately from therapist edits.</li>
-      <li><strong>Risk nudge only.</strong> If note content contains language suggesting imminent risk, a soft nudge appears: "Content may warrant a safety review." Never a diagnosis, never an alarm, never a required action.</li>
+      <li><strong>Risk nudge — deferred.</strong> A soft "may warrant a safety review" prompt was previously planned for the MVP. It is now on hold pending legal review, because some state laws restrict AI mental-state detection and a false negative creates a false sense of safety. If shipped, it will be therapist-configurable, never a diagnosis, never a required action.</li>
       <li><strong>Modality-aware.</strong> Suggested questions and homework always respect the therapist's stated therapeutic modality.</li>
     </ul>
 
     <h2>§40 — Five-Year Vision</h2>
+    <p>The original revenue signals did not reconcile with seats × price. For example, 1,000 therapists generating ~$60k MRR implies ~$60 per seat, above the $29 Solo and $49 Clinic list prices. The table below keeps the original <em>seat</em> ambitions and re-derives revenue at a blended ARPU that rises as clinics join; treat everything beyond 2027 as aspiration.</p>
     <div class="table-wrap">
       <table>
-        <thead><tr><th>Year</th><th>State of TherapOS</th><th>Revenue Signal</th><th>Key Milestone</th></tr></thead>
+        <thead><tr><th>Year</th><th>State of TherapOS</th><th>Paying seats (goal)</th><th>Blended ARPU (assumption)</th><th>MRR (derived)</th><th>Previous claim</th></tr></thead>
         <tbody>
-          <tr><td><strong>2026</strong></td><td>MVP live. AI notes + prep + search. 500 paying US therapists.</td><td>~$15k MRR</td><td>Product-market fit signal: &gt;60% W4 retention</td></tr>
-          <tr><td><strong>2027</strong></td><td>1,000 therapists. India launch. Clinic accounts. Progress insights. Goal arc visualization.</td><td>~$60k MRR</td><td>India launch, first clinic accounts (2–10 therapists)</td></tr>
-          <tr><td><strong>2028</strong></td><td>5,000 therapists. Outcome data begins to matter. Worksheet library. Calendar integration. Public API.</td><td>~$250k MRR</td><td>First payer conversations about outcome-based reporting</td></tr>
-          <tr><td><strong>2029</strong></td><td>Platform play. Other tools integrate TherapOS clinical memory via API. API revenue begins. UK and Canada expansion.</td><td>~$1M MRR</td><td>Third-party integrations, API revenue line</td></tr>
-          <tr><td><strong>2030</strong></td><td>Default clinical OS for independent mental health care. Research partnerships. De-identified outcome datasets. Payer programs built on TherapOS data.</td><td>~$3–5M MRR</td><td>First research publication using TherapOS outcome data</td></tr>
+          <tr><td><strong>2026</strong></td><td>MVP and closed beta; first paying users</td><td>100 (month-6 goal)</td><td>$29</td><td>~$2.9k</td><td>500 therapists, ~$15k</td></tr>
+          <tr><td><strong>2027</strong></td><td>Memory and search; clinic accounts; India pilot</td><td>1,000</td><td>$33</td><td>~$33k</td><td>~$60k</td></tr>
+          <tr><td><strong>2028</strong></td><td>Worksheets, calendar read-only, integrations</td><td>5,000</td><td>$36</td><td>~$180k</td><td>~$250k</td></tr>
+          <tr><td><strong>2029</strong></td><td>API partners; additional markets subject to local law</td><td>15,000</td><td>$38</td><td>~$570k</td><td>~$1M</td></tr>
+          <tr><td><strong>2030</strong></td><td>Depends on clinic and platform traction</td><td>30,000</td><td>$40</td><td>~$1.2M</td><td>~$3–5M</td></tr>
         </tbody>
       </table>
     </div>
-    <p>The 10-year question is not whether TherapOS becomes the tool therapists use — it is whether therapists who start their practice without TherapOS are structurally disadvantaged compared to those who use it. We believe the answer will be yes. Compound memory, aggregate intelligence, and outcome data create a flywheel that individual practitioners cannot replicate. That is the durable competitive position.</p>
+    <p>Reference points: 5,000 seats is roughly 1.2–3% of the modelled 150,000–400,000 US independent therapists; 30,000 seats is roughly 8–20% (<a href="research.html#market">Research §2</a>; scenarios of $63k / $348k / $1.6M ARR in <a href="competitors.html#s12">Competitors §12</a>). The "de-identified outcome datasets," "payer programs" and "research partnerships" of earlier drafts are options that depend on consent, de-identification and legal review, not forecasts.</p>
+    <p>The long-term question is whether clinical memory becomes something therapists expect their tools to provide. If it does, the winners will be the tools therapists trust with that memory. Trust — transparent data flow, inspectable summaries, accurate compliance claims — is therefore the strategy, not a constraint on it.</p>
 
     <div class="doc-nav">
       <a href="quickstart.html" class="doc-nav-btn">
@@ -469,7 +500,7 @@
       <a href="roadmap.html">Roadmap</a>
       <a href="architecture.html">Architecture</a>
     </div>
-    <div class="footer-copy">© 2026 TherapOS · HIPAA compliant</div>
+    <div class="footer-copy">© 2026 TherapOS · Pre-launch · building toward HIPAA</div>
   </div>
 </footer>
 </body>

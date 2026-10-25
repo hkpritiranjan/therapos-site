@@ -14,7 +14,7 @@
     <a href="../index.html#features">Features</a>
     <a href="../index.html#pricing">Pricing</a>
     <a href="index.html" style="color:var(--accent)">Docs</a>
-    <a href="../index.html#pricing" class="nav-cta">Start free trial</a>
+    <a href="../index.html#pricing" class="nav-cta">Join the waitlist</a>
   </div>
 </nav>
 <div class="docs-layout">
@@ -24,6 +24,10 @@
     <a href="quickstart.html">Quickstart</a>
     <div class="group">Product</div>
     <a href="plan.html">Full Product Plan</a>
+    <a href="research.html">Market &amp; Regulatory Research</a>
+    <a href="competitors.html">Competitors &amp; Strategy</a>
+    <a href="case-study.html">Case Study</a>
+    <a href="review.html">Product Review</a>
     <a href="features.html">Features</a>
     <a href="pricing.html">Pricing</a>
     <a href="roadmap.html">Roadmap</a>
@@ -38,6 +42,14 @@
     <h1>AI Architecture &amp; Prompts</h1>
     <p class="page-desc">How TherapOS assembles patient context, routes to AI models, and generates clinical content. Every prompt template, behavioral rule, and memory strategy documented here — copy-paste ready.</p>
     <hr>
+
+    <div class="callout callout-warn">
+      <div class="callout-icon">⚠</div>
+      <div class="callout-body">
+        <div class="callout-label">Design vs. current build (25 Oct 2026)</div>
+        <p>This page describes the target design. The current code calls <strong>OpenAI GPT-4o for every task</strong> (note drafts, prep, homework, summaries) with the model ID hard-coded, and sends the patient's full name in the prompt. Before launch: move model IDs to environment variables, decide the provider split (Claude for drafts and summaries is the documented plan), and pseudonymise identifiers before every model call. Verify model IDs against each provider's current model list; IDs shown below may be outdated. Prompt caching only applies once Anthropic models are actually used.</p>
+      </div>
+    </div>
 
     <h2>Model Routing</h2>
     <p>Different tasks get different models, chosen for cost and quality tradeoffs:</p>
@@ -565,7 +577,7 @@ function checkRiskPatterns(noteText: string): boolean {
       <a href="api.html">API</a>
       <a href="architecture.html">Architecture</a>
     </div>
-    <div class="footer-copy">© 2026 TherapOS · HIPAA compliant</div>
+    <div class="footer-copy">© 2026 TherapOS · Pre-launch · building toward HIPAA</div>
   </div>
 </footer>
 </body>

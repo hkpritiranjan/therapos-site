@@ -15,7 +15,7 @@
     <a href="../index.html#features">Features</a>
     <a href="../index.html#pricing">Pricing</a>
     <a href="index.html" style="color:var(--accent)">Docs</a>
-    <a href="../index.html#pricing" class="nav-cta">Start free trial</a>
+    <a href="../index.html#pricing" class="nav-cta">Join the waitlist</a>
   </div>
 </nav>
 <div class="docs-layout">
@@ -25,6 +25,10 @@
     <a href="quickstart.html">Quickstart</a>
     <div class="group">Product</div>
     <a href="plan.html">Full Product Plan</a>
+    <a href="research.html">Market &amp; Regulatory Research</a>
+    <a href="competitors.html">Competitors &amp; Strategy</a>
+    <a href="case-study.html">Case Study</a>
+    <a href="review.html">Product Review</a>
     <a href="features.html">Features</a>
     <a href="pricing.html">Pricing</a>
     <a href="roadmap.html">Roadmap</a>
@@ -49,7 +53,7 @@
     </div>
 
     <h2>What TherapOS Does</h2>
-    <p>Independent therapists spend an average of <strong>16 minutes per session</strong> writing notes — 35% of their working time on documentation. TherapOS collapses that to 3 minutes by turning raw bullet points into a clinically-worded SOAP or DAP note in under 12 seconds.</p>
+    <p>TherapOS turns the raw notes a therapist already takes into a clinically-worded SOAP, DAP or BIRP draft in seconds, and keeps an editable summary of each client between sessions. <strong>It does not record sessions.</strong> How much time it saves is something we are measuring with early users; earlier drafts of these docs quoted documentation-time statistics that we could not source, so they were removed (see <a href="research.html#pain">Research §4</a>).</p>
     <p>Speed is only the beginning. The real value is <strong>compound memory</strong>. Every finalized note makes the AI smarter about that patient. By session 10, TherapOS understands the treatment arc — patterns, progress, plateaus — better than any static EHR ever could. Session prep briefs, AI notes, and natural language search all draw from this accumulated context.</p>
 
     <div class="grid3" style="margin:1.5rem 0">
@@ -103,7 +107,7 @@
       <li><strong>Everything searchable.</strong> Every note, goal, homework entry, and patient fact is findable via natural language. Nothing gets buried.</li>
       <li><strong>Memory compounds.</strong> Patient context builds over sessions. The AI never starts from zero. Session 20 is contextually richer than session 1.</li>
       <li><strong>No lock-in on exit.</strong> Export all patient data as JSON or PDF at any time. Your data is yours.</li>
-      <li><strong>HIPAA by default.</strong> Encryption, audit logs, and BAAs are not optional add-ons. They ship with every plan.</li>
+      <li><strong>Compliance is a launch gate.</strong> Audit logging, encryption controls and executed BAAs are required before any real patient data is processed. Their status is tracked in the <a href="case-study.html#status">Case Study</a>.</li>
     </ol>
 
     <h2>Documentation Map</h2>
@@ -123,6 +127,18 @@
       <a href="plan.html" class="card card-link">
         <h4>Full Product Plan →</h4>
         <p>All 40 sections of the founding spec: vision, positioning, design system, GTM, regulatory, 5-year roadmap.</p>
+      </a>
+      <a href="research.html" class="card card-link">
+        <h4>Market &amp; Regulatory Research →</h4>
+        <p>Market size, AI adoption, competitors, HIPAA, state AI laws and India DPDP, with confidence tags and sources.</p>
+      </a>
+      <a href="case-study.html" class="card card-link">
+        <h4>Case Study →</h4>
+        <p>The problem, key decisions, what was built, what broke, honest status and the next 90 days.</p>
+      </a>
+      <a href="review.html" class="card card-link">
+        <h4>Product Review →</h4>
+        <p>Six lenses — founder, PM, designer, UX, therapist, patient — with ranked actions and a presentation guide.</p>
       </a>
       <a href="features.html" class="card card-link">
         <h4>Features →</h4>
@@ -194,7 +210,7 @@
       <div class="card card-sm">
         <h4>Security &amp; Compliance</h4>
         <ul style="font-size:.82rem;color:var(--mid);margin:0;padding-left:1.2rem">
-          <li>HIPAA-ready (BAA included on paid plans)</li>
+          <li>Building toward HIPAA (BAA planned for paid plans)</li>
           <li>AES-256 at rest + TLS 1.3 in transit</li>
           <li>Audit logs on all PHI — retained 6 years</li>
           <li>MFA enforced via Clerk</li>
@@ -242,7 +258,7 @@
       <div class="callout-icon">ℹ</div>
       <div class="callout-body">
         <div class="callout-label">HIPAA Note</div>
-        <p>TherapOS is designed HIPAA-ready from day one: AES-256 encryption at rest, TLS 1.3 in transit, audit logs on all PHI access retained for 6 years, MFA enforced, and signed BAAs with all data processors. See <a href="architecture.html">Security Architecture</a> for details.</p>
+        <p>TherapOS is <strong>not yet HIPAA compliant</strong> and must not be used with real patient data until audit logging, MFA, encryption controls and signed BAAs are in place. The design targets them; the current build status is on the <a href="case-study.html#status">Case Study</a> and the control list is in <a href="architecture.html">Security Architecture</a>.</p>
       </div>
     </div>
 
@@ -280,7 +296,7 @@
       <a href="architecture.html">Architecture</a>
       <a href="api.html">API</a>
     </div>
-    <div class="footer-copy">© 2026 TherapOS · HIPAA compliant</div>
+    <div class="footer-copy">© 2026 TherapOS · Pre-launch · building toward HIPAA</div>
   </div>
 </footer>
 </body>

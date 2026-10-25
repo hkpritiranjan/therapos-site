@@ -14,7 +14,7 @@
     <a href="../index.html#features">Features</a>
     <a href="../index.html#pricing">Pricing</a>
     <a href="index.html" style="color:var(--accent)">Docs</a>
-    <a href="../index.html#pricing" class="nav-cta">Start free trial</a>
+    <a href="../index.html#pricing" class="nav-cta">Join the waitlist</a>
   </div>
 </nav>
 <div class="docs-layout">
@@ -24,6 +24,10 @@
     <a href="quickstart.html">Quickstart</a>
     <div class="group">Product</div>
     <a href="plan.html">Full Product Plan</a>
+    <a href="research.html">Market &amp; Regulatory Research</a>
+    <a href="competitors.html">Competitors &amp; Strategy</a>
+    <a href="case-study.html">Case Study</a>
+    <a href="review.html">Product Review</a>
     <a href="features.html">Features</a>
     <a href="pricing.html">Pricing</a>
     <a href="roadmap.html">Roadmap</a>
@@ -213,17 +217,17 @@ Third-party services:
     <p>Audit logs are retained for 6 years per HIPAA requirements. After retention expires, logs are permanently deleted. The <code>createdAt</code> index ensures efficient time-range queries. Therapists can view their own audit log in Settings → Privacy → Audit Log.</p>
 
     <h3>Business Associate Agreements</h3>
-    <p>BAAs signed with every vendor that may process PHI:</p>
+    <p><strong>Target state — no BAA has been executed yet.</strong> A BAA is required with every vendor that may process PHI. The "BAA status" column below shows what each vendor offers, not what has been signed. OpenAI and Anthropic BAAs are conditional on zero-retention-eligible usage and approval.</p>
     <div class="table-wrap">
       <table>
-        <thead><tr><th>Vendor</th><th>PHI contact</th><th>BAA status</th></tr></thead>
+        <thead><tr><th>Vendor</th><th>PHI contact</th><th>BAA (offered; not yet signed)</th></tr></thead>
         <tbody>
-          <tr><td>AWS</td><td>Database, S3, KMS</td><td>✓ Standard AWS BAA</td></tr>
-          <tr><td>Anthropic</td><td>Note content sent to API</td><td>✓ Enterprise BAA</td></tr>
-          <tr><td>OpenAI</td><td>Prep brief, homework, embeddings</td><td>✓ Enterprise BAA</td></tr>
-          <tr><td>Clerk</td><td>User email, name</td><td>✓ Clerk BAA</td></tr>
-          <tr><td>Stripe</td><td>Billing email, name</td><td>✓ Stripe BAA</td></tr>
-          <tr><td>Resend</td><td>Email address only</td><td>✓ Resend BAA</td></tr>
+          <tr><td>AWS</td><td>Database, S3, KMS</td><td>Offered — not signed (Standard AWS BAA)</td></tr>
+          <tr><td>Anthropic</td><td>Note content sent to API</td><td>Offered — not signed (Enterprise BAA)</td></tr>
+          <tr><td>OpenAI</td><td>Prep brief, homework, embeddings</td><td>Offered — not signed (Enterprise BAA)</td></tr>
+          <tr><td>Clerk</td><td>User email, name</td><td>Offered — not signed (Clerk BAA)</td></tr>
+          <tr><td>Stripe</td><td>Billing email, name</td><td>Offered — not signed (Stripe BAA)</td></tr>
+          <tr><td>Resend</td><td>Email address only</td><td>Offered — not signed (Resend BAA)</td></tr>
         </tbody>
       </table>
     </div>
@@ -351,7 +355,7 @@ CLERK_SECRET_KEY=sk_...           # For server-side Clerk calls</pre>
       <a href="api.html">API</a>
       <a href="ai.html">AI</a>
     </div>
-    <div class="footer-copy">© 2026 TherapOS · HIPAA compliant</div>
+    <div class="footer-copy">© 2026 TherapOS · Pre-launch · building toward HIPAA</div>
   </div>
 </footer>
 </body>

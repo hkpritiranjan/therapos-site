@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Product Review — TherapOS Docs</title>
+<meta name="description" content="A six-lens review of TherapOS from the founder, product manager, visual designer, UX designer, therapist and patient perspectives, with ranked actions and a presentation guide.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⬡</text></svg>">
+<link rel="stylesheet" href="../styles/main.css">
+</head>
+<body>
+<nav class="site-nav">
+  <a href="/" class="nav-logo">⬡ <span>TherapOS</span></a>
+  <div class="nav-links">
+    <a href="../index.html#features">Features</a>
+    <a href="../index.html#pricing">Pricing</a>
+    <a href="index.html" style="color:var(--accent)">Docs</a>
+    <a href="../index.html#pricing" class="nav-cta">Join the waitlist</a>
+  </div>
+</nav>
+<div class="docs-layout">
+  <nav class="docs-sidebar">
+    <div class="group">Getting Started</div>
+    <a href="index.html">Overview</a>
+    <a href="quickstart.html">Quickstart</a>
+    <div class="group">Product</div>
+    <a href="plan.html">Full Product Plan</a>
+    <a href="research.html">Market &amp; Regulatory Research</a>
+    <a href="competitors.html">Competitors &amp; Strategy</a>
+    <a href="case-study.html">Case Study</a>
+    <a href="review.html" class="active">Product Review</a>
+    <a href="features.html">Features</a>
+    <a href="pricing.html">Pricing</a>
+    <a href="roadmap.html">Roadmap</a>
+    <div class="group">Technical</div>
+    <a href="architecture.html">Architecture</a>
+    <a href="schema.html">Database Schema</a>
+    <a href="api.html">API Reference</a>
+    <a href="ai.html">AI &amp; Prompts</a>
+  </nav>
+  <main class="docs-content">
+    <span class="eyebrow">Product</span>
+    <h1>Product Review: Six Lenses</h1>
+    <p class="page-desc">A six-lens review of TherapOS from the founder, product manager, visual designer, UX designer, therapist and patient perspectives, with ranked actions and a presentation guide.</p>
+
+    <div class="callout callout-info">
+      <div class="callout-icon">ℹ</div>
+      <div class="callout-body">
+        <div class="callout-label">Scope and method</div>
+        <p>Reviewed 25 October 2026 through six lenses. Evidence: the live docs site, the app repository (code read; the app was <strong>not run end-to-end</strong>), one reproduced bug, WCAG contrast calculations, and the <a href="research.html">Research page</a>. Scores are my judgment, not measurements. Nothing here is validated with real therapists or patients yet, and that is the biggest finding of all.</p>
+      </div>
+    </div>
+
+    <h2 id="scorecard">Scorecard</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Lens</th><th>Score</th><th>One-line verdict</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Founder</strong></td><td>3 / 5</td><td>Sharp wedge and unusually good documentation, but zero customer evidence and thin unit economics at $29.</td></tr>
+          <tr><td><strong>Product manager</strong></td><td>3 / 5</td><td>Right problem, wrong sequencing: growth features are planned before trust and access gates. Plan cap and trial length conflict with real usage.</td></tr>
+          <tr><td><strong>Visual / product designer</strong></td><td>2 → 4 / 5</td><td>The old dark dev-tool look and failing contrast suited neither the audience nor the topic. Redesigned this session, including the app UI (light theme, new tokens, AA contrast).</td></tr>
+          <tr><td><strong>UX designer</strong></td><td>2.5 / 5</td><td>Good core flow (draft → edit → confirm → finalize), but missing login, settings, addenda, AI-transparency and accessibility basics. The draft-parsing bug that broke the headline demo is now fixed.</td></tr>
+          <tr><td><strong>Therapist (consumer)</strong></td><td>3 / 5</td><td>Would try it for the prep brief and text-first stance; would not put real clients in it until compliance claims are true.</td></tr>
+          <tr><td><strong>Patient (consumer)</strong></td><td>2 / 5</td><td>Never sees the product but bears its risk. Consent, accuracy of what is written about them, and opt-out are all missing.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout callout-tip">
+      <div class="callout-icon">✓</div>
+      <div class="callout-body">
+        <div class="callout-label">Fixed (25 Oct 2026): drafts landed as raw JSON</div>
+        <p>The API prompts the model to return JSON for SOAP, DAP and BIRP notes, but the session page's parser expected labelled prose such as "Subjective: …", so the <strong>entire raw JSON string was placed in the first field</strong>. The live model also wraps its answer in a <code>```json</code> fence. <strong>Now fixed</strong> in <code>apps/web/lib/draft-parser.ts</code>: it parses complete JSON first (including fenced output), tolerates JSON that is still streaming so the live preview reads as clean text, and falls back to the old labelled-prose parser. Seven regression tests pass (<code>npm test -w @therapos/web</code>), and I verified it against real streamed output from the live model.</p>
+      </div>
+    </div>
+
+    <h2 id="founder">1. Founder lens</h2>
+    <h3>What is strong</h3>
+    <ul>
+      <li><strong>A real wedge.</strong> Text-first, no recording, EHR-agnostic. It is a clear answer to the question every therapist asks first: "does it record my sessions?"</li>
+      <li><strong>Speed.</strong> A working draft-to-memory loop in four days, with honest documentation of what it does and does not do.</li>
+      <li><strong>Discipline about scope.</strong> The "will not build" list is a genuine strategic asset.</li>
+    </ul>
+    <h3>What worries me</h3>
+    <ul>
+      <li><strong>Zero customer evidence.</strong> The plan was written before any therapist interview. Every key number is an assumption.</li>
+      <li><strong>Low revenue ceiling.</strong> 1,500 to 4,000 paying seats yields only $0.4M to $1.4M a year (<a href="research.html#market">Research §2</a>). Customer acquisition has to stay near zero-cost, so community and referral channels are not optional.</li>
+      <li><strong>Compliance before revenue.</strong> Counsel, BAAs, audit logging, and a security assessment cost real money and months, before the first paid seat.</li>
+      <li><strong>Price anchor risk.</strong> EHR-bundled AI is $35 to $40 on top of an EHR the therapist already pays for. If TherapOS is "just notes" it is competing with something that feels free.</li>
+    </ul>
+    <h3>Pre-mortem: the five most likely reasons this fails</h3>
+    <ol>
+      <li>Therapists do not trust an unknown startup with client information, so activation stalls at "I tried it with fake data."</li>
+      <li>Typing raw notes saves too little time compared with ambient scribes, so there is no strong reason to switch.</li>
+      <li>Compliance work consumes the runway before product-market fit.</li>
+      <li>An EHR vendor ships "good enough" memory inside the product therapists already use.</li>
+      <li>Low ARPU plus paid acquisition never pays back.</li>
+    </ol>
+    <h3>60-day validation plan with proposed kill criteria</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Test</th><th>Continue if</th><th>Rethink if</th></tr></thead>
+        <tbody>
+          <tr><td>15 discovery interviews (US and India mix)</td><td>≥ 10 describe notes as a top-3 frustration and have tried an AI tool</td><td>Notes are a mild annoyance; or most say they would never use AI on client content</td></tr>
+          <tr><td>10-therapist beta on fictional or de-identified cases</td><td>≥ 7 finalize ≥ 5 notes a week for 4 weeks</td><td>Usage drops after week 1</td></tr>
+          <tr><td>Time study (before vs during beta)</td><td>Median time to a finalized note falls by about half or more</td><td>Saving under about 25%</td></tr>
+          <tr><td>"Very disappointed if gone" survey</td><td>≥ 40% (the common product-market-fit threshold)</td><td>Under 25%</td></tr>
+          <tr><td>Waitlist price test: $19 / $29 / $39</td><td>≥ 5 of 10 beta users say they would pay at $29</td><td>Strong resistance above $19</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Thresholds are proposals, not industry standards, except the 40% "very disappointed" benchmark, which is widely used as a rough signal. Agree them before the tests start.</p>
+    <h3>Unit economics to measure, not assume</h3>
+    <p>AI cost per finalized note = (draft tokens + prep tokens + summary tokens + embedding tokens) × provider price, plus retries. Track it from the first beta session. Gross margin at $29 should be comfortable at 100 notes a month, but only a measurement will tell, and the figure depends on provider choice and prompt length.</p>
+
+    <h2 id="pm">2. Product manager lens</h2>
+    <h3>Job to be done</h3>
+    <div class="grid2" style="margin:1rem 0">
+      <div class="card"><h4>After a session</h4><p>"When I finish a client, I want a compliant progress note done in a few minutes, in my own voice, so I can leave on time and not carry the work home."</p></div>
+      <div class="card"><h4>Before a session</h4><p>"When a client is about to arrive, I want to remember where we left off, what I assigned, and what to check in on, without rereading five notes."</p></div>
+    </div>
+    <p>The two jobs form a loop: <strong>write after → prepared before</strong>. The prep brief is the retention hook, because it only has value if notes were finalized the week before. Design the onboarding to reach "second session for the same client" as fast as possible.</p>
+    <h3>Metrics</h3>
+    <ul>
+      <li><strong>North Star:</strong> finalized notes per active therapist per week.</li>
+      <li><strong>Activation:</strong> a finalized note within the first session of use, <em>and</em> a prep brief opened before a repeat client.</li>
+      <li><strong>Quality guardrails:</strong> share of draft words kept, time to finalize, and reports of inaccuracies.</li>
+      <li><strong>Counter-metric:</strong> notes finalized with zero edits (a possible rubber-stamping signal).</li>
+    </ul>
+    <h3>Packaging problems found in our own plan</h3>
+    <div class="callout callout-warn">
+      <div class="callout-icon">⚠</div>
+      <div class="callout-body">
+        <div class="callout-label">Decided: the Solo cap contradicted our own persona</div>
+        <p>The plan's core persona sees 25 clients a week, about 107 sessions a month. The Solo plan caps AI notes at <strong>100 a month</strong>. The target customer would hit the cap in the third week. Options: a fair-use "unlimited" (for example a soft limit near 200), a 150 cap, or pricing by seat with no cap. <strong>Decision applied (25 Oct 2026): Solo now includes up to 200 AI notes a month.</strong> Clinic stays unlimited.</p>
+      </div>
+    </div>
+    <div class="callout callout-warn">
+      <div class="callout-icon">⚠</div>
+      <div class="callout-body">
+        <div class="callout-label">Decided: a 14-day trial was short for a weekly-cadence product</div>
+        <p>The memory and prep value appears at a client's <em>second</em> or third session. With weekly sessions, 14 days gives most therapists one repeat visit, if that. <strong>Decision applied: the trial is now 30 days.</strong> "First 10 finalized notes free" remains a good alternative to test, since it measures value instead of time.</p>
+      </div>
+    </div>
+    <h3>Backlog, re-ranked</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>#</th><th>Item</th><th>Impact</th><th>Effort</th><th>Why now</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>Fix JSON draft parsing + regression test <span class="badge badge-green">Done</span></td><td>Critical</td><td>S</td><td>Core flow was broken</td></tr>
+          <tr><td>2</td><td>Login, register, settings, logout in the web app</td><td>Critical</td><td>M</td><td>Production cannot be used without it; Settings link currently goes nowhere</td></tr>
+          <tr><td>3</td><td>Pseudonymise names before every model call</td><td>High</td><td>S</td><td>Largest privacy exposure in the code today</td></tr>
+          <tr><td>4</td><td>Addendum / late-entry path for finalized notes</td><td>High</td><td>M</td><td>Finalized notes cannot be edited at all; clinicians need amendments</td></tr>
+          <tr><td>5</td><td>Copy-to-EHR export (formatted per EHR field)</td><td>High</td><td>S</td><td>EHR-agnostic positioning depends on a clean handoff</td></tr>
+          <tr><td>6</td><td>Provenance links on the patient summary</td><td>High</td><td>M</td><td>Our trust differentiator</td></tr>
+          <tr><td>7</td><td>Local voice dictation</td><td>High</td><td>M</td><td>Closes the time-saving gap versus ambient scribes</td></tr>
+          <tr><td>8</td><td>Audit log, rate limits, MFA, BAAs</td><td>Gate</td><td>L</td><td>Launch prerequisite for real data</td></tr>
+          <tr><td>9</td><td>Natural-language search</td><td>Medium</td><td>M</td><td>Valuable, but only after notes accumulate</td></tr>
+          <tr><td>10</td><td>Goals/homework create and edit, clinic accounts, Stripe</td><td>Medium</td><td>L</td><td>Growth features after trust and value are proven</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Sequence: <strong>Gate 0</strong> (items 1–3, 8: it works and is safe) → <strong>Gate 1</strong> (4–7: it earns trust and saves time) → <strong>Gate 2</strong> (9–10: it grows). The existing roadmap puts search and billing in Q4 2026 alongside gates that are not met.</p>
+
+    <h2 id="design">3. Visual and product designer lens</h2>
+    <h3>Diagnosis</h3>
+    <ul>
+      <li><strong>Wrong emotional register.</strong> Near-black slate with indigo reads as a developer tool. A mental-health product has to feel calm, warm, and safe, for the therapist and, indirectly, the client.</li>
+      <li><strong>Accessibility failure.</strong> The previous muted text colour measured <strong>3.06 : 1</strong> on the page background and <strong>2.84 : 1</strong> on cards. WCAG AA requires 4.5 : 1 for body text. The new palette's lowest body-text ratio is 5.03 : 1.</li>
+      <li><strong>Emoji as icons.</strong> Inconsistent across platforms and, in testing, rendered as empty boxes. Replaced with one consistent line-icon set.</li>
+      <li><strong>Generic template feel.</strong> No illustration, no brand shapes, no warmth.</li>
+    </ul>
+    <h3>What changed</h3>
+    <p>The visual system now draws on two wellness-app references you supplied: deep navy, periwinkle, sunshine yellow and teal from the first, plus blush pink, peach and lavender from the second. Alegreya (a humanist serif) is paired with Poppins for a warm, editorial feel. Cards are rounded, colour is used to organise content rather than decorate it, and flower, blob and cloud shapes give the brand a human, hand-made quality.</p>
+    <div class="grid4" style="margin:1rem 0"><div style="background:#070C56;color:#1F1340;border-radius:16px;padding:.9rem 1rem;border:1px solid rgba(31,19,64,.08)"><div style="font-weight:600;font-size:.85rem">Night navy</div><div style="font-size:.72rem;opacity:.75;font-family:var(--mono)">#070C56</div><div style="font-size:.72rem;margin-top:.25rem">Hero, footer, code</div></div><div style="background:#5B4BE0;color:#1F1340;border-radius:16px;padding:.9rem 1rem;border:1px solid rgba(31,19,64,.08)"><div style="font-weight:600;font-size:.85rem">Periwinkle</div><div style="font-size:.72rem;opacity:.75;font-family:var(--mono)">#5B4BE0</div><div style="font-size:.72rem;margin-top:.25rem">Links, primary actions</div></div><div style="background:#F4CF4B;color:#1F1340;border-radius:16px;padding:.9rem 1rem;border:1px solid rgba(31,19,64,.08)"><div style="font-weight:600;font-size:.85rem">Sunshine</div><div style="font-size:.72rem;opacity:.75;font-family:var(--mono)">#F4CF4B</div><div style="font-size:.72rem;margin-top:.25rem">Highlights, CTA</div></div><div style="background:#7FC6C0;color:#1F1340;border-radius:16px;padding:.9rem 1rem;border:1px solid rgba(31,19,64,.08)"><div style="font-weight:600;font-size:.85rem">Teal</div><div style="font-size:.72rem;opacity:.75;font-family:var(--mono)">#7FC6C0</div><div style="font-size:.72rem;margin-top:.25rem">Calm, "in build"</div></div><div style="background:#E5647A;color:#1F1340;border-radius:16px;padding:.9rem 1rem;border:1px solid rgba(31,19,64,.08)"><div style="font-weight:600;font-size:.85rem">Coral</div><div style="font-size:.72rem;opacity:.75;font-family:var(--mono)">#E5647A</div><div style="font-size:.72rem;margin-top:.25rem">Warnings, emphasis</div></div><div style="background:#F0589F;color:#1F1340;border-radius:16px;padding:.9rem 1rem;border:1px solid rgba(31,19,64,.08)"><div style="font-weight:600;font-size:.85rem">Blush pink</div><div style="font-size:.72rem;opacity:.75;font-family:var(--mono)">#F0589F</div><div style="font-size:.72rem;margin-top:.25rem">Accent</div></div><div style="background:#FBE3CC;color:#1F1340;border-radius:16px;padding:.9rem 1rem;border:1px solid rgba(31,19,64,.08)"><div style="font-weight:600;font-size:.85rem">Peach</div><div style="font-size:.72rem;opacity:.75;font-family:var(--mono)">#FBE3CC</div><div style="font-size:.72rem;margin-top:.25rem">Soft cards</div></div><div style="background:#A5DDB5;color:#1F1340;border-radius:16px;padding:.9rem 1rem;border:1px solid rgba(31,19,64,.08)"><div style="font-weight:600;font-size:.85rem">Mint</div><div style="font-size:.72rem;opacity:.75;font-family:var(--mono)">#A5DDB5</div><div style="font-size:.72rem;margin-top:.25rem">Success</div></div><div style="background:#F1EEFF;color:#1F1340;border-radius:16px;padding:.9rem 1rem;border:1px solid rgba(31,19,64,.08)"><div style="font-weight:600;font-size:.85rem">Lavender mist</div><div style="font-size:.72rem;opacity:.75;font-family:var(--mono)">#F1EEFF</div><div style="font-size:.72rem;margin-top:.25rem">Surfaces</div></div><div style="background:#1F1340;color:#1F1340;border-radius:16px;padding:.9rem 1rem;border:1px solid rgba(31,19,64,.08)"><div style="font-weight:600;font-size:.85rem">Plum ink</div><div style="font-size:.72rem;opacity:.75;font-family:var(--mono)">#1F1340</div><div style="font-size:.72rem;margin-top:.25rem">Body text</div></div></div>
+    <h3>Design principle: two moods, one system</h3>
+    <p>The reference apps are <strong>patient-facing</strong> and playful. A <strong>clinician's</strong> tool needs to be calmer and denser: long reading, careful editing, daytime offices. So: the marketing site and docs use the full expressive palette; the product UI should use the same tokens with lower saturation, more whitespace, and a <strong>light theme by default</strong>. The app was dark-only (<code>className="dark"</code>, dark tokens in <code>globals.css</code>) and failed the contrast check above. <strong>It now uses the same palette as a calmer light theme</strong>: cream surfaces, plum text, periwinkle actions, rounded cards, Poppins with Alegreya headings, and AA-safe status colours.</p>
+    <h3>Next design steps</h3>
+    <ul>
+      <li><strong>Done:</strong> new tokens and light theme in <code>apps/web/app/globals.css</code>. Still to do: an optional dark theme, and a review of every inline-styled component.</li>
+      <li>Commission or adapt a small illustration set (calm figures, plants, clouds). Do not use stock "therapy couch" imagery.</li>
+      <li>Define a type scale and spacing scale in one place, and document components in the design-system page.</li>
+      <li>Check all status colours for colour-blind safety by adding an icon or label to every badge.</li>
+    </ul>
+
+    <h2 id="ux">4. UX designer lens</h2>
+    <p>Heuristic evaluation, from code reading. Severity: <span class="badge badge-red">High</span> blocks use or trust, <span class="badge badge-yellow">Medium</span> hurts efficiency, <span class="badge badge-green">Low</span> polish.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Heuristic</th><th>Finding</th><th>Severity</th><th>Fix</th></tr></thead>
+        <tbody>
+          <tr><td>Match between system and real world</td><td>Raw AI JSON appeared in the Subjective field</td><td><span class="badge badge-green">Fixed</span></td><td>JSON-first parser with streaming support and tests; verified on real model output</td></tr>
+          <tr><td>User control and freedom</td><td>Finalized notes cannot be edited at all; no addendum or late-entry path</td><td><span class="badge badge-red">High</span></td><td>Add dated addenda; keep the original immutable</td></tr>
+          <tr><td>Consistency and standards</td><td>Sidebar "Settings" links to a page that does not exist; no login, logout or onboarding screens</td><td><span class="badge badge-red">High</span></td><td>Build auth screens and a minimal settings page</td></tr>
+          <tr><td>Visibility of system status</td><td>Streaming and autosave status are shown (good). No stop-and-regenerate control found</td><td><span class="badge badge-yellow">Medium</span></td><td>Add "Stop", "Regenerate", and "Try a shorter version"</td></tr>
+          <tr><td>Trust and transparency (AI)</td><td>Only an "AI Draft" label. No way to see what data the model will receive; no persistent "AI-assisted" marker after finalizing</td><td><span class="badge badge-red">High</span></td><td>"What the AI will see" preview before generating; AI-assisted marker in the record</td></tr>
+          <tr><td>Accessibility</td><td>About four label or aria usages across the app; muted text 2.8–3.1 : 1; status shown by colour alone</td><td><span class="badge badge-red">High</span></td><td>Labels, focus states, AA contrast, icons with colour; test with a screen reader</td></tr>
+          <tr><td>Recognition over recall</td><td>New-patient form is about 500 lines with many fields up front</td><td><span class="badge badge-yellow">Medium</span></td><td>Ask first name, last initial, and main concern; everything else later</td></tr>
+          <tr><td>Error prevention</td><td>Finalize has a confirmation dialog (good)</td><td><span class="badge badge-green">Low</span></td><td>Keep; add a short checklist ("all [Therapist to complete] placeholders resolved?")</td></tr>
+          <tr><td>Flexibility and efficiency</td><td>No keyboard shortcuts; tablet and phone layouts unverified</td><td><span class="badge badge-yellow">Medium</span></td><td>Shortcuts for generate, finalize, next field; test on an iPad</td></tr>
+          <tr><td>Language</td><td>Marketing uses "OS", "copilot", "operating system"</td><td><span class="badge badge-green">Low</span></td><td>Therapists say "notes", "chart", "records". Use their words</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <h3>The flow, redesigned</h3>
+    <ol class="steps">
+      <li><div class="step-num"></div><div class="step-body"><h4>Before</h4><p>Open the client, see a three-line prep brief with links to the notes it came from, plus last session's homework status.</p></div></li>
+      <li><div class="step-num"></div><div class="step-body"><h4>During or right after</h4><p>Type or dictate rough notes. A small panel shows exactly which fields will be sent to the AI, with a per-client "AI off" switch.</p></div></li>
+      <li><div class="step-num"></div><div class="step-body"><h4>Draft</h4><p>The draft streams into the right structure. Placeholder gaps are highlighted. Stop, regenerate, and tone options are one click away.</p></div></li>
+      <li><div class="step-num"></div><div class="step-body"><h4>Review and sign</h4><p>A diff view shows what the therapist changed. The note is signed with a visible AI-assisted marker. Later changes are addenda.</p></div></li>
+      <li><div class="step-num"></div><div class="step-body"><h4>Hand off</h4><p>"Copy for SimplePractice" (or TherapyNotes, or plain text) puts correctly formatted sections on the clipboard.</p></div></li>
+    </ol>
+
+    <h2 id="therapist">5. Therapist lens (consumer)</h2>
+    <p>Speaking as the buyer: I am licensed, I am personally liable for my records, and I am tired at 6 p.m.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>What I worry about</th><th>What would earn my trust</th><th>Status today</th></tr></thead>
+        <tbody>
+          <tr><td>"Is it recording my sessions?"</td><td>A clear, front-page "no recording" promise</td><td><span class="badge badge-green">Have it</span></td></tr>
+          <tr><td>"Where do my client's details go?"</td><td>A plain-English data-flow diagram; no names sent to AI; no training on my data</td><td><span class="badge badge-red">Missing</span></td></tr>
+          <tr><td>"Will it make things up?"</td><td>Visible placeholders for gaps; every summary line traceable to a note</td><td><span class="badge badge-yellow">Partial</span></td></tr>
+          <tr><td>"Will my board or an auditor accept this?"</td><td>AI-assisted marker, my edits preserved, audit trail</td><td><span class="badge badge-red">Missing</span></td></tr>
+          <tr><td>"Can I leave and take my notes?"</td><td>One-click export in a standard format</td><td><span class="badge badge-red">Missing</span></td></tr>
+          <tr><td>"Will it make me less present?"</td><td>Nothing in the room; notes after the session</td><td><span class="badge badge-green">Have it</span></td></tr>
+          <tr><td>"Is it worth $29?"</td><td>I save about an hour a week and trust the result</td><td><span class="badge badge-muted">Unproven</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <h3>A note on psychiatrists</h3>
+    <p>The plan is built for <strong>psychotherapists</strong>, and the roadmap explicitly excludes medication management. A psychiatrist's workflow is different: short medication-management visits, mental status exams, side-effect tracking, labs, e-prescribing and diagnosis coding. TherapOS today has none of this, and its "no diagnosis" rule conflicts with how psychiatric notes work. If psychiatrists are a target, treat them as a <em>separate ICP</em> that needs note templates (MSE, medication review), different prompts, and a regulatory review. Otherwise, say so out loud: "therapists first, psychiatry later or never."</p>
+
+    <h2 id="patient">6. Patient lens (consumer)</h2>
+    <p>Patients never log in, but every word the product writes is about them.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Patient concern</th><th>Evidence</th><th>What the product should do</th></tr></thead>
+        <tbody>
+          <tr><td>"Tell me, and ask me."</td><td>A 2026 UK poll found 81% want to be told when an AI scribe is used and asked for consent. <span class="badge badge-yellow">Reported</span></td><td>Ship a client-facing disclosure and consent template; per-client AI on/off</td></tr>
+          <tr><td>"Mental health is different."</td><td>Same poll: comfort was 48% for routine checks but 28% for mental-health topics. <span class="badge badge-yellow">Reported</span></td><td>Treat therapy as a harder case than general medicine; default to the most conservative setting</td></tr>
+          <tr><td>"Will it get me wrong?"</td><td>UC Davis survey: accuracy was the top worry (39%), then privacy (13%) and being recorded (13%). <span class="badge badge-yellow">Reported</span></td><td>Mandatory therapist review; no recording; provenance; correction path</td></tr>
+          <tr><td>"Can I read what you wrote?"</td><td>Under the Cures Act information-blocking rules, mental-health <em>progress</em> notes are generally available to patients; HIPAA psychotherapy notes are excluded; a patient-harm exception exists. Sources are 2020–21 vendor material, so verify. <span class="badge badge-yellow">Reported</span></td><td>Assume a patient may read every finalized note. Prompts must use respectful, non-pathologizing language, and drafts must be checked for accuracy</td></tr>
+          <tr><td>"Who else sees it?"</td><td>Two-thirds of psychologists themselves worry about breaches. <span class="badge badge-yellow">Reported</span></td><td>Publish a data-use statement; pseudonymise before AI; no training on client data</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Sources: <a href="https://www.healthwatch.co.uk/blog/2026-07-16/what-does-public-think-about-ai-scribe-use-healthcare">Healthwatch England</a>, <a href="https://health.ucdavis.edu/news/headlines/exploring-how-patients-feel-about-ai-transcription/2025/12">UC Davis Health</a>, <a href="https://academic.oup.com/jamia/article/33/2/263/8371725">JAMIA</a>, <a href="https://www.qualifacts.com/resources/mental-health-providers-information-blocking/">Qualifacts on information blocking</a>, <a href="https://telehealth.org/open-notes-rule/">Telehealth.org on open notes</a>. These are general-medicine or vendor sources; none is a therapy-specific study.</p>
+    <h3>Should there be a patient-facing app?</h3>
+    <p>The two reference designs you shared are patient-facing: mood check-ins, guided sessions, playlists. That is a tempting direction (homework adherence, between-session engagement), but it would contradict the plan's "no patient portal" line, double the support surface, change the buyer, and bring chatbot and wellness regulation into scope. <strong>Recommendation:</strong> use that look and warmth for the brand, keep the product therapist-first, and revisit a patient companion only after the clinician loop is proven. If you do build it, the first feature should be homework and mood check-ins <em>assigned by the therapist</em>, not a free-standing wellness app.</p>
+
+    <h2 id="actions">7. The ten actions, ranked</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>#</th><th>Action</th><th>Lens</th><th>Effort</th><th>When</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>Fix JSON draft parsing; add a test using real model output <span class="badge badge-green">Done</span></td><td>UX / PM</td><td>S</td><td>Done 25 Oct</td></tr>
+          <tr><td>2</td><td>Interview 15 therapists; run the 10-therapist beta on fictional cases</td><td>Founder</td><td>M</td><td>Weeks 1–6</td></tr>
+          <tr><td>3</td><td>Build login, register, settings; fix CORS and secrets</td><td>PM / UX</td><td>M</td><td>Weeks 1–2</td></tr>
+          <tr><td>4</td><td>Pseudonymise before every AI call; per-client "AI off"</td><td>Patient / Therapist</td><td>S</td><td>Weeks 1–2</td></tr>
+          <tr><td>5</td><td>Pricing packaging decided (200 notes, 30-day trial) <span class="badge badge-green">Done</span>; test $19 / $29 / $39</td><td>PM / Founder</td><td>S</td><td>Weeks 2–4</td></tr>
+          <tr><td>6</td><td>Add addenda, AI-assisted marker, and a draft diff view</td><td>UX</td><td>M</td><td>Weeks 3–6</td></tr>
+          <tr><td>7</td><td>Provenance links and copy-to-EHR export</td><td>Therapist</td><td>M</td><td>Weeks 4–8</td></tr>
+          <tr><td>8</td><td>Port the new design tokens into the app; light theme; AA contrast <span class="badge badge-green">Done</span>; labels still to do</td><td>Design / UX</td><td>M</td><td>Weeks 4–8</td></tr>
+          <tr><td>9</td><td>Counsel review; execute BAAs; audit logging; MFA</td><td>Founder</td><td>L</td><td>Before real data</td></tr>
+          <tr><td>10</td><td>Local voice dictation</td><td>PM</td><td>M</td><td>After 1–9</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="present">8. Presenting this</h2>
+    <h3>Story arc (about 10 minutes)</h3>
+    <ol>
+      <li><strong>The human problem.</strong> Therapists finish the day and then start writing. Show the 6 p.m. scene.</li>
+      <li><strong>The landscape.</strong> AI adoption is rising fast, but nine in ten clinicians are worried. Trust is the gap.</li>
+      <li><strong>What we found.</strong> Competitors already do cross-session memory, so we do not claim a feature gap. We claim a trust position: no recording, any EHR, inspectable memory.</li>
+      <li><strong>What we built.</strong> Walk the five-step loop. Show the design and the case study.</li>
+      <li><strong>What is honest.</strong> Not yet compliant, not yet validated, one demo-blocking bug being fixed. Showing the status table builds credibility.</li>
+      <li><strong>The plan.</strong> The 60-day validation plan with kill criteria, then the three gates.</li>
+      <li><strong>The ask.</strong> Name it: introductions to 15 therapists, a legal review, or a decision on provider and pricing.</li>
+    </ol>
+    <h3>Hard questions, honest answers</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Question</th><th>Answer</th></tr></thead>
+        <tbody>
+          <tr><td>"Isn't this just Upheal or Mentalyc?"</td><td>They record sessions and are strong on cross-session tracking. We do not record anything and work beside any EHR. Whether that is enough is exactly what the 60-day test measures.</td></tr>
+          <tr><td>"Is it HIPAA compliant?"</td><td>No, not yet, and we say so. It is a launch gate: audit logs, MFA, encryption controls and executed BAAs before any real patient data.</td></tr>
+          <tr><td>"What if the AI is wrong?"</td><td>It is always a draft. The therapist edits and signs. Gaps are marked "[Therapist to complete]". We are adding provenance links and an AI-assisted marker.</td></tr>
+          <tr><td>"How big is the market?"</td><td>Roughly 150,000 to 400,000 independent US therapists by our model. At 1% penetration and $29 a month that is $0.4M to $1.4M a year, so clinic accounts matter.</td></tr>
+          <tr><td>"Why not use audio, like everyone else?"</td><td>Consent, retention and the psychotherapy-notes question. Text-first removes them. Dictation will close the time gap.</td></tr>
+          <tr><td>"What have you actually built?"</td><td>A working draft-to-memory loop, ~5,700 lines, 9 commits in four days, plus full documentation. Login, billing, search and compliance controls are not built. See the Case Study status table.</td></tr>
+          <tr><td>"What about patients?"</td><td>They never see it, but they are affected. We plan a consent template, per-client opt-out, and pseudonymised AI calls.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <h3>Live demo checklist</h3>
+    <ul>
+      <li>Start Postgres and Redis (<code>docker compose up</code>), apply migrations, run the API (port 3001) and web app (port 3000), and set <code>OPENAI_API_KEY</code>.</li>
+      <li>Use <strong>fictional data only</strong>. No real client information in a demo or a beta without BAAs.</li>
+      <li>The JSON parsing bug is fixed. Rehearse once end-to-end anyway; have screenshots as a fallback if the network or the AI service fails.</li>
+    </ul>
+
+    <div class="doc-nav">
+      <a href="case-study.html" class="doc-nav-btn">
+        <span class="doc-nav-label">← Previous</span>
+        <span class="doc-nav-title">Case Study</span>
+      </a>
+      <a href="features.html" class="doc-nav-btn next">
+        <span class="doc-nav-label">Next →</span>
+        <span class="doc-nav-title">Features</span>
+      </a>
+    </div>
+  </main>
+
+  <aside class="page-toc">
+    <span class="toc-label">On this page</span>
+    <a href="#scorecard">Scorecard</a>
+    <a href="#founder">Founder</a>
+    <a href="#pm">Product manager</a>
+    <a href="#design">Visual design</a>
+    <a href="#ux">UX</a>
+    <a href="#therapist">Therapist</a>
+    <a href="#patient">Patient</a>
+    <a href="#actions">Ten actions</a>
+    <a href="#present">Presenting</a>
+  </aside>
+</div>
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-logo">⬡ <span>TherapOS</span></div>
+    <div class="footer-links">
+      <a href="../index.html">Home</a>
+      <a href="plan.html">Full Plan</a>
+      <a href="research.html">Research</a>
+      <a href="case-study.html">Case Study</a>
+      <a href="pricing.html">Pricing</a>
+    </div>
+    <div class="footer-copy">© 2026 TherapOS · Pre-launch</div>
+  </div>
+</footer>
+</body>
+</html>

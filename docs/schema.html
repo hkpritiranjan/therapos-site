@@ -14,7 +14,7 @@
     <a href="../index.html#features">Features</a>
     <a href="../index.html#pricing">Pricing</a>
     <a href="index.html" style="color:var(--accent)">Docs</a>
-    <a href="../index.html#pricing" class="nav-cta">Start free trial</a>
+    <a href="../index.html#pricing" class="nav-cta">Join the waitlist</a>
   </div>
 </nav>
 <div class="docs-layout">
@@ -24,6 +24,10 @@
     <a href="quickstart.html">Quickstart</a>
     <div class="group">Product</div>
     <a href="plan.html">Full Product Plan</a>
+    <a href="research.html">Market &amp; Regulatory Research</a>
+    <a href="competitors.html">Competitors &amp; Strategy</a>
+    <a href="case-study.html">Case Study</a>
+    <a href="review.html">Product Review</a>
     <a href="features.html">Features</a>
     <a href="pricing.html">Pricing</a>
     <a href="roadmap.html">Roadmap</a>
@@ -38,6 +42,14 @@
     <h1>Database Schema</h1>
     <p class="page-desc">PostgreSQL 15 via Prisma ORM with the pgvector extension for embedding storage. All tables use CUID primary keys. PHI fields are additionally encrypted at the application layer via envelope encryption.</p>
     <hr>
+
+    <div class="callout callout-warn">
+      <div class="callout-icon">⚠</div>
+      <div class="callout-body">
+        <div class="callout-label">Differences from the deployed Prisma schema</div>
+        <p>The implemented schema uses <code>stripeCustomerId</code> / <code>stripeSubId</code> only (no Razorpay fields yet), adds an optional <code>passwordHash</code> on <code>User</code> for the built-in email/password auth, and has no HNSW index on the vector tables in the first migration. Treat this page as the target model and the repository's <code>prisma/schema.prisma</code> as the truth.</p>
+      </div>
+    </div>
 
     <h2>Entity Relationship Map</h2>
     <pre>User ──────────────────── Patient ──── Session ──── SessionNote
@@ -493,7 +505,7 @@ LIMIT 10;
       <a href="api.html">API</a>
       <a href="ai.html">AI</a>
     </div>
-    <div class="footer-copy">© 2026 TherapOS · HIPAA compliant</div>
+    <div class="footer-copy">© 2026 TherapOS · Pre-launch · building toward HIPAA</div>
   </div>
 </footer>
 </body>

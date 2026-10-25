@@ -8,86 +8,91 @@
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⬡</text></svg>">
 <link rel="stylesheet" href="styles/main.css">
 <style>
-/* Landing-page specific */
-.hero{padding:6rem 0 5rem;text-align:center}
-.hero-badge{display:inline-flex;align-items:center;gap:.5rem;background:var(--a10);border:1px solid var(--a30);border-radius:100px;padding:.35rem 1rem;font-size:.78rem;color:#A5B4FC;font-weight:500;margin-bottom:1.75rem}
-.hero-badge::before{content:'✦';color:var(--accent)}
-.hero h1{margin-bottom:1.25rem}
-.hero p{font-size:1.1rem;max-width:580px;margin:0 auto 2rem}
+/* ── Landing page ───────────────────────────────────────────── */
+section{position:relative}
+.hero{margin:1rem 1rem 0;border-radius:44px;background:var(--navy);padding:5.5rem 0 3.5rem;text-align:center;position:relative;overflow:hidden;
+  background-image:radial-gradient(600px 380px at 85% -10%,rgba(108,92,240,.45),transparent 70%),radial-gradient(520px 360px at 5% 110%,rgba(127,198,192,.25),transparent 70%)}
+.hero .container-sm{position:relative;z-index:2}
+.hero-badge{display:inline-flex;align-items:center;gap:.5rem;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.22);border-radius:99px;padding:.4rem 1.1rem;font-size:.78rem;color:#fff;font-weight:500;margin-bottom:1.6rem}
+.hero-badge::before{content:'✦';color:var(--yellow)}
+.hero h1{margin-bottom:1.2rem;font-size:clamp(2.6rem,6vw,4.2rem);color:#fff}
+.hero h1.grad{background:linear-gradient(110deg,#FFE98A 0%,#FFC2DD 55%,#C9CBF5 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.hero p{font-size:1.08rem;max-width:600px;margin:0 auto 2rem;color:#D9DBFA}
 .hero-actions{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
-.hero-sub{font-size:.8rem;color:var(--muted);margin-top:1rem}
+.hero-sub{font-size:.8rem;color:#A9ADEB !important;margin-top:1.1rem !important}
 
-.stats-bar{background:var(--s1);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:2rem 0}
-.stats-inner{display:flex;justify-content:center;gap:4rem;flex-wrap:wrap}
-.stat-item{text-align:center}
-.stat-number{font-size:2rem;font-weight:800;color:var(--ink);line-height:1;font-variant-numeric:tabular-nums}
-.stat-number .accent{color:var(--accent)}
-.stat-label{font-size:.78rem;color:var(--muted);margin-top:.35rem}
-
-.problem-section{padding:5rem 0;text-align:center}
-.problem-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-top:3rem}
-.problem-item{background:var(--s1);padding:1.75rem;text-align:left}
-.problem-item h3{color:var(--ink);margin-bottom:.5rem;font-size:.95rem}
-.problem-item p{font-size:.875rem;margin:0}
-
-.how-section{padding:5rem 0}
-.how-steps{display:grid;grid-template-columns:1fr 1fr 1fr;gap:2rem;margin-top:3rem}
-.how-step{position:relative;padding-left:3rem}
-.step-num{position:absolute;left:0;top:0;width:2rem;height:2rem;background:var(--a20);border:1px solid var(--a30);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.78rem;font-weight:800;color:var(--accent)}
-
-.features-section{padding:5rem 0}
-.features-section h2{text-align:center;margin-bottom:.75rem}
-.features-section>.container>p{text-align:center;max-width:520px;margin:0 auto 3rem}
-.feature-card{background:var(--s1);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;transition:border-color .2s}
-.feature-card:hover{border-color:var(--accent)}
-.feature-icon{font-size:1.5rem;margin-bottom:.85rem;display:block}
-.feature-card h3{font-size:.95rem;margin-bottom:.4rem}
-.feature-card p{font-size:.83rem;margin:0}
-
-.who-section{padding:5rem 0;background:var(--s1);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
-.persona-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;margin-top:2.5rem}
-.persona-card{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem}
-.persona-title{font-weight:600;color:var(--ink);font-size:.9rem;margin-bottom:.3rem}
-.persona-desc{font-size:.8rem;color:var(--mid)}
-
-.pricing-section{padding:5rem 0;text-align:center}
-.pricing-section h2{margin-bottom:.75rem}
-.pricing-section>.container>p{max-width:460px;margin:0 auto 3rem}
-.pricing-grid{display:grid;grid-template-columns:1fr 1.1fr 1fr;gap:1.25rem;align-items:start;max-width:860px;margin:0 auto}
-.pricing-card{background:var(--s1);border:1px solid var(--border);border-radius:var(--radius);padding:1.75rem;text-align:left}
-.pricing-card.featured{border-color:var(--accent);position:relative}
-.pricing-card.featured::before{content:'Most Popular';position:absolute;top:-1px;left:50%;transform:translateX(-50%);background:var(--accent);color:#fff;font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:.25rem .75rem;border-radius:0 0 6px 6px}
-.price-label{font-size:.75rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.5rem}
-.price-amount{font-size:2.2rem;font-weight:800;color:var(--ink);line-height:1}
-.price-amount span{font-size:.9rem;font-weight:400;color:var(--muted)}
-.price-period{font-size:.78rem;color:var(--muted);margin-bottom:1.25rem}
-.price-features{list-style:none;padding:0;margin:1.25rem 0}
-.price-features li{font-size:.83rem;color:var(--mid);padding:.35rem 0;border-bottom:1px solid var(--border);display:flex;gap:.5rem;align-items:flex-start}
-.price-features li::before{content:'✓';color:var(--green);font-size:.75rem;margin-top:.1rem;flex-shrink:0}
-.price-features li:last-child{border-bottom:none}
-.price-cta{display:block;text-align:center;margin-top:1.25rem;padding:.65rem;border-radius:6px;font-size:.875rem;font-weight:600;border:1px solid var(--border);color:var(--mid);transition:all .15s}
-.price-cta:hover{border-color:var(--accent);color:var(--ink);opacity:1}
-.pricing-card.featured .price-cta{background:var(--accent);color:#fff;border-color:var(--accent)}
-
-.cta-section{padding:6rem 0;text-align:center}
-.cta-section h2{margin-bottom:1rem}
-.cta-section p{max-width:460px;margin:0 auto 2rem}
-
-/* Mock UI */
-.ui-preview{margin-top:4rem;background:var(--s1);border:1px solid var(--border);border-radius:12px;overflow:hidden;max-width:820px;margin:3rem auto 0}
-.ui-bar{background:var(--s2);border-bottom:1px solid var(--border);padding:.75rem 1rem;display:flex;align-items:center;gap:.75rem}
-.ui-dot{width:10px;height:10px;border-radius:50%}
+.ui-preview{position:relative;z-index:2;background:#fff;border-radius:28px;overflow:hidden;max-width:840px;margin:3rem auto 0;box-shadow:0 30px 70px rgba(0,0,0,.35),0 0 0 8px rgba(255,255,255,.08);text-align:left}
+.ui-bar{background:var(--l10);border-bottom:1px solid var(--border);padding:.8rem 1.1rem;display:flex;align-items:center;gap:.5rem}
+.ui-dot{width:11px;height:11px;border-radius:50%}
+.ui-bar span{font-size:.74rem;color:var(--muted)}
 .ui-content{display:grid;grid-template-columns:1fr 1.2fr;min-height:320px}
-.ui-left{border-right:1px solid var(--border);padding:1.25rem}
-.ui-right{padding:1.25rem}
-.ui-section-label{font-size:.6rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:.75rem}
-.ui-prep-item{background:var(--s2);border-radius:4px;padding:.6rem .75rem;margin-bottom:.5rem;font-size:.72rem;color:var(--mid)}
-.ui-prep-item strong{color:var(--ink);display:block;font-size:.7rem;margin-bottom:.2rem}
-.ui-field{background:var(--s2);border:1px solid var(--border);border-radius:4px;padding:.6rem .75rem;margin-bottom:.6rem}
-.ui-field-label{font-size:.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.3rem}
-.ui-field-content{font-size:.72rem;color:var(--mid);line-height:1.4}
-.ui-ai-badge{display:inline-flex;align-items:center;gap:.25rem;font-size:.62rem;color:var(--accent);font-weight:600;margin-bottom:.4rem}
+.ui-left{border-right:1px solid var(--border);padding:1.3rem;background:#FFFDF8}
+.ui-right{padding:1.3rem}
+.ui-section-label{font-size:.62rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:.75rem}
+.ui-prep-item{border-radius:14px;padding:.7rem .85rem;margin-bottom:.55rem;font-size:.74rem;color:var(--mid);line-height:1.5}
+.ui-prep-item:nth-of-type(1){background:var(--l10)}.ui-prep-item:nth-of-type(2){background:var(--pc10)}.ui-prep-item:nth-of-type(3){background:var(--g10)}
+.ui-prep-item strong{color:var(--ink);display:block;font-size:.72rem;margin-bottom:.2rem}
+.ui-field{background:#fff;border:1px solid var(--border);border-radius:14px;padding:.65rem .85rem;margin-bottom:.6rem}
+.ui-field-label{font-size:.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:.3rem}
+.ui-field-content{font-size:.74rem;color:var(--mid);line-height:1.5}
+.ui-ai-badge{display:inline-flex;align-items:center;gap:.3rem;font-size:.64rem;color:var(--accent);background:var(--l10);padding:.15rem .6rem;border-radius:99px;font-weight:600;margin-bottom:.6rem}
 .ui-ai-badge::before{content:'✦';font-size:.6rem}
+
+.stats-bar{padding:3rem 0 1rem}
+.stats-inner{max-width:1100px;margin:0 auto;padding:0 2rem;display:grid;grid-template-columns:repeat(4,1fr);gap:1rem}
+.stat-item{border-radius:26px;padding:1.5rem 1.3rem;text-align:left}
+.stat-item:nth-child(1){background:var(--y10)}.stat-item:nth-child(2){background:var(--g10)}.stat-item:nth-child(3){background:var(--l10)}.stat-item:nth-child(4){background:var(--p10)}
+.stat-number{font-family:var(--serif);font-size:3rem;font-weight:800;color:var(--navy);line-height:1}
+.stat-number .accent{color:var(--navy)}
+.stat-label{font-size:.82rem;color:var(--mid);margin-top:.5rem;line-height:1.45}
+
+.problem-section,.how-section,.features-section,.pricing-section{padding:5rem 0;text-align:center}
+.problem-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.1rem;margin-top:2.75rem}
+.problem-item{border-radius:28px;padding:1.9rem;text-align:left;box-shadow:var(--shadow)}
+.problem-item:nth-child(1){background:var(--pc10)}.problem-item:nth-child(2){background:var(--p10)}.problem-item:nth-child(3){background:var(--t10)}
+.problem-item h3{color:var(--ink);margin:0 0 .6rem;font-size:1.02rem;text-transform:none;letter-spacing:0;font-family:var(--serif);font-weight:700}
+.problem-item p{font-size:.9rem;margin:0}
+
+.how-section{background:var(--l10);margin:0 1rem;border-radius:44px}
+.how-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;margin-top:3rem;text-align:left}
+.how-step{background:#fff;border-radius:28px;padding:2rem 1.7rem 1.7rem;box-shadow:var(--shadow);position:relative}
+.how-step h3{text-transform:none;letter-spacing:0;font-family:var(--serif);font-size:1.3rem;color:var(--ink);margin:1rem 0 .5rem}
+.how-step p{font-size:.88rem}
+.step-num{width:2.6rem;height:2.6rem;font-size:1rem;margin:0}
+
+.features-section h2{margin-top:0}
+.features-section>.container>p{max-width:540px;margin:0 auto}
+.feature-card{background:#fff;border:1px solid var(--border);border-radius:28px;padding:1.7rem;text-align:left;box-shadow:var(--shadow);transition:transform .18s,box-shadow .18s}
+.feature-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
+.feature-icon{width:3.1rem;height:3.1rem;border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin-bottom:1rem}
+.feature-card:nth-child(1) .feature-icon{background:var(--y10)}.feature-card:nth-child(2) .feature-icon{background:var(--l10)}.feature-card:nth-child(3) .feature-icon{background:var(--g10)}
+.feature-card:nth-child(4) .feature-icon{background:var(--p10)}.feature-card:nth-child(5) .feature-icon{background:var(--t10)}.feature-card:nth-child(6) .feature-icon{background:var(--pc10)}
+.feature-card h3{text-transform:none;letter-spacing:0;font-family:var(--serif);font-size:1.25rem;color:var(--ink);margin:0 0 .45rem}
+.feature-card p{font-size:.86rem;margin:0 0 .9rem}
+.chip{display:inline-block;font-size:.64rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:.25rem .75rem;border-radius:99px}
+.chip-build{background:var(--t10);color:var(--tt)}.chip-soon{background:var(--pc10);color:#9A5B14}
+
+.who-section{padding:5rem 0;text-align:center}
+.persona-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.1rem;margin-top:2.5rem;text-align:left}
+.persona-card{background:#fff;border:1px solid var(--border);border-radius:24px;padding:1.5rem;box-shadow:var(--shadow);border-top:6px solid var(--lav)}
+.persona-card:nth-child(2){border-top-color:var(--yellow)}.persona-card:nth-child(3){border-top-color:var(--teal)}
+.persona-title{font-family:var(--serif);font-weight:700;color:var(--ink);font-size:1.15rem;margin-bottom:.35rem}
+.persona-desc{font-size:.86rem;color:var(--mid)}
+.who-section .callout{max-width:760px;margin:2rem auto 0;text-align:left}
+
+.pricing-section .pricing-grid{max-width:920px;margin:3rem auto 0}
+.pricing-section>.container>p{max-width:520px;margin:0 auto}
+
+.cta-section{margin:2rem 1rem 1rem;border-radius:44px;background:var(--navy);padding:5rem 0;text-align:center;position:relative;overflow:hidden;
+  background-image:radial-gradient(520px 340px at 80% 0%,rgba(108,92,240,.5),transparent 70%)}
+.cta-section .container-sm{position:relative;z-index:2}
+.cta-section h2{color:#fff;margin:0 0 1rem;font-size:2.4rem}
+.cta-section h2::after{display:none}
+.cta-section p{max-width:480px;margin:0 auto 2rem;color:#D9DBFA}
+.cta-section .eyebrow{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.25);color:#fff}
+.cta-section .hero-sub{color:#A9ADEB}
+
+@media(max-width:900px){.stats-inner{grid-template-columns:1fr 1fr}.problem-grid,.how-steps,.persona-grid{grid-template-columns:1fr}.ui-content{grid-template-columns:1fr}.ui-left{border-right:none;border-bottom:1px solid var(--border)}.hero{border-radius:30px;margin:.5rem}.how-section,.cta-section{margin-left:.5rem;margin-right:.5rem;border-radius:30px}}
 </style>
 </head>
 <body>
@@ -100,30 +105,37 @@
     <a href="#pricing">Pricing</a>
     <a href="docs/index.html">Docs</a>
     <a href="docs/plan.html">Product Plan</a>
-    <a href="#pricing" class="nav-cta">Start free trial</a>
+    <a href="#pricing" class="nav-cta">Join the waitlist</a>
   </div>
 </nav>
 
 <!-- HERO -->
 <section class="hero">
+  <span class="d d-flower-purple" style="left:-70px;bottom:-60px;width:260px;height:260px"></span>
+  <span class="d d-flower-blue" style="left:-40px;top:-40px;width:160px;height:160px;opacity:.85"></span>
+  <span class="d d-blob-yellow" style="left:14%;top:78px;width:96px;height:96px"></span>
+  <span class="d d-blob-teal" style="left:19%;top:150px;width:120px;height:120px"></span>
+  <span class="d d-cloud" style="right:12%;top:40px;width:150px;height:75px"></span>
+  <span class="d d-flower-coral" style="right:6%;top:150px;width:84px;height:84px"></span>
+  <span class="d d-flower-yellow" style="right:-30px;bottom:90px;width:150px;height:150px"></span>
   <div class="container-sm">
-    <div class="hero-badge">AI-native operating system for therapists</div>
+    <div class="hero-badge">Notes &amp; memory for independent therapists</div>
     <h1 class="grad">Stop writing notes at midnight.</h1>
-    <p>TherapOS is the AI copilot independent therapists open before every session — and can't practice without. AI-generated SOAP notes, smart session prep, and patient memory that compounds over time.</p>
+    <p>TherapOS drafts your session notes from the notes you already take, and remembers each client between sessions — without ever recording your sessions. SOAP, DAP and BIRP drafts, a prep brief before each visit, and an editable patient summary.</p>
     <div class="hero-actions">
-      <a href="#pricing" class="btn btn-primary btn-lg">Start free trial</a>
+      <a href="#pricing" class="btn btn-primary btn-lg">Join the waitlist</a>
       <a href="docs/index.html" class="btn btn-ghost btn-lg">View docs →</a>
     </div>
-    <p class="hero-sub">14-day free trial. No credit card required. Cancel anytime.</p>
+    <p class="hero-sub">Pre-launch · early access for independent therapists · you review and sign every note</p>
   </div>
 
   <!-- UI Preview -->
   <div class="ui-preview">
     <div class="ui-bar">
-      <div class="ui-dot" style="background:#EF4444"></div>
-      <div class="ui-dot" style="background:#F59E0B"></div>
-      <div class="ui-dot" style="background:#10B981"></div>
-      <span style="font-size:.72rem;color:var(--muted);margin-left:.5rem">Maya Rodriguez · Session 8 · Jul 20</span>
+      <div class="ui-dot" style="background:#E5647A"></div>
+      <div class="ui-dot" style="background:#F4CF4B"></div>
+      <div class="ui-dot" style="background:#A5DDB5"></div>
+      <span style="margin-left:.5rem">Sample client (fictional) · Session 8 · sample data</span>
     </div>
     <div class="ui-content">
       <div class="ui-left">
@@ -167,16 +179,16 @@
 <div class="stats-bar">
   <div class="stats-inner">
     <div class="stat-item">
-      <div class="stat-number"><span class="accent">35%</span></div>
-      <div class="stat-label">of therapist time lost to documentation</div>
+      <div class="stat-number"><span class="accent">0</span></div>
+      <div class="stat-label">session recordings — you type or dictate your own notes</div>
     </div>
     <div class="stat-item">
-      <div class="stat-number"><span class="accent">16</span> min</div>
-      <div class="stat-label">of unpaid documentation per session</div>
+      <div class="stat-number"><span class="accent">100%</span></div>
+      <div class="stat-label">of AI output is a draft you edit and finalize</div>
     </div>
     <div class="stat-item">
-      <div class="stat-number"><span class="accent">77%</span></div>
-      <div class="stat-label">of therapists report mental fatigue</div>
+      <div class="stat-number"><span class="accent">1</span></div>
+      <div class="stat-label">tool that works beside any EHR</div>
     </div>
     <div class="stat-item">
       <div class="stat-number"><span class="accent">$0</span></div>
@@ -193,15 +205,15 @@
     <p style="max-width:520px;margin:1rem auto 0">Every major practice management tool was built around billing codes, not clinical care. Therapists get the paperwork, not the intelligence.</p>
     <div class="problem-grid">
       <div class="problem-item">
-        <h3>📝 Blank page, every session</h3>
+        <h3>Blank page, every session</h3>
         <p>You remember what happened last session. Your EHR doesn't. Every note starts from zero — no context, no continuity, no memory of what was said 3 months ago.</p>
       </div>
       <div class="problem-item">
-        <h3>⏰ Hours of unpaid work</h3>
-        <p>Each session generates 16 minutes of documentation. 25 clients a week = 6+ hours of note-writing. All after your last session, when you're most tired.</p>
+        <h3>Hours of unpaid work</h3>
+        <p>Notes pile up after the last session of the day, when you are most tired. We are measuring how much time TherapOS actually saves with our first beta therapists and will publish the real numbers.</p>
       </div>
       <div class="problem-item">
-        <h3>🧩 Broken continuity</h3>
+        <h3>Broken continuity</h3>
         <p>"What homework did I assign 3 sessions ago?" "When did sleep problems start?" Questions that take 20 minutes to answer from reading old notes now take 3 seconds.</p>
       </div>
     </div>
@@ -222,12 +234,12 @@
       <div class="how-step">
         <div class="step-num">2</div>
         <h3>After the session</h3>
-        <p>Type your raw notes — a few bullet points, whatever comes to mind. Click "Generate Draft." AI produces a complete, clinically-worded SOAP or DAP note in 8 seconds.</p>
+        <p>Type your raw notes — a few bullet points, whatever comes to mind. Click "Generate Draft." AI streams a clinically-worded SOAP, DAP or BIRP draft in seconds. You edit every field and sign it.</p>
       </div>
       <div class="how-step">
         <div class="step-num">3</div>
         <h3>Over time</h3>
-        <p>Every finalized note deepens TherapOS's understanding of your patient. By session 10, it knows their arc better than any EHR ever could. Switching means losing that memory.</p>
+        <p>Every finalized note updates a short, editable summary of your client. You can read it, correct it, and trace each line back to its source note — so the memory is yours, not a black box.</p>
       </div>
     </div>
   </div>
@@ -238,37 +250,43 @@
   <div class="container">
     <span class="eyebrow">Features</span>
     <h2>Everything clinical. Nothing else.</h2>
-    <p>No billing. No insurance. No scheduling. Just the AI-powered clinical tools that save you 2 hours every day.</p>
+    <p>No billing. No insurance. No scheduling. Just the clinical tools — each marked with where it stands today.</p>
     <div class="grid3" style="margin-top:2.5rem">
       <div class="feature-card">
-        <span class="feature-icon">📝</span>
+        <span class="feature-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#070C56" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h10l4 4v12H5z"/><path d="M15 4v4h4M8 12h8M8 16h5"/></svg></span>
         <h3>AI SOAP & DAP Notes</h3>
         <p>Drop in your raw session notes. Get a complete, professionally-worded clinical note in seconds. Review, edit, finalize.</p>
+        <span class="chip chip-build">In build</span>
       </div>
       <div class="feature-card">
-        <span class="feature-icon">🧠</span>
+        <span class="feature-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#070C56" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l1.8 4.6L18 9l-4.2 1.4L12 15l-1.8-4.6L6 9l4.2-1.4z"/><path d="M18 15l.8 2.2L21 18l-2.2.8L18 21l-.8-2.2L15 18l2.2-.8z"/></svg></span>
         <h3>Session Prep Briefs</h3>
         <p>A 90-second pre-session brief: recap of last session, suggested questions, homework check-in, and goal progress. Auto-generated before every session.</p>
+        <span class="chip chip-build">In build</span>
       </div>
       <div class="feature-card">
-        <span class="feature-icon">💾</span>
+        <span class="feature-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#070C56" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l9 4.5-9 4.5-9-4.5z"/><path d="M3 12l9 4.5 9-4.5M3 16.5L12 21l9-4.5"/></svg></span>
         <h3>Patient Memory</h3>
         <p>A rolling AI summary updated after every note. The AI knows your patient's arc — what's improved, what persists, what patterns are emerging.</p>
+        <span class="chip chip-build">In build</span>
       </div>
       <div class="feature-card">
-        <span class="feature-icon">🔍</span>
+        <span class="feature-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#070C56" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="6"/><path d="M20 20l-4.2-4.2"/></svg></span>
         <h3>Natural Language Search</h3>
         <p>Ask "what coping strategies have worked?" or "when did sleep problems start?" across all session history instantly. No more reading 15 old notes.</p>
+        <span class="chip chip-soon">Planned · Q4 2026</span>
       </div>
       <div class="feature-card">
-        <span class="feature-icon">🎯</span>
+        <span class="feature-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#070C56" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r=".8" fill="#070C56"/></svg></span>
         <h3>Treatment Goal Tracking</h3>
         <p>Set goals. Track progress across sessions. See the treatment arc at a glance. Every session's note contributes to the goal timeline.</p>
+        <span class="chip chip-soon">Planned · Q4 2026</span>
       </div>
       <div class="feature-card">
-        <span class="feature-icon">📚</span>
+        <span class="feature-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#070C56" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5a2 2 0 012-2h13v16H6a2 2 0 00-2 2z"/><path d="M4 19V5M9 8h6"/></svg></span>
         <h3>Homework Generator</h3>
         <p>AI suggests clinically-grounded homework based on session themes and treatment modality. CBT, DBT, or psychodynamic — the suggestions fit your approach.</p>
+        <span class="chip chip-build">In build</span>
       </div>
     </div>
   </div>
@@ -305,12 +323,12 @@
   <div class="container">
     <span class="eyebrow">Pricing</span>
     <h2>Pays for itself after one session.</h2>
-    <p>At $150/session, TherapOS costs less than 1/5 of one session per month. Keep SimplePractice for billing — use TherapOS for everything clinical.</p>
+    <p>Planned pricing, subject to change before launch. At $150/session, $29 is under a fifth of one session per month. Keep SimplePractice for billing — use TherapOS for everything clinical.</p>
     <div class="pricing-grid">
       <div class="pricing-card">
         <div class="price-label">Free Trial</div>
         <div class="price-amount">$0</div>
-        <div class="price-period">14 days · No card required</div>
+        <div class="price-period">30 days · No card required</div>
         <ul class="price-features">
           <li>Unlimited patients</li>
           <li>AI note generation</li>
@@ -318,7 +336,7 @@
           <li>Treatment goals</li>
           <li>Homework generator</li>
         </ul>
-        <a href="#" class="price-cta">Start free trial</a>
+        <a href="#" class="price-cta">Join the waitlist</a>
       </div>
       <div class="pricing-card featured">
         <div class="price-label">Solo</div>
@@ -326,13 +344,13 @@
         <div class="price-period">or $249/year · Save $99</div>
         <ul class="price-features">
           <li>Everything in Free Trial</li>
-          <li>100 AI notes/month</li>
+          <li>Up to 200 AI notes/month</li>
           <li>Natural language search</li>
           <li>Patient memory (AI summary)</li>
           <li>Priority support</li>
-          <li>HIPAA-ready (BAA included)</li>
+          <li>BAA planned for paid plans (not yet available)</li>
         </ul>
-        <a href="#" class="price-cta">Start Solo →</a>
+        <a href="#" class="price-cta">Join the waitlist →</a>
       </div>
       <div class="pricing-card">
         <div class="price-label">Clinic</div>
@@ -355,15 +373,19 @@
 
 <!-- CTA -->
 <section class="cta-section">
+  <span class="d d-flower-purple" style="right:-60px;bottom:-70px;width:240px;height:240px"></span>
+  <span class="d d-blob-yellow" style="left:8%;top:50px;width:90px;height:90px"></span>
+  <span class="d d-blob-teal" style="left:4%;bottom:40px;width:120px;height:120px"></span>
+  <span class="d d-cloud" style="right:14%;top:36px;width:140px;height:70px"></span>
   <div class="container-sm">
     <span class="eyebrow">Get started</span>
-    <h2>The AI copilot that runs your practice.</h2>
-    <p>Join therapists who have taken back 2 hours every day. Start your free trial — no credit card, no commitment.</p>
+    <h2>Notes and memory — without recording your sessions.</h2>
+    <p>TherapOS is in pre-launch. Join the waitlist for early access and help shape what we build.</p>
     <div class="hero-actions">
-      <a href="#" class="btn btn-primary btn-lg">Start free trial</a>
+      <a href="#" class="btn btn-primary btn-lg">Join the waitlist</a>
       <a href="docs/index.html" class="btn btn-ghost btn-lg">Read the docs →</a>
     </div>
-    <p class="hero-sub" style="margin-top:1.25rem">US & India · HIPAA-ready · Built by therapists, for therapists</p>
+    <p class="hero-sub" style="margin-top:1.25rem">US &amp; India · Pre-launch · Built for independent therapists</p>
   </div>
 </section>
 
@@ -375,9 +397,12 @@
       <a href="docs/plan.html">Product Plan</a>
       <a href="docs/architecture.html">Architecture</a>
       <a href="docs/api.html">API Reference</a>
+      <a href="docs/research.html">Research</a>
+      <a href="docs/case-study.html">Case Study</a>
+      <a href="docs/review.html">Product Review</a>
       <a href="docs/pricing.html">Pricing</a>
     </div>
-    <div class="footer-copy">© 2026 TherapOS · HIPAA-ready · Built for independent therapists</div>
+    <div class="footer-copy">© 2026 TherapOS · Pre-launch · building toward HIPAA</div>
   </div>
 </footer>
 

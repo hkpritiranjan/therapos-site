@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Market &amp; Regulatory Research — TherapOS Docs</title>
+<meta name="description" content="Evidence base for the TherapOS plan: market size, AI adoption, competitors, HIPAA, state AI laws and India DPDP. Each claim is tagged by confidence. Compiled 25 October 2026.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⬡</text></svg>">
+<link rel="stylesheet" href="../styles/main.css">
+</head>
+<body>
+<nav class="site-nav">
+  <a href="/" class="nav-logo">⬡ <span>TherapOS</span></a>
+  <div class="nav-links">
+    <a href="../index.html#features">Features</a>
+    <a href="../index.html#pricing">Pricing</a>
+    <a href="index.html" style="color:var(--accent)">Docs</a>
+    <a href="../index.html#pricing" class="nav-cta">Join the waitlist</a>
+  </div>
+</nav>
+<div class="docs-layout">
+  <nav class="docs-sidebar">
+    <div class="group">Getting Started</div>
+    <a href="index.html">Overview</a>
+    <a href="quickstart.html">Quickstart</a>
+    <div class="group">Product</div>
+    <a href="plan.html">Full Product Plan</a>
+    <a href="research.html" class="active">Market &amp; Regulatory Research</a>
+    <a href="competitors.html">Competitors &amp; Strategy</a>
+    <a href="case-study.html">Case Study</a>
+    <a href="review.html">Product Review</a>
+    <a href="features.html">Features</a>
+    <a href="pricing.html">Pricing</a>
+    <a href="roadmap.html">Roadmap</a>
+    <div class="group">Technical</div>
+    <a href="architecture.html">Architecture</a>
+    <a href="schema.html">Database Schema</a>
+    <a href="api.html">API Reference</a>
+    <a href="ai.html">AI &amp; Prompts</a>
+  </nav>
+  <main class="docs-content">
+    <span class="eyebrow">Product</span>
+    <h1>Market &amp; Regulatory Research</h1>
+    <p class="page-desc">Evidence base for the TherapOS plan: market size, AI adoption, competitors, HIPAA, state AI laws and India DPDP. Each claim is tagged by confidence. Compiled 25 October 2026.</p>
+
+    <div class="callout callout-info">
+      <div class="callout-icon">ℹ</div>
+      <div class="callout-body">
+        <div class="callout-label">How to read this page</div>
+        <p>Research compiled <strong>25 October 2026</strong> from public web sources. Each claim carries a confidence tag: <span class="badge badge-green">Confirmed</span> official or primary source; <span class="badge badge-yellow">Reported</span> secondary source, vendor blog or compliance tracker — directionally useful, verify before relying on it; <span class="badge badge-red">Unverified</span> an assumption of ours with no source. Most competitor material is written by competitors. This is product research, not legal advice.</p>
+      </div>
+    </div>
+
+    <h2 id="summary">1. Summary: what the research changed</h2>
+    <div class="grid2" style="margin:1rem 0">
+      <div class="card"><h4>Still true</h4><p>AI use among therapists is rising fast, the buyer is price-sensitive, and the "keep your EHR, add TherapOS" positioning avoids a painful migration.</p></div>
+      <div class="card"><h4>No longer true</h4><p>"No competitor has session prep and cross-session memory." Upheal, Mentalyc and SimplePractice all ship cross-session features. The moat claim has to be rebuilt on something else.</p></div>
+      <div class="card"><h4>Not supportable yet</h4><p>The "35% of time / 16 minutes per session / 77% fatigue" statistics, the "signed BAAs with Anthropic and OpenAI" claim, and "HIPAA-ready" marketing. See <a href="#corrections">§8</a>.</p></div>
+      <div class="card"><h4>New opportunity</h4><p>Text-first input (no audio recording) sidesteps recording-consent rules, transcript retention and the psychotherapy-notes grey area that ambient scribes must manage.</p></div>
+    </div>
+
+    <h2 id="market">2. Market size</h2>
+    <h3>US clinician population</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Group</th><th>Figure</th><th>Source / caveat</th><th>Confidence</th></tr></thead>
+        <tbody>
+          <tr><td>Marriage &amp; family therapists</td><td>~77,800 jobs (2024); 13% self-employed; +13% growth 2024–34</td><td><a href="https://www.bls.gov/ooh/community-and-social-service/marriage-and-family-therapists.htm">BLS OOH</a></td><td><span class="badge badge-green">Confirmed</span></td></tr>
+          <tr><td>Substance-abuse, behavioral-disorder &amp; mental-health counselors</td><td>~483,500 jobs (2024)</td><td><a href="https://www.bls.gov/ooh/community-and-social-service/substance-abuse-behavioral-disorder-and-mental-health-counselors.htm">BLS OOH</a>. A mixed group, and wage-and-salary counts likely understate private practice.</td><td><span class="badge badge-green">Confirmed</span></td></tr>
+          <tr><td>Social workers (all)</td><td>~810,900 jobs (2024)</td><td><a href="https://www.bls.gov/ooh/community-and-social-service/social-workers.htm">BLS OOH</a> via secondary summary. Includes non-clinical roles.</td><td><span class="badge badge-yellow">Reported</span></td></tr>
+          <tr><td>Licensed clinical social workers</td><td>~273,000 (our arithmetic: ~463,000 licensed × 59% clinical)</td><td><a href="https://www.aswb.org/wp-content/uploads/2025/07/Social-Work-Workforce-Study-Series-Report-2.pdf">ASWB workforce study</a>. The 273k figure is derived, not published.</td><td><span class="badge badge-yellow">Reported</span></td></tr>
+          <tr><td>Practicing psychologists</td><td>~93,000–106,500 (dated: 2013–2014)</td><td>APA Center for Workforce Studies figures, differing definitions. No current count found.</td><td><span class="badge badge-yellow">Reported</span></td></tr>
+          <tr><td>Share in private practice</td><td>~45% of licensed psychologists (2015); 70% of APA's 2024 survey sample</td><td><a href="https://www.apa.org/pubs/reports/practitioner/2024/topline-data-2024-practitioner-survey.pdf">APA 2024 practitioner survey</a> is not a representative sample.</td><td><span class="badge badge-yellow">Reported</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <h3>Bottom-up serviceable market (our model)</h3>
+    <p>The groups above overlap and none of them isolates "independent, solo or small-group, therapy-focused." We therefore model a range rather than quote a single TAM. <strong>Every input in the "assumption" rows is <span class="badge badge-red">Unverified</span>.</strong></p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Step</th><th>Low</th><th>High</th><th>Basis</th></tr></thead>
+        <tbody>
+          <tr><td>Therapy-delivering clinicians (US)</td><td>~600,000</td><td>~900,000</td><td>Sum of rows above, discounted for overlap and non-therapy roles (assumption)</td></tr>
+          <tr><td>Share independent / private practice</td><td>25%</td><td>45%</td><td>BLS self-employment (13%) to APA psychologist share (~45%); assumption</td></tr>
+          <tr><td><strong>Independent therapists</strong></td><td><strong>~150,000</strong></td><td><strong>~400,000</strong></td><td>Serviceable population</td></tr>
+          <tr><td>Annual revenue per seat at Solo $29/mo</td><td colspan="2">$348 (monthly) · $249 (annual plan)</td><td>Pricing page</td></tr>
+          <tr><td>Revenue pool at 100% penetration</td><td>~$37M</td><td>~$139M</td><td>Population × $249–$348</td></tr>
+          <tr><td>At 1% penetration</td><td>~$0.4M ARR</td><td>~$1.4M ARR</td><td>1,500–4,000 paying seats</td></tr>
+          <tr><td>At 5% penetration</td><td>~$1.9M ARR</td><td>~$7M ARR</td><td>7,500–20,000 paying seats</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout callout-warn">
+      <div class="callout-icon">⚠</div>
+      <div class="callout-body">
+        <div class="callout-label">What this means for the plan</div>
+        <p>A $29 seat is a <strong>small-business</strong> outcome unless it expands into clinics (higher ARPU) or adjacent revenue. The 2029–2030 targets of ~$1M and $3–5M <em>MRR</em> would need roughly 30,000–150,000 paying seats at $29–$49, which is a large share of the entire serviceable population. Treat those years as aspirational and plan the next 18 months against the 1–5% rows. See the reconciliation in <a href="plan.html#40-five-year-vision">Plan §40</a>.</p>
+      </div>
+    </div>
+
+    <h2 id="demand">3. Demand: are therapists adopting AI?</h2>
+    <ul>
+      <li><strong>Adoption is rising quickly.</strong> APA's 2025 Practitioner Pulse Survey: psychologists who <em>never</em> used AI in practice fell from 71% to 44% in a year. <span class="badge badge-green">Confirmed</span> — <a href="https://www.apa.org/monitor/2026/03/ai-reshaping-therapy">APA Monitor</a>, <a href="https://bhbusiness.com/2025/12/10/proliferation-of-ai-tools-brings-increased-adoption-skepticism-among-psychologists/">Behavioral Health Business</a>.</li>
+      <li><strong>Regular use is still minority.</strong> 8% daily, 14% weekly, ~29% at least monthly. <span class="badge badge-yellow">Reported</span></li>
+      <li><strong>Use is administrative.</strong> Top uses: writing assistance, content generation, summarisation. Only 8% and 5% use AI for clinical diagnosis and client assistance. <span class="badge badge-yellow">Reported</span> This matches TherapOS's documentation-only scope.</li>
+      <li><strong>Trust is the barrier.</strong> ~9 in 10 psychologists report concerns about AI; about two-thirds worry about data breaches. <span class="badge badge-yellow">Reported</span></li>
+      <li><strong>Other professions agree.</strong> AAMFT's 2025 workforce study: 52% of MFTs use AI for administrative tasks such as note-taking. <span class="badge badge-yellow">Reported</span> — <a href="https://plus.aamft.org/?p=1277">AAMFT</a>. Different surveys use different windows, so do not compare the figures directly.</li>
+    </ul>
+    <p><strong>Implication:</strong> demand is not the constraint; credibility is. A product that is transparent about data flow, always shows its sources, and never overclaims on compliance has a real edge over louder competitors.</p>
+
+    <h2 id="pain">4. The documentation-burden claim</h2>
+    <p>Our earlier copy said therapists lose <strong>35% of working time</strong> to documentation, spend <strong>16 minutes per session</strong> on notes, and that <strong>77%</strong> report mental fatigue. A focused search found <strong>no reliable primary survey</strong> measuring psychotherapist documentation time. The nearest figures were:</p>
+    <ul>
+      <li>A vendor page claiming 15–20 hours/week, attributed to unlinked "NASW and APA workforce surveys." <span class="badge badge-red">Unverified</span></li>
+      <li>The APTA's 2025 survey of ~19,000 <em>physical</em> therapists (91% say administrative burden contributes to burnout). A different profession and mostly about prior authorisation. <span class="badge badge-yellow">Reported</span></li>
+    </ul>
+    <p><strong>Action taken:</strong> the unsourced statistics have been removed from the site. The ROI page now uses a transparent, adjustable assumption, and we will replace it with <em>measured</em> numbers from beta users (time-to-final-note, edit rate). See <a href="case-study.html#metrics">Case Study — Measuring</a>.</p>
+
+    <h2 id="competitors">5. Competitive landscape</h2>
+    <div class="callout callout-danger">
+      <div class="callout-icon">✗</div>
+      <div class="callout-body">
+        <div class="callout-label">Correction to our earlier positioning</div>
+        <p>The plan previously said no competitor combined AI notes, session prep and cross-session memory. That is not accurate. Upheal advertises a "Golden Thread" linking diagnosis, goals and every note, a "Case Snapshot" summary of a client's history, and an assistant that can pull history and open goals before a session. Mentalyc advertises a treatment planner and progress tracking across sessions. SimplePractice's Note Taker reads the client's previous progress note to match style. Whether each works well is a separate question, but we can no longer claim the feature gap.</p>
+      </div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Product</th><th>What it is</th><th>Cross-session features (as advertised)</th><th>Price as reported</th><th>Conf.</th></tr></thead>
+        <tbody>
+          <tr><td>SimplePractice</td><td>EHR + Note Taker add-on</td><td>Note Taker reads the previous progress note for style</td><td>EHR from ~$49/mo; Note Taker $35/mo per clinician</td><td><span class="badge badge-yellow">Reported</span></td></tr>
+          <tr><td>TherapyNotes</td><td>EHR + "TherapyFuel" AI</td><td>SOAP drafts from summary or transcript; locked to the TherapyNotes ecosystem</td><td>$69 solo / $79 first clinician; TherapyFuel $40/clinician</td><td><span class="badge badge-yellow">Reported</span></td></tr>
+          <tr><td>Upheal</td><td>AI scribe + optional EHR</td><td>Golden Thread; Case Snapshot; pre-session assistant</td><td>~$39/mo notes-only; EHR pay-per-session or capped (sources disagree)</td><td><span class="badge badge-yellow">Reported</span></td></tr>
+          <tr><td>Mentalyc</td><td>AI scribe (volume tiers)</td><td>AI treatment planner; progress and symptom tracking</td><td>~$19.99 (40 notes) to ~$119.99 (330 notes)</td><td><span class="badge badge-yellow">Reported</span></td></tr>
+          <tr><td>Freed</td><td>General-medicine AI scribe</td><td>Limited; EHR push on top tier</td><td>$39 (40 notes) / $79 / $119 per month</td><td><span class="badge badge-yellow">Reported</span></td></tr>
+          <tr><td>Heidi</td><td>General-medicine AI scribe</td><td>Not therapy-specific</td><td>Free tier; paid ~$110–$150/mo</td><td><span class="badge badge-yellow">Reported</span></td></tr>
+          <tr><td>Eleos Health</td><td>Enterprise behavioral-health AI</td><td>Advanced (agency-focused)</td><td>No public price; custom quotes; sells to organisations. <strong>Not $200/mo solo.</strong></td><td><span class="badge badge-yellow">Reported</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Sources: <a href="https://www.trytwofold.com/blog/ai-scribe-cost-for-therapists">Twofold cost comparison</a>, <a href="https://practiceharbor.com/blog/therapynotes-pricing">PracticeHarbor</a>, <a href="https://www.upheal.io/features/treatment-plans">Upheal</a>, <a href="https://www.trytwofold.com/compare/eleos-health-review">Eleos review</a>, <a href="https://www.softwareadvice.com/resources/simplepractice-vs-therapynotes-ai-features/">Software Advice</a>. Several are competitor-authored; re-check each vendor's own pricing page before publishing numbers.</p>
+
+    <h3>Where TherapOS can still win</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Wedge</th><th>Why it is defensible</th><th>Risk</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Text-first, no audio recorded</strong></td><td>Avoids recording consent (APA Standard 4.03), transcript retention questions and the psychotherapy-notes grey area. SimplePractice's June 2026 default opt-in to de-identified transcript retention shows this is a live trust issue.</td><td>Less time saved than ambient capture; therapists must still type or dictate raw notes.</td></tr>
+          <tr><td><strong>EHR-agnostic memory layer</strong></td><td>Works beside SimplePractice, TherapyNotes or paper. EHR-bundled AI is locked to its EHR.</td><td>No integration means copy-paste into the EHR. Friction at the exact moment of value.</td></tr>
+          <tr><td><strong>Inspectable memory</strong></td><td>Patient summary is editable, and every generated claim links to the source note. Builds trust where competitors are black boxes.</td><td>Needs UI work (provenance links) that is not yet built.</td></tr>
+          <tr><td><strong>Price</strong></td><td>$29 undercuts EHR add-ons ($35–$40) and most scribes ($39+). Only Mentalyc's entry tier is cheaper.</td><td>Race to the bottom; low ARPU (see §2).</td></tr>
+          <tr><td><strong>India</strong></td><td>None of the vendors above targets Indian practitioners or Razorpay/UPI billing in what we found.</td><td>Lower willingness to pay; DPDP compliance cost; unregulated "counsellor" title makes the ICP fuzzy.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>The honest, defensible one-liner is therefore <strong>"AI clinical notes and patient memory for therapists, without recording your sessions."</strong> Not "the only product with memory."</p>
+
+    <div class="callout callout-info"><div class="callout-icon">ℹ</div><div class="callout-body"><div class="callout-label">Deeper dive</div><p>Verified per-vendor profiles (US and India), the comparison matrix, opportunity ranking and the validation plan are on <a href="competitors.html">Competitors &amp; Strategy</a>.</p></div></div>
+    <h2 id="regulation">6. Regulation and compliance</h2>
+    <h3>HIPAA: psychotherapy notes versus progress notes</h3>
+    <p>Under <a href="https://www.law.cornell.edu/cfr/text/45/164.501">45 CFR 164.501</a>, <em>psychotherapy notes</em> are a mental-health professional's notes documenting or analysing the content of a counselling session, <strong>kept separate from the rest of the record</strong>. They get extra protection and generally need specific authorisation to disclose. The definition excludes medication monitoring, session times, modalities and frequencies, test results, and summaries of diagnosis, functional status, treatment plan, symptoms, prognosis and progress. <span class="badge badge-green">Confirmed</span> for the definition; <span class="badge badge-yellow">Reported</span> for how it applies to AI output — we found no authoritative guidance.</p>
+    <div class="callout callout-accent">
+      <div class="callout-icon">✦</div>
+      <div class="callout-body">
+        <div class="callout-label">Product implication</div>
+        <p>TherapOS finalized notes are <strong>progress notes</strong> (part of the record). Raw session notes the therapist types are closer to <strong>process / psychotherapy notes</strong>. Design rule: raw notes are treated as the most sensitive data, stay out of analytics and embeddings by default, and the therapist can choose to keep them off the AI path entirely. This is a Phase-1 requirement, not an afterthought. Get counsel to confirm the classification.</p>
+      </div>
+    </div>
+
+    <h3>AI vendors and BAAs</h3>
+    <ul>
+      <li><strong>OpenAI:</strong> signs BAAs for API customers, but only for endpoints that qualify for zero data retention (ZDR); without ZDR, API traffic can be retained up to 30 days. Approval is case-by-case. <span class="badge badge-yellow">Reported</span> — <a href="https://cdn.openai.com/osa/baa-hipaa-guide.pdf">OpenAI HIPAA guide</a>.</li>
+      <li><strong>Anthropic:</strong> offers HIPAA-ready API access with a BAA for eligible customers, conditioned on specific eligible services (such as zero-retention). Excludes Workbench/Console, consumer plans and beta features. <span class="badge badge-yellow">Reported</span> — <a href="https://platform.claude.com/docs/en/manage-claude/api-and-data-retention">Anthropic docs</a>.</li>
+      <li><strong>Implication:</strong> "signed BAAs with Anthropic and OpenAI" is a <em>to-do</em>, not a fact. Until executed, no real patient data may touch either API, and the product must be marketed as pre-launch. The current app also sends patient names to OpenAI in prompts; this must change (pseudonymise before the model call).</li>
+    </ul>
+
+    <h3>State laws on AI in mental health</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>State</th><th>Rule (per secondary trackers)</th><th>Relevance to TherapOS</th></tr></thead>
+        <tbody>
+          <tr><td>Illinois (HB 1806, "WOPR Act", signed 1 Aug 2025)</td><td>Bans AI from independent therapeutic decisions, treatment plans without licensed review, direct therapeutic communication, and emotion or mental-state detection. Administrative and supplementary support is allowed.</td><td>Documentation drafts with mandatory review fit. <strong>"Risk flag nudge," "mood and affect trend," and AI "suggested interventions" need legal review before launch in Illinois.</strong></td></tr>
+          <tr><td>Nevada (AB 406, effective 1 Jul 2025)</td><td>Prohibits AI providing professional mental or behavioral health care.</td><td>Documentation tools should be fine; avoid marketing language that implies AI delivers care.</td></tr>
+          <tr><td>Utah (HB 452, May 2025)</td><td>Disclosure and data-protection rules for mental-health chatbots; not a ban.</td><td>Low.</td></tr>
+          <tr><td>2026 additions (e.g. Maine, Rhode Island; others reported)</td><td>Trackers disagree on which states and effective dates.</td><td>Re-verify against legislature sites before launch.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Sources: <a href="https://psychology.com/ai-therapy/state-bans">psychology.com tracker</a>, <a href="https://acuity.news/regulation/state-ai-mental-health-laws-compliance-2026/">Acuity compliance guide</a>. <span class="badge badge-yellow">Reported</span> — read the statute text.</p>
+
+    <h3>Professional ethics</h3>
+    <p>APA guidance expects informed consent that explains the purpose, risks and data flow of AI tools. Standard 4.03 requires permission before recording a client's voice. <span class="badge badge-yellow">Reported</span> — <a href="https://www.apa.org/topics/artificial-intelligence-machine-learning/ethical-guidance-ai-professional-practice">APA AI ethical guidance</a>. We found no NASW-specific AI guidance; verify directly. TherapOS should ship a <strong>client-disclosure template</strong> that therapists can use, naming the tool and the vendors.</p>
+
+    <h3>India</h3>
+    <ul>
+      <li>The DPDP Rules were notified on <strong>13 November 2025</strong>; consent-manager provisions (Rule 4) apply from 13 Nov 2026, and most substantive duties from about <strong>13 May 2027</strong>. <span class="badge badge-yellow">Reported</span> — <a href="https://www.pib.gov.in/PressReleasePage.aspx?PRID=2190014&amp;reg=3&amp;lang=2">PIB</a>.</li>
+      <li><strong>Correction:</strong> our earlier docs said health data is "Sensitive Personal Data under the DPDP Act 2023." As far as we can tell the Act has no separate sensitive-data category, although practitioner guides claim otherwise. Check the Act text; treat health data as high-risk regardless. The Mental Healthcare Act 2017 also applies to consent.</li>
+      <li>RCI (CRR) registration is legally required for clinical and rehabilitation psychologists. "Counsellor" is not a registered title, so the India ICP is fuzzy. <span class="badge badge-yellow">Reported</span> — <a href="https://www.therapyroute.com/article/mental-health-licensing-regulation-in-india-2025-guide-by-therapyroute">TherapyRoute</a>.</li>
+    </ul>
+
+    <h3>FDA</h3>
+    <p>Our position, unchanged: documentation assistance, no diagnosis, no treatment recommendations. Note that "suggested interventions" in the prep brief and the homework generator sit closer to clinical decision support than pure documentation. Keep them clearly framed as drafts for the therapist and have a regulatory attorney review before scaling. <span class="badge badge-red">Unverified</span></p>
+
+    <h2 id="implications">7. Product implications (decisions)</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>#</th><th>Decision</th><th>Reason</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>Lead with "no session recording"; treat voice dictation as an optional, local-first input</td><td>Biggest trust and compliance advantage over ambient scribes</td></tr>
+          <tr><td>2</td><td>Pseudonymise patient identifiers before any model call</td><td>Current code sends full names; reduces PHI exposure even with a BAA</td></tr>
+          <tr><td>3</td><td>Build provenance: every summary sentence links to its source note</td><td>The trust gap in the market; also our best "inspectable memory" differentiator</td></tr>
+          <tr><td>4</td><td>Separate "raw notes" from "finalized notes" in policy and storage</td><td>Psychotherapy-notes definition</td></tr>
+          <tr><td>5</td><td>Defer risk flags, affect-trend inference and AI-suggested interventions until legal review</td><td>Illinois restrictions on mental-state detection and unreviewed treatment content</td></tr>
+          <tr><td>6</td><td>Do not claim HIPAA-ready, BAAs or MFA until each exists</td><td>False compliance claims are a legal and reputational liability</td></tr>
+          <tr><td>7</td><td>Re-plan revenue around 1–5% penetration, and add a clinic/ARPU strategy early</td><td>§2 market math</td></tr>
+          <tr><td>8</td><td>Ship a copy-ready "export to EHR" button before building integrations</td><td>EHR-agnostic positioning needs a low-friction handoff</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="corrections">8. Corrections applied to this site</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Earlier claim</th><th>Finding</th><th>Change made</th></tr></thead>
+        <tbody>
+          <tr><td>35% of time, 16 min/session, 77% fatigue</td><td>No primary source found</td><td>Removed; replaced with measured-in-beta plan</td></tr>
+          <tr><td>No competitor has prep + memory + search</td><td>Upheal, Mentalyc, SimplePractice have cross-session features</td><td>Plan §2–§5 rewritten around the text-first, EHR-agnostic wedge</td></tr>
+          <tr><td>Eleos "$200+/mo"</td><td>Enterprise, custom-quote</td><td>Table corrected</td></tr>
+          <tr><td>TherapyNotes $49/mo; Upheal $69/mo; Mentalyc $39/mo</td><td>~$69 solo (+$40 AI); ~$39 notes-only; ~$19.99–$119.99 tiers</td><td>Table corrected, with "as reported" label</td></tr>
+          <tr><td>Signed BAAs with Anthropic and OpenAI</td><td>Not executed; both conditional on ZDR/eligibility</td><td>Reworded as a launch prerequisite</td></tr>
+          <tr><td>"HIPAA-ready (BAA included)"</td><td>Audit logging, MFA, field encryption not built</td><td>Replaced with "built toward HIPAA; not yet compliant"</td></tr>
+          <tr><td>Health data is "Sensitive Personal Data" under DPDP Act</td><td>Act has no such category (to our reading)</td><td>Reworded</td></tr>
+          <tr><td>MRR targets for 2027–2030</td><td>Do not reconcile with seats × price</td><td>Re-derived in Plan §40</td></tr>
+          <tr><td>Facebook group sizes, SEO volumes (8,200/mo etc.), "5–8× referral conversion"</td><td>No source in the docs</td><td>Marked as unverified assumptions</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="gaps">9. Open research</h2>
+    <ul>
+      <li><strong>15 therapist interviews</strong> (mix of LCSW, LMFT, LPC; US and India). Questions: current note workflow, minutes per note, what they type versus dictate, how they would feel about AI seeing client history, willingness to pay.</li>
+      <li><strong>Time study with 5–10 beta users:</strong> time to a finalized note with and without TherapOS, and how much they edit the draft.</li>
+      <li><strong>Legal review:</strong> psychotherapy-notes classification of raw notes; Illinois applicability; BAA execution path with OpenAI/Anthropic; client-disclosure template.</li>
+      <li><strong>Pricing test:</strong> $19 / $29 / $39 on a landing page waitlist.</li>
+      <li><strong>Verify every competitor price</strong> on its own site; capture screenshots and dates.</li>
+      <li><strong>Read the statutes</strong> (Illinois HB 1806, Nevada AB 406, Utah HB 452, 2026 additions) and the DPDP Act and Rules directly.</li>
+    </ul>
+
+    <h2 id="sources">10. Sources</h2>
+    <ul style="font-size:.82rem">
+      <li><a href="https://www.bls.gov/ooh/community-and-social-service/marriage-and-family-therapists.htm">BLS — Marriage and family therapists</a></li>
+      <li><a href="https://www.bls.gov/ooh/community-and-social-service/substance-abuse-behavioral-disorder-and-mental-health-counselors.htm">BLS — Substance abuse, behavioral disorder, and mental health counselors</a></li>
+      <li><a href="https://www.bls.gov/ooh/community-and-social-service/social-workers.htm">BLS — Social workers</a></li>
+      <li><a href="https://www.aswb.org/wp-content/uploads/2025/07/Social-Work-Workforce-Study-Series-Report-2.pdf">ASWB — Social Work Workforce Study, Report 2</a></li>
+      <li><a href="https://www.apa.org/pubs/reports/practitioner/2024/topline-data-2024-practitioner-survey.pdf">APA — 2024 Practitioner Survey topline</a></li>
+      <li><a href="https://www.apa.org/monitor/2026/03/ai-reshaping-therapy">APA Monitor — AI reshaping therapy</a></li>
+      <li><a href="https://bhbusiness.com/2025/12/10/proliferation-of-ai-tools-brings-increased-adoption-skepticism-among-psychologists/">Behavioral Health Business — AI adoption skepticism</a></li>
+      <li><a href="https://plus.aamft.org/?p=1277">AAMFT — AI use among MFTs</a></li>
+      <li><a href="https://www.trytwofold.com/blog/ai-scribe-cost-for-therapists">Twofold — AI scribe cost for therapists</a></li>
+      <li><a href="https://practiceharbor.com/blog/therapynotes-pricing">PracticeHarbor — TherapyNotes pricing</a></li>
+      <li><a href="https://www.upheal.io/features/treatment-plans">Upheal — treatment plans</a></li>
+      <li><a href="https://www.trytwofold.com/compare/eleos-health-review">Twofold — Eleos Health review</a></li>
+      <li><a href="https://clearhealthcosts.com/blog/2026/07/therapy-company-simplepractice-adds-ai-transcripts-by-default/">ClearHealthCosts — SimplePractice AI transcripts by default</a></li>
+      <li><a href="https://www.law.cornell.edu/cfr/text/45/164.501">45 CFR 164.501 — psychotherapy notes definition</a></li>
+      <li><a href="https://cdn.openai.com/osa/baa-hipaa-guide.pdf">OpenAI — BAA and HIPAA guide</a></li>
+      <li><a href="https://platform.claude.com/docs/en/manage-claude/api-and-data-retention">Anthropic — API and data retention</a></li>
+      <li><a href="https://psychology.com/ai-therapy/state-bans">psychology.com — state AI therapy bans</a></li>
+      <li><a href="https://acuity.news/regulation/state-ai-mental-health-laws-compliance-2026/">Acuity — state AI mental health laws</a></li>
+      <li><a href="https://www.apa.org/topics/artificial-intelligence-machine-learning/ethical-guidance-ai-professional-practice">APA — ethical guidance for AI in professional practice</a></li>
+      <li><a href="https://www.pib.gov.in/PressReleasePage.aspx?PRID=2190014&amp;reg=3&amp;lang=2">PIB — DPDP Rules notified</a></li>
+      <li><a href="https://www.therapyroute.com/article/mental-health-licensing-regulation-in-india-2025-guide-by-therapyroute">TherapyRoute — mental health licensing in India</a></li>
+    </ul>
+
+    <div class="doc-nav">
+      <a href="plan.html" class="doc-nav-btn">
+        <span class="doc-nav-label">← Previous</span>
+        <span class="doc-nav-title">Full Product Plan</span>
+      </a>
+      <a href="case-study.html" class="doc-nav-btn next">
+        <span class="doc-nav-label">Next →</span>
+        <span class="doc-nav-title">Case Study</span>
+      </a>
+    </div>
+  </main>
+
+  <aside class="page-toc">
+    <span class="toc-label">On this page</span>
+    <a href="#summary">Summary</a>
+    <a href="#market">Market size</a>
+    <a href="#demand">Demand</a>
+    <a href="#pain">Documentation burden</a>
+    <a href="#competitors">Competitors</a>
+    <a href="#regulation">Regulation</a>
+    <a href="#implications">Decisions</a>
+    <a href="#corrections">Corrections made</a>
+    <a href="#gaps">Open research</a>
+    <a href="#sources">Sources</a>
+  </aside>
+</div>
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-logo">⬡ <span>TherapOS</span></div>
+    <div class="footer-links">
+      <a href="../index.html">Home</a>
+      <a href="plan.html">Full Plan</a>
+      <a href="research.html">Research</a>
+      <a href="case-study.html">Case Study</a>
+      <a href="pricing.html">Pricing</a>
+    </div>
+    <div class="footer-copy">© 2026 TherapOS · Pre-launch</div>
+  </div>
+</footer>
+</body>
+</html>
