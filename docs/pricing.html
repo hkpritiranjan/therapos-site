@@ -8,36 +8,42 @@
 <link rel="stylesheet" href="../styles/main.css">
 </head>
 <body>
+<a class="skip-link" href="#main">Skip to content</a>
 <nav class="site-nav">
   <a href="/" class="nav-logo">⬡ <span>TherapOS</span></a>
   <div class="nav-links">
-    <a href="../index.html#features">Features</a>
-    <a href="../index.html#pricing">Pricing</a>
+    <a href="/index.html#features">Features</a>
+    <a href="/index.html#pricing">Pricing</a>
     <a href="/docs/index.html" style="color:var(--accent)">Docs</a>
-    <a href="../index.html#pricing" class="nav-cta">Join the waitlist</a>
+    <button type="button" class="nav-search" aria-label="Search documentation">Search<kbd>/</kbd></button>
+    <a href="/index.html#pricing" class="nav-cta">Join the waitlist</a>
   </div>
 </nav>
 <div class="docs-layout">
-  <nav class="docs-sidebar">
-    <div class="group">Getting Started</div>
+                                                <nav class="docs-sidebar" aria-label="Documentation">
+    <div class="group">Start</div>
     <a href="/docs/index.html">Overview</a>
     <a href="/docs/quickstart.html">Quickstart</a>
-    <div class="group">Product</div>
+    <div class="group">Strategy &amp; evidence</div>
     <a href="/docs/plan.html">Full Product Plan</a>
     <a href="/docs/research.html">Market &amp; Regulatory Research</a>
     <a href="/docs/competitors.html">Competitors &amp; Strategy</a>
     <a href="/docs/case-study.html">Case Study</a>
-    <a href="/docs/review.html">Product Review</a>
+    <a href="/docs/sources.html">Source Register</a>
+    <div class="group">Product</div>
     <a href="/docs/features.html">Features</a>
-    <a href="/docs/pricing.html" class="active">Pricing</a>
+    <a href="/docs/pricing.html" class="active" aria-current="page">Pricing</a>
     <a href="/docs/roadmap.html">Roadmap</a>
+    <a href="/docs/review.html">Product Review</a>
     <div class="group">Technical</div>
     <a href="/docs/architecture.html">Architecture</a>
     <a href="/docs/schema.html">Database Schema</a>
     <a href="/docs/api.html">API Reference</a>
     <a href="/docs/ai.html">AI &amp; Prompts</a>
   </nav>
-  <main class="docs-content">
+  <main class="docs-content" id="main">
+    <!--enh:mnav--><details class="mobile-nav"><summary>Documentation menu</summary><div class="group">Start</div><a href="/docs/index.html">Overview</a><a href="/docs/quickstart.html">Quickstart</a><div class="group">Strategy &amp; evidence</div><a href="/docs/plan.html">Full Product Plan</a><a href="/docs/research.html">Market &amp; Regulatory Research</a><a href="/docs/competitors.html">Competitors &amp; Strategy</a><a href="/docs/case-study.html">Case Study</a><a href="/docs/sources.html">Source Register</a><div class="group">Product</div><a href="/docs/features.html">Features</a><a href="/docs/pricing.html" aria-current="page">Pricing</a><a href="/docs/roadmap.html">Roadmap</a><a href="/docs/review.html">Product Review</a><div class="group">Technical</div><a href="/docs/architecture.html">Architecture</a><a href="/docs/schema.html">Database Schema</a><a href="/docs/api.html">API Reference</a><a href="/docs/ai.html">AI &amp; Prompts</a></details><!--/enh:mnav-->
+    <!--enh:crumbs--><nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span class="sep" aria-hidden="true">/</span><a href="/docs/index.html">Docs</a><span class="sep" aria-hidden="true">/</span><span>Product</span><span class="sep" aria-hidden="true">/</span><span aria-current="page">Pricing</span></nav><!--/enh:crumbs-->
     <span class="eyebrow">Business</span>
     <h1>Pricing</h1>
     <p class="page-desc">TherapOS costs less than one-fifth of a single therapy session per month. Most therapists recover the cost within the first two sessions of documentation time saved.</p>
@@ -51,7 +57,7 @@
       </div>
     </div>
 
-    <h2>Plans</h2>
+    <h2 id="plans">Plans</h2>
     <div class="pricing-grid" style="margin:1.5rem 0">
       <div class="pricing-card">
         <div class="price-plan">Free Trial</div>
@@ -113,8 +119,8 @@
       </div>
     </div>
 
-    <h2>Full Feature Comparison</h2>
-    <div class="table-wrap">
+    <h2 id="full-feature-comparison">Full Feature Comparison</h2>
+    <div class="table-wrap" role="region" tabindex="0" aria-label="Table: Full Feature Comparison">
       <table>
         <thead><tr><th>Feature</th><th>Free Trial</th><th>Solo $29/mo</th><th>Clinic $49/seat</th></tr></thead>
         <tbody>
@@ -142,7 +148,7 @@
     </div>
 
     <div class="callout callout-info"><div class="callout-icon">ℹ</div><div class="callout-body"><div class="callout-label">Price check, 26 Oct 2026</div><p>Competitors sit at or below $29: Mentalyc Basic annual is $29.99, Carepatron and Upheal have free tiers, Blueprint is $0.99 per session. $29 is therefore not a price advantage; we will test $19 / $29 / $39 before fixing it. See <a href="/docs/competitors.html#s3">Competitors §3</a> and the market scenarios in <a href="/docs/competitors.html#s12">§12</a>.</p></div></div>
-    <h2>Annual Pricing</h2>
+    <h2 id="annual-pricing">Annual Pricing</h2>
     <div class="grid2" style="margin:1rem 0">
       <div class="card">
         <div class="price-plan">Solo — Annual</div>
@@ -158,9 +164,9 @@
       </div>
     </div>
 
-    <h2>India Pricing</h2>
+    <h2 id="india-pricing">India Pricing</h2>
     <p>TherapOS offers India-specific pricing in Indian Rupees, with payment via Razorpay (UPI, cards, net banking). Indian user data is stored in AWS Mumbai (ap-south-1) per DPDP Act 2023 requirements.</p>
-    <div class="table-wrap">
+    <div class="table-wrap" role="region" tabindex="0" aria-label="Table: India Pricing">
       <table>
         <thead><tr><th>Plan</th><th>Monthly</th><th>Annual</th><th>Payment</th></tr></thead>
         <tbody>
@@ -177,10 +183,10 @@
       </div>
     </div>
 
-    <h2>The ROI Calculation</h2>
+    <h2 id="the-roi-calculation">The ROI Calculation</h2>
     <p><strong>Illustrative only — not a measured result.</strong> Time per note varies widely; we found no reliable published figure for therapists (<a href="/docs/research.html#pain">Research §4</a>). Use your own number. If you spend <em>m</em> minutes per note and TherapOS cuts that by about two-thirds, a 25-session week saves roughly 25 × m × 0.67 minutes. At 10 minutes per note that is about 2.8 hours a week; at 16 minutes it is about 4.5 hours. We will replace this with measured beta data.</p>
 
-    <div class="table-wrap">
+    <div class="table-wrap" role="region" tabindex="0" aria-label="Table: The ROI Calculation">
       <table>
         <thead><tr><th>Minutes per note today</th><th>10 sessions/week</th><th>25 sessions/week</th><th>40 sessions/week</th></tr></thead>
         <tbody>
@@ -201,18 +207,18 @@
 
     <hr>
 
-    <h2>Frequently Asked Questions</h2>
+    <h2 id="frequently-asked-questions">Frequently Asked Questions</h2>
 
-    <h3>Do I need to leave SimplePractice or my current EHR?</h3>
+    <h3 id="do-i-need-to-leave-simplepractice-or-my-current-ehr"><span id="do-i-need-to-leave-simplepractice"></span>Do I need to leave SimplePractice or my current EHR?</h3>
     <p>No. TherapOS deliberately excludes billing, insurance claims, and scheduling — the core functions of SimplePractice, TherapyNotes, and other EHRs. The intended workflow: keep your current EHR for billing and scheduling, use TherapOS for everything clinical (documentation, prep, memory, search). They coexist without integration.</p>
 
-    <h3>Is the HIPAA BAA included in the price?</h3>
+    <h3 id="is-the-hipaa-baa-included-in-the-price"><span id="is-the-hipaa-baa-included"></span>Is the HIPAA BAA included in the price?</h3>
     <p>That is the plan for paid plans, but <strong>no BAA is available yet</strong> and TherapOS is pre-launch. We will not process real patient data until BAAs are executed with us and with our AI and hosting vendors. We will update this answer, including how to request a BAA, when that is true.</p>
 
-    <h3>What AI models does TherapOS use, and are they HIPAA-compliant?</h3>
+    <h3 id="what-ai-models-does-therapos-use-and-are-they-hipaa-compliant"><span id="what-ai-models-does-therapos-use"></span>What AI models does TherapOS use, and are they HIPAA-compliant?</h3>
     <p>The current build uses OpenAI models for drafts, prep briefs, homework ideas, summaries and embeddings; the design allows Anthropic Claude to be used for drafts and summaries. OpenAI and Anthropic offer BAAs only for eligible zero-retention API usage and on approval, so neither BAA is in place yet. Before launch we will pseudonymise client names and identifiers before any model call. See <a href="/docs/ai.html">AI Architecture</a> and <a href="/docs/research.html#regulation">Research §6</a>.</p>
 
-    <h3>What happens to my data if I cancel?</h3>
+    <h3 id="what-happens-to-my-data-if-i-cancel">What happens to my data if I cancel?</h3>
     <ul>
       <li>You can export all patient data as JSON or PDF at any time in Settings → Export.</li>
       <li>After cancellation, your account remains accessible in read-only mode for 30 days.</li>
@@ -220,25 +226,25 @@
       <li>Audit logs are retained for 6 years as required by HIPAA — but all PHI is removed from them; only action metadata remains.</li>
     </ul>
 
-    <h3>Is there a free plan (not just a trial)?</h3>
+    <h3 id="is-there-a-free-plan-not-just-a-trial">Is there a free plan (not just a trial)?</h3>
     <p>No. The 30-day trial gives full access with no credit card required. There is no ongoing free plan — AI inference costs real money, and we'd rather be honest about that than offer a limited free tier that doesn't show the product's value.</p>
 
-    <h3>Can I pause my subscription instead of cancelling?</h3>
+    <h3 id="can-i-pause-my-subscription-instead-of-cancelling"><span id="can-i-pause-my-subscription"></span>Can I pause my subscription instead of cancelling?</h3>
     <p>Yes. Monthly subscribers can pause for up to 3 months — you keep your account and data, AI features are suspended, you're not charged during the pause. Annual subscribers can pause for up to 3 months; the unused time is added to your annual term. Contact support to activate a pause.</p>
 
-    <h3>Do you offer discounts for new practices or early career therapists?</h3>
+    <h3 id="do-you-offer-discounts-for-new-practices-or-early-career-therapists">Do you offer discounts for new practices or early career therapists?</h3>
     <p>Yes. Therapists within 2 years of licensure or setting up a solo practice qualify for 6 months at 50% off the Solo plan ($14.50/month). Email <code>hello@therapos.com</code> with your license date.</p>
 
-    <h3>What if I go over 200 AI note generations on Solo?</h3>
+    <h3 id="what-if-i-go-over-200-ai-note-generations-on-solo"><span id="what-if-i-go-over-200-ai-note-generations"></span>What if I go over 200 AI note generations on Solo?</h3>
     <p>You'll receive an email notification at 160 and 200 generations. After 200, you can either (a) upgrade to Clinic for unlimited generations, or (b) wait for the next billing cycle. You will never be charged overages without explicit agreement — we won't surprise you with an unexpected bill.</p>
 
-    <h3>Is there a long-term contract for the Clinic plan?</h3>
+    <h3 id="is-there-a-long-term-contract-for-the-clinic-plan">Is there a long-term contract for the Clinic plan?</h3>
     <p>Month-to-month Clinic subscriptions have no long-term commitment — cancel anytime with 30 days notice. Annual Clinic subscriptions are paid upfront and are non-refundable but transferable if a therapist leaves the clinic. Contact us for multi-year discounts.</p>
 
-    <h3>Can I add a therapist to my Clinic account mid-year?</h3>
+    <h3 id="can-i-add-a-therapist-to-my-clinic-account-mid-year">Can I add a therapist to my Clinic account mid-year?</h3>
     <p>Yes. Additional seats are billed at the prorated rate for the remainder of your annual term, or at the full monthly rate on monthly billing. Seats can be removed at the next renewal — mid-period seat reductions are not credited.</p>
 
-    <h3>Do you offer group purchasing for large practices or groups?</h3>
+    <h3 id="do-you-offer-group-purchasing-for-large-practices-or-groups">Do you offer group purchasing for large practices or groups?</h3>
     <p>For practices with 10+ therapists, contact us for custom Enterprise pricing. We offer volume discounts, priority onboarding, a dedicated account manager, and custom BAA language for large organizations.</p>
 
     <div class="doc-nav">
@@ -281,5 +287,6 @@
     <div class="footer-copy">© 2026 TherapOS · Pre-launch · building toward HIPAA</div>
   </div>
 </footer>
+<script src="/scripts/docs.js" defer></script>
 </body>
 </html>

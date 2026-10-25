@@ -8,42 +8,48 @@
 <link rel="stylesheet" href="../styles/main.css">
 </head>
 <body>
+<a class="skip-link" href="#main">Skip to content</a>
 <nav class="site-nav">
   <a href="/" class="nav-logo">⬡ <span>TherapOS</span></a>
   <div class="nav-links">
-    <a href="../index.html#features">Features</a>
-    <a href="../index.html#pricing">Pricing</a>
+    <a href="/index.html#features">Features</a>
+    <a href="/index.html#pricing">Pricing</a>
     <a href="/docs/index.html" style="color:var(--accent)">Docs</a>
-    <a href="../index.html#pricing" class="nav-cta">Join the waitlist</a>
+    <button type="button" class="nav-search" aria-label="Search documentation">Search<kbd>/</kbd></button>
+    <a href="/index.html#pricing" class="nav-cta">Join the waitlist</a>
   </div>
 </nav>
 <div class="docs-layout">
-  <nav class="docs-sidebar">
-    <div class="group">Getting Started</div>
+                                                <nav class="docs-sidebar" aria-label="Documentation">
+    <div class="group">Start</div>
     <a href="/docs/index.html">Overview</a>
     <a href="/docs/quickstart.html">Quickstart</a>
-    <div class="group">Product</div>
+    <div class="group">Strategy &amp; evidence</div>
     <a href="/docs/plan.html">Full Product Plan</a>
     <a href="/docs/research.html">Market &amp; Regulatory Research</a>
     <a href="/docs/competitors.html">Competitors &amp; Strategy</a>
     <a href="/docs/case-study.html">Case Study</a>
-    <a href="/docs/review.html">Product Review</a>
+    <a href="/docs/sources.html">Source Register</a>
+    <div class="group">Product</div>
     <a href="/docs/features.html">Features</a>
     <a href="/docs/pricing.html">Pricing</a>
     <a href="/docs/roadmap.html">Roadmap</a>
+    <a href="/docs/review.html">Product Review</a>
     <div class="group">Technical</div>
     <a href="/docs/architecture.html">Architecture</a>
     <a href="/docs/schema.html">Database Schema</a>
-    <a href="/docs/api.html" class="active">API Reference</a>
+    <a href="/docs/api.html" class="active" aria-current="page">API Reference</a>
     <a href="/docs/ai.html">AI &amp; Prompts</a>
   </nav>
-  <main class="docs-content">
+  <main class="docs-content" id="main">
+    <!--enh:mnav--><details class="mobile-nav"><summary>Documentation menu</summary><div class="group">Start</div><a href="/docs/index.html">Overview</a><a href="/docs/quickstart.html">Quickstart</a><div class="group">Strategy &amp; evidence</div><a href="/docs/plan.html">Full Product Plan</a><a href="/docs/research.html">Market &amp; Regulatory Research</a><a href="/docs/competitors.html">Competitors &amp; Strategy</a><a href="/docs/case-study.html">Case Study</a><a href="/docs/sources.html">Source Register</a><div class="group">Product</div><a href="/docs/features.html">Features</a><a href="/docs/pricing.html">Pricing</a><a href="/docs/roadmap.html">Roadmap</a><a href="/docs/review.html">Product Review</a><div class="group">Technical</div><a href="/docs/architecture.html">Architecture</a><a href="/docs/schema.html">Database Schema</a><a href="/docs/api.html" aria-current="page">API Reference</a><a href="/docs/ai.html">AI &amp; Prompts</a></details><!--/enh:mnav-->
+    <!--enh:crumbs--><nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span class="sep" aria-hidden="true">/</span><a href="/docs/index.html">Docs</a><span class="sep" aria-hidden="true">/</span><span>Technical</span><span class="sep" aria-hidden="true">/</span><span aria-current="page">API Reference</span></nav><!--/enh:crumbs-->
     <span class="eyebrow">Technical</span>
     <h1>API Reference</h1>
     <p class="page-desc">All endpoints are prefixed <code>/api/v1</code>. Authentication uses a Clerk JWT in the <code>Authorization: Bearer</code> header. All responses follow a consistent envelope. Errors include a typed <code>errors</code> array.</p>
     <hr>
 
-    <h2>Base URL &amp; Authentication</h2>
+    <h2 id="base-url-authentication">Base URL &amp; Authentication</h2>
     <pre>Base URL:  https://api.therapos.com/api/v1
 Auth:      Authorization: Bearer &lt;clerk_session_token&gt;
 Content:   Content-Type: application/json</pre>
@@ -58,7 +64,7 @@ const token = await getToken()
 TOKEN=$(clerk session token)
 curl -H "Authorization: Bearer $TOKEN" https://api.therapos.com/api/v1/patients</pre>
 
-    <h3>Response Envelope</h3>
+    <h3 id="response-envelope">Response Envelope</h3>
     <pre>// Success
 {
   "data": { ... } | [...],
@@ -81,8 +87,8 @@ curl -H "Authorization: Bearer $TOKEN" https://api.therapos.com/api/v1/patients<
   ]
 }</pre>
 
-    <h2>Patients</h2>
-    <h3>List patients</h3>
+    <h2 id="patients">Patients</h2>
+    <h3 id="list-patients">List patients</h3>
     <pre>GET /patients
 Query: ?status=active|inactive|all&amp;q=search_string&amp;page=1&amp;limit=20
 
@@ -108,7 +114,7 @@ curl -H "Authorization: Bearer $TOKEN" \
   "meta": { "page": 1, "limit": 20, "total": 23, "pages": 2 }
 }</pre>
 
-    <h3>Create patient</h3>
+    <h3 id="create-patient">Create patient</h3>
     <pre>POST /patients
 Body:
 {
@@ -134,7 +140,7 @@ curl -X POST \
 // Response: 201 Created
 { "data": { "id": "clx...", "firstName": "Maya", ... } }</pre>
 
-    <h3>Get patient</h3>
+    <h3 id="get-patient">Get patient</h3>
     <pre>GET /patients/:id
 
 // Response includes full profile + AI summary + session stats
@@ -156,19 +162,19 @@ curl -X POST \
   }
 }</pre>
 
-    <h3>Update patient</h3>
+    <h3 id="update-patient">Update patient</h3>
     <pre>PATCH /patients/:id
 Body: any subset of patient fields (partial update)
 
 // Response: 200 OK — updated patient object</pre>
 
-    <h3>Discharge patient</h3>
+    <h3 id="discharge-patient">Discharge patient</h3>
     <pre>DELETE /patients/:id
 // Soft-delete: sets status = DISCHARGED, endDate = now()
 // Patient data is retained — HIPAA compliance
 // Response: { "data": { "success": true } }</pre>
 
-    <h3>Patient sub-resources</h3>
+    <h3 id="patient-sub-resources">Patient sub-resources</h3>
     <pre>GET /patients/:id/timeline
 // All sessions + goals + homework events, newest first
 // Response: { "data": [{ "type": "session"|"goal"|"homework", "date": ..., ... }] }
@@ -181,8 +187,8 @@ GET /patients/:id/goals
 
 GET /patients/:id/homework?status=assigned|completed|all</pre>
 
-    <h2>Sessions</h2>
-    <h3>Create session</h3>
+    <h2 id="sessions">Sessions</h2>
+    <h3 id="create-session">Create session</h3>
     <pre>POST /sessions
 Body:
 {
@@ -195,7 +201,7 @@ Body:
 
 // Response: 201 Created — session object</pre>
 
-    <h3>Get session</h3>
+    <h3 id="get-session">Get session</h3>
     <pre>GET /sessions/:id
 // Returns session + note (if exists) + aiPrep (if generated)
 {
@@ -215,7 +221,7 @@ Body:
   }
 }</pre>
 
-    <h3>Session lifecycle</h3>
+    <h3 id="session-lifecycle">Session lifecycle</h3>
     <pre>PATCH  /sessions/:id
 Body: { "status", "rawNotes", "scheduledAt", "durationMins" }
 
@@ -225,12 +231,12 @@ POST   /sessions/:id/start
 POST   /sessions/:id/complete
 // status → COMPLETED, endedAt = now()</pre>
 
-    <h2>Notes</h2>
-    <h3>Get note</h3>
+    <h2 id="notes">Notes</h2>
+    <h3 id="get-note">Get note</h3>
     <pre>GET /sessions/:sessionId/note
 // Returns SessionNote or 404 if not yet created</pre>
 
-    <h3>Save note (create or update)</h3>
+    <h3 id="save-note-create-or-update">Save note (create or update)</h3>
     <pre>POST /sessions/:sessionId/note
 Body (SOAP):
 {
@@ -251,7 +257,7 @@ Body (DAP):
 
 // Response: 200 OK — full note object with aiGenerated flag</pre>
 
-    <h3>Finalize note</h3>
+    <h3 id="finalize-note">Finalize note</h3>
     <pre>POST /sessions/:sessionId/note/finalize
 // Requires: note must exist and not already be finalized
 // Effect:
@@ -269,7 +275,7 @@ Body (DAP):
   }
 }</pre>
 
-    <h2>AI Endpoints</h2>
+    <h2 id="ai-endpoints">AI Endpoints</h2>
     <div class="callout callout-warn">
       <div class="callout-icon">⚠</div>
       <div class="callout-body">
@@ -278,7 +284,7 @@ Body (DAP):
       </div>
     </div>
 
-    <h3>Generate session prep brief</h3>
+    <h3 id="generate-session-prep-brief">Generate session prep brief</h3>
     <pre>POST /ai/prep/:sessionId
 // Generates AI prep brief from patient context
 // Cached in Redis for 24h — subsequent calls return cached version
@@ -307,7 +313,7 @@ source.onmessage = (e) => {
   if (type === 'done') { setPrep(result); source.close() }
 }</pre>
 
-    <h3>Generate AI note draft</h3>
+    <h3 id="generate-ai-note-draft">Generate AI note draft</h3>
     <pre>POST /ai/note/draft
 Body: { "sessionId": "clx...", "format": "SOAP" | "DAP" | "BIRP" | "FREE" }
 
@@ -336,7 +342,7 @@ curl -N -X POST \
   -d '{"sessionId":"clx...","format":"SOAP"}' \
   https://api.therapos.com/api/v1/ai/note/draft</pre>
 
-    <h3>Generate homework suggestions</h3>
+    <h3 id="generate-homework-suggestions">Generate homework suggestions</h3>
     <pre>POST /ai/homework/suggest
 Body: { "sessionId": "clx...", "goalIds": ["clx..."] }  // goalIds optional
 
@@ -356,7 +362,7 @@ Body: { "sessionId": "clx...", "goalIds": ["clx..."] }  // goalIds optional
   }
 }</pre>
 
-    <h3>Refresh patient AI summary</h3>
+    <h3 id="refresh-patient-ai-summary">Refresh patient AI summary</h3>
     <pre>POST /ai/summary/:patientId
 // Manually triggers a summary refresh (usually happens automatically after finalization)
 // Runs async — returns immediately
@@ -364,8 +370,8 @@ Body: { "sessionId": "clx...", "goalIds": ["clx..."] }  // goalIds optional
 // Response: 202 Accepted
 { "data": { "jobId": "bull:patient-summaries:42" } }</pre>
 
-    <h2>Search</h2>
-    <h3>Natural language search</h3>
+    <h2 id="search">Search</h2>
+    <h3 id="natural-language-search">Natural language search</h3>
     <pre>GET /search?q=query&amp;patientId=optional_patient_id&amp;limit=10
 
 // Examples:
@@ -395,7 +401,7 @@ GET /search?q=sessions+where+we+discussed+workplace+stress
   "meta": { "query": "coping strategies", "total": 4, "limit": 10 }
 }</pre>
 
-    <h2>Goals</h2>
+    <h2 id="goals">Goals</h2>
     <pre>POST /goals
 Body: { "patientId": "clx...", "title": "Reduce workplace anxiety", "category": "anxiety", "description": "..." }
 
@@ -412,7 +418,7 @@ DELETE /goals/:id
 // Hard delete — only before any progress notes are added
 // Returns: { "data": { "success": true } }</pre>
 
-    <h2>Homework</h2>
+    <h2 id="homework">Homework</h2>
     <pre>POST /homework
 Body: {
   "patientId": "clx...",
@@ -430,7 +436,7 @@ Body: {
   "notes": "Completed 5 of 7 days — good effort"
 }</pre>
 
-    <h2>Webhooks (Internal)</h2>
+    <h2 id="webhooks-internal">Webhooks (Internal)</h2>
     <pre>POST /webhooks/clerk
 // Verified via Clerk webhook signature (SVIX)
 // Events handled:
@@ -446,8 +452,8 @@ POST /webhooks/stripe
 //   customer.subscription.deleted → cancel, set status = CANCELLED
 //   invoice.payment_failed → set status = PAST_DUE, trigger email</pre>
 
-    <h2>Error Reference</h2>
-    <div class="table-wrap">
+    <h2 id="error-reference">Error Reference</h2>
+    <div class="table-wrap" role="region" tabindex="0" aria-label="Table: Error Reference">
       <table>
         <thead><tr><th>Status</th><th>Code</th><th>Cause</th><th>Resolution</th></tr></thead>
         <tbody>
@@ -464,7 +470,7 @@ POST /webhooks/stripe
       </table>
     </div>
 
-    <h2>Pagination</h2>
+    <h2 id="pagination">Pagination</h2>
     <p>Paginated endpoints accept <code>?page=N&amp;limit=M</code> query params. Default: <code>page=1</code>, <code>limit=20</code>. Maximum <code>limit=100</code>. Responses include a <code>meta</code> object with <code>page</code>, <code>limit</code>, <code>total</code> (total matching records), and <code>pages</code> (total pages).</p>
 
     <div class="doc-nav">
@@ -514,5 +520,6 @@ POST /webhooks/stripe
     <div class="footer-copy">© 2026 TherapOS · Pre-launch · building toward HIPAA</div>
   </div>
 </footer>
+<script src="/scripts/docs.js" defer></script>
 </body>
 </html>

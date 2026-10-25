@@ -8,36 +8,42 @@
 <link rel="stylesheet" href="../styles/main.css">
 </head>
 <body>
+<a class="skip-link" href="#main">Skip to content</a>
 <nav class="site-nav">
   <a href="/" class="nav-logo">⬡ <span>TherapOS</span></a>
   <div class="nav-links">
-    <a href="../index.html#features">Features</a>
-    <a href="../index.html#pricing">Pricing</a>
+    <a href="/index.html#features">Features</a>
+    <a href="/index.html#pricing">Pricing</a>
     <a href="/docs/index.html" style="color:var(--accent)">Docs</a>
-    <a href="../index.html#pricing" class="nav-cta">Join the waitlist</a>
+    <button type="button" class="nav-search" aria-label="Search documentation">Search<kbd>/</kbd></button>
+    <a href="/index.html#pricing" class="nav-cta">Join the waitlist</a>
   </div>
 </nav>
 <div class="docs-layout">
-  <nav class="docs-sidebar">
-    <div class="group">Getting Started</div>
+                                                <nav class="docs-sidebar" aria-label="Documentation">
+    <div class="group">Start</div>
     <a href="/docs/index.html">Overview</a>
     <a href="/docs/quickstart.html">Quickstart</a>
-    <div class="group">Product</div>
+    <div class="group">Strategy &amp; evidence</div>
     <a href="/docs/plan.html">Full Product Plan</a>
     <a href="/docs/research.html">Market &amp; Regulatory Research</a>
     <a href="/docs/competitors.html">Competitors &amp; Strategy</a>
     <a href="/docs/case-study.html">Case Study</a>
-    <a href="/docs/review.html">Product Review</a>
+    <a href="/docs/sources.html">Source Register</a>
+    <div class="group">Product</div>
     <a href="/docs/features.html">Features</a>
     <a href="/docs/pricing.html">Pricing</a>
     <a href="/docs/roadmap.html">Roadmap</a>
+    <a href="/docs/review.html">Product Review</a>
     <div class="group">Technical</div>
     <a href="/docs/architecture.html">Architecture</a>
     <a href="/docs/schema.html">Database Schema</a>
     <a href="/docs/api.html">API Reference</a>
-    <a href="/docs/ai.html" class="active">AI &amp; Prompts</a>
+    <a href="/docs/ai.html" class="active" aria-current="page">AI &amp; Prompts</a>
   </nav>
-  <main class="docs-content">
+  <main class="docs-content" id="main">
+    <!--enh:mnav--><details class="mobile-nav"><summary>Documentation menu</summary><div class="group">Start</div><a href="/docs/index.html">Overview</a><a href="/docs/quickstart.html">Quickstart</a><div class="group">Strategy &amp; evidence</div><a href="/docs/plan.html">Full Product Plan</a><a href="/docs/research.html">Market &amp; Regulatory Research</a><a href="/docs/competitors.html">Competitors &amp; Strategy</a><a href="/docs/case-study.html">Case Study</a><a href="/docs/sources.html">Source Register</a><div class="group">Product</div><a href="/docs/features.html">Features</a><a href="/docs/pricing.html">Pricing</a><a href="/docs/roadmap.html">Roadmap</a><a href="/docs/review.html">Product Review</a><div class="group">Technical</div><a href="/docs/architecture.html">Architecture</a><a href="/docs/schema.html">Database Schema</a><a href="/docs/api.html">API Reference</a><a href="/docs/ai.html" aria-current="page">AI &amp; Prompts</a></details><!--/enh:mnav-->
+    <!--enh:crumbs--><nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span class="sep" aria-hidden="true">/</span><a href="/docs/index.html">Docs</a><span class="sep" aria-hidden="true">/</span><span>Technical</span><span class="sep" aria-hidden="true">/</span><span aria-current="page">AI & Prompts</span></nav><!--/enh:crumbs-->
     <span class="eyebrow">Technical</span>
     <h1>AI Architecture &amp; Prompts</h1>
     <p class="page-desc">How TherapOS assembles patient context, routes to AI models, and generates clinical content. Every prompt template, behavioral rule, and memory strategy documented here — copy-paste ready.</p>
@@ -51,9 +57,9 @@
       </div>
     </div>
 
-    <h2>Model Routing</h2>
+    <h2 id="model-routing">Model Routing</h2>
     <p>Different tasks get different models, chosen for cost and quality tradeoffs:</p>
-    <div class="table-wrap">
+    <div class="table-wrap" role="region" tabindex="0" aria-label="Table: Model Routing">
       <table>
         <thead><tr><th>Task</th><th>Model</th><th>Output</th><th>Why</th></tr></thead>
         <tbody>
@@ -75,7 +81,7 @@
       </div>
     </div>
 
-    <h2>Context Assembly Pipeline</h2>
+    <h2 id="context-assembly-pipeline">Context Assembly Pipeline</h2>
     <p>Every AI call starts by assembling a <strong>PatientContext</strong> object. This is the most important function in the codebase — what goes in determines what comes out. Bad context = bad notes, regardless of how good the model is.</p>
 
     <pre>// apps/api/src/ai/context.service.ts
@@ -160,8 +166,8 @@ private truncateNote(note: SessionNote | null, maxTokens: number): string {
   return parts.slice(0, maxTokens * 4)
 }</pre>
 
-    <h2>Context Window Budget</h2>
-    <div class="table-wrap">
+    <h2 id="context-window-budget">Context Window Budget</h2>
+    <div class="table-wrap" role="region" tabindex="0" aria-label="Table: Context Window Budget">
       <table>
         <thead><tr><th>Context piece</th><th>Max tokens</th><th>Strategy</th><th>Why this limit</th></tr></thead>
         <tbody>
@@ -178,9 +184,9 @@ private truncateNote(note: SessionNote | null, maxTokens: number): string {
     </div>
     <p>The budget is conservative by design. Claude Sonnet supports 200k tokens — we use 5k. The reason: prompt caching. Anthropic's prompt cache TTL means frequently-used patient summaries and static system prompts are cached and not re-billed. Keeping prompts short and stable maximizes cache hit rate.</p>
 
-    <h2>Prompt Templates</h2>
+    <h2 id="prompt-templates">Prompt Templates</h2>
 
-    <h3>Template 1 — Session Prep Brief</h3>
+    <h3 id="template-1-session-prep-brief">Template 1 — Session Prep Brief</h3>
     <p>Used for: <code>POST /ai/prep/:sessionId</code>. Model: GPT-4o with <code>response_format: { type: "json_object" }</code>.</p>
     <div class="prompt-block">You are an AI assistant helping a licensed <span class="ph">{modality}</span> therapist prepare for a session.
 You are NOT a therapist. You are a preparation tool only.
@@ -222,7 +228,7 @@ RULES:
 - Do not mention medication, diagnosis codes, or specific legal/ethical matters
 - Patterns must be observed across at least 2 sessions to be noted</div>
 
-    <h3>Template 2 — SOAP Note Draft</h3>
+    <h3 id="template-2-soap-note-draft">Template 2 — SOAP Note Draft</h3>
     <p>Used for: <code>POST /ai/note/draft</code> (format=SOAP). Model: Claude Sonnet, SSE streaming.</p>
     <div class="prompt-block">You are an AI assistant helping a licensed therapist draft a SOAP progress note.
 This is a DRAFT for therapist review and editing. It is NOT a final clinical document.
@@ -271,7 +277,7 @@ STRICT RULES:
 
 Return JSON: {"subjective":"...","objective":"...","assessment":"...","plan":"..."}</div>
 
-    <h3>Template 3 — DAP Note Draft</h3>
+    <h3 id="template-3-dap-note-draft">Template 3 — DAP Note Draft</h3>
     <p>Used for: <code>POST /ai/note/draft</code> (format=DAP). Model: Claude Sonnet, SSE streaming.</p>
     <div class="prompt-block">You are an AI assistant helping a licensed therapist draft a DAP progress note.
 This is a DRAFT for therapist review. Not a final clinical document.
@@ -296,7 +302,7 @@ RULES: Same as SOAP — use only raw notes, no fabrication, write "[Therapist to
 
 Return JSON: {"data":"...","dapAssessment":"...","dapPlan":"..."}</div>
 
-    <h3>Template 4 — Homework Suggestions</h3>
+    <h3 id="template-4-homework-suggestions">Template 4 — Homework Suggestions</h3>
     <p>Used for: <code>POST /ai/homework/suggest</code>. Model: GPT-4o with JSON mode.</p>
     <div class="prompt-block">You are helping a <span class="ph">{modality}</span> therapist generate homework assignments for a patient.
 You are a tool — not a therapist. The therapist selects and approves all homework.
@@ -343,7 +349,7 @@ RULES:
 - Psychodynamic: favor journaling, dream logs, relationship reflection
 - ACT: favor values clarification, defusion exercises, committed action tracking</div>
 
-    <h3>Template 5 — Patient Summary Refresh</h3>
+    <h3 id="template-5-patient-summary-refresh">Template 5 — Patient Summary Refresh</h3>
     <p>Used by: <code>refresh-summary</code> BullMQ job (after every note finalization). Model: Claude Haiku.</p>
     <div class="prompt-block">You are updating a rolling clinical summary for a therapist's internal reference.
 This summary helps the AI prepare better session briefs and note drafts.
@@ -369,7 +375,7 @@ REQUIREMENTS:
 
 Return ONLY the updated summary text. No JSON wrapper. No preamble. No "Here is the summary:"</div>
 
-    <h2>Memory Architecture (Three Tiers)</h2>
+    <h2 id="memory-architecture-three-tiers">Memory Architecture (Three Tiers)</h2>
     <div class="grid3" style="margin:1rem 0">
       <div class="card">
         <h4>Tier 1 — Redis</h4>
@@ -391,7 +397,7 @@ Return ONLY the updated summary text. No JSON wrapper. No preamble. No "Here is 
       </div>
     </div>
 
-    <h2>Memory Update Flow</h2>
+    <h2 id="memory-update-flow">Memory Update Flow</h2>
     <pre>Therapist clicks "Finalize Note"
   │
   ├─► [Synchronous] Lock note in DB
@@ -429,7 +435,7 @@ Return ONLY the updated summary text. No JSON wrapper. No preamble. No "Here is 
               aiSummary = new_summary,
               aiSummaryUpdatedAt = DateTime.now()</pre>
 
-    <h2>Embedding Pipeline Detail</h2>
+    <h2 id="embedding-pipeline-detail">Embedding Pipeline Detail</h2>
     <pre>// apps/api/src/jobs/embed-note.job.ts
 
 async processEmbedNote(job: Job&lt;{ noteId: string }&gt;) {
@@ -467,9 +473,9 @@ async processEmbedNote(job: Job&lt;{ noteId: string }&gt;) {
   `
 }</pre>
 
-    <h2>AI Behavioral Contract</h2>
+    <h2 id="ai-behavioral-contract">AI Behavioral Contract</h2>
     <p>These rules are enforced at the prompt level, not in application code. Every prompt template includes them. They cannot be overridden by user input.</p>
-    <div class="table-wrap">
+    <div class="table-wrap" role="region" tabindex="0" aria-label="Table: AI Behavioral Contract">
       <table>
         <thead><tr><th>Rule</th><th>Prompt enforcement</th><th>Consequence if violated</th></tr></thead>
         <tbody>
@@ -483,7 +489,7 @@ async processEmbedNote(job: Job&lt;{ noteId: string }&gt;) {
       </table>
     </div>
 
-    <h3>Risk Nudge Implementation</h3>
+    <h3 id="risk-nudge-implementation">Risk Nudge Implementation</h3>
     <p>The risk nudge is NOT done by AI prompt — it's done by a keyword pattern match in the application layer, applied to finalized note text before the response is sent to the client. If specific terms are detected (suicidal ideation, homicidal ideation, self-harm, specific plan or means references), a soft callout is returned alongside the note:</p>
     <pre>// apps/api/src/notes/notes.service.ts (post-finalization check)
 
@@ -502,9 +508,9 @@ function checkRiskPatterns(noteText: string): boolean {
 // This is displayed as a soft callout in the UI — not an alarm, not required action.</pre>
     <p>The nudge is informational only. It does not block finalization, does not send any alert, and does not create a mandatory action. The therapist is a licensed professional who has already read and edited this note — the nudge is a safety net, not a clinical decision.</p>
 
-    <h2>Error Handling in AI Calls</h2>
+    <h2 id="error-handling-in-ai-calls">Error Handling in AI Calls</h2>
     <p>AI calls can fail for several reasons. The system handles each gracefully:</p>
-    <div class="table-wrap">
+    <div class="table-wrap" role="region" tabindex="0" aria-label="Table: Error Handling in AI Calls">
       <table>
         <thead><tr><th>Error type</th><th>Behavior</th><th>User sees</th></tr></thead>
         <tbody>
@@ -526,7 +532,7 @@ function checkRiskPatterns(noteText: string): boolean {
       </div>
     </div>
 
-    <h2>Prompt Engineering Principles</h2>
+    <h2 id="prompt-engineering-principles">Prompt Engineering Principles</h2>
     <ol>
       <li><strong>Role first, scope second, rules last.</strong> Every prompt starts with the AI's role and what it is NOT. Then defines the task. Rules come at the end where they're most recently primed.</li>
       <li><strong>Explicit format enforcement.</strong> JSON output prompts always specify the exact structure, field names, and types. Ambiguity in format = inconsistent parsing = user-facing bugs.</li>
@@ -580,5 +586,6 @@ function checkRiskPatterns(noteText: string): boolean {
     <div class="footer-copy">© 2026 TherapOS · Pre-launch · building toward HIPAA</div>
   </div>
 </footer>
+<script src="/scripts/docs.js" defer></script>
 </body>
 </html>

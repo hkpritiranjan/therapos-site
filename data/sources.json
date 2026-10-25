@@ -1,0 +1,638 @@
+[
+ {
+  "id": "C-UPH",
+  "claim": "Upheal: Free $0 (text/dictation/upload, basic notes); AI Notes $39/mo; EHR $1/session or $99/mo; Assistant Pro +$39",
+  "url": "https://www.upheal.io/pricing",
+  "type": "Vendor pricing page",
+  "published": "n/a",
+  "verified": "2026-10-26",
+  "label": "Verified",
+  "scope": "US",
+  "limits": "Audio-retention practice conflicts across third-party notices (Reported).",
+  "decision": [
+   "D09",
+   "D12"
+  ],
+  "cadence": "volatile"
+ },
+ {
+  "id": "C-MEN",
+  "claim": "Mentalyc: $19.99/$39.99/$69.99/$119.99 monthly; annual $14.99/$29.99/$59.99/$99.99; Team $59.99/seat; 14-day trial",
+  "url": "https://www.mentalyc.com/pricing",
+  "type": "Vendor pricing page",
+  "published": "n/a",
+  "verified": "2026-10-26",
+  "label": "Verified",
+  "scope": "US",
+  "limits": "Features beyond pricing page (pre-session prep) not confirmed.",
+  "decision": [
+   "D06",
+   "D12"
+  ],
+  "cadence": "volatile"
+ },
+ {
+  "id": "C-BLU",
+  "claim": "Blueprint: beside-EHR $0.99/session (page also lists $69/seat); all-in-one EHR $1.49/session",
+  "url": "https://blueprint.ai/pricing",
+  "type": "Vendor pricing page",
+  "published": "n/a",
+  "verified": "2026-10-26",
+  "label": "Verified",
+  "scope": "US",
+  "limits": "Page is internally inconsistent; client-app details Reported only.",
+  "decision": [
+   "D06",
+   "D12"
+  ],
+  "cadence": "volatile"
+ },
+ {
+  "id": "C-SPR",
+  "claim": "SimplePractice: EHR $49/$79/$99; Note Taker $35; Care Aide $59 (announced 2026-06-17); ePrescribe $49",
+  "url": "https://www.simplepractice.com/pricing/",
+  "type": "Vendor pricing page",
+  "published": "n/a",
+  "verified": "2026-10-26",
+  "label": "Verified",
+  "scope": "US",
+  "limits": "Promos change the effective price. Client-portal details not on the pricing page.",
+  "decision": [
+   "D06",
+   "D12"
+  ],
+  "cadence": "volatile"
+ },
+ {
+  "id": "C-SPR2",
+  "claim": "SimplePractice opted new Note Taker users into de-identified transcript retention by default from 2026-06-16",
+  "url": "https://www.clearhealthcosts.com/",
+  "type": "Secondary summary / search snippets",
+  "published": "n/a",
+  "verified": "2026-10-26",
+  "label": "Reported",
+  "scope": "US",
+  "limits": "Help-center article returned 403; confirm on SimplePractice before quoting.",
+  "decision": [
+   "D12"
+  ],
+  "cadence": "volatile"
+ },
+ {
+  "id": "C-TNO",
+  "claim": "TherapyFuel $40/clinician/month; Session Assist pre-session summaries (TherapyNotes)",
+  "url": "https://www.therapynotes.com/",
+  "type": "Vendor help article (via snippets)",
+  "published": "n/a",
+  "verified": "2026-10-26",
+  "label": "Reported",
+  "scope": "US",
+  "limits": "Official pages returned 403 to our fetch. Base EHR price conflicts ($59–$69).",
+  "decision": [
+   "D12"
+  ],
+  "cadence": "volatile"
+ },
+ {
+  "id": "C-CAR",
+  "claim": "Carepatron: Free plan includes AI scribe and client portal; Plus $15.50, Advanced $19.50 (promo prices)",
+  "url": "https://www.carepatron.com/pricing",
+  "type": "Vendor pricing page",
+  "published": "n/a",
+  "verified": "2026-10-26",
+  "label": "Verified",
+  "scope": "US",
+  "limits": "Promotional half-off pricing; list prices are higher.",
+  "decision": [
+   "D06"
+  ],
+  "cadence": "volatile"
+ },
+ {
+  "id": "C-FRE",
+  "claim": "Freed: Starter $39 (40 notes); higher tiers unclear ($59/$79, $104/$119)",
+  "url": "https://www.getfreed.ai/",
+  "type": "Vendor pricing page",
+  "published": "n/a",
+  "verified": "2026-10-26",
+  "label": "Verified",
+  "scope": "US",
+  "limits": "Tier prices ambiguous in fetch.",
+  "decision": [],
+  "cadence": "volatile"
+ },
+ {
+  "id": "C-HEI",
+  "claim": "Heidi: free plan with unlimited transcription; clinician price not shown",
+  "url": "https://www.heidihealth.com/en-us/pricing",
+  "type": "Vendor pricing page",
+  "published": "n/a",
+  "verified": "2026-10-26",
+  "label": "Verified",
+  "scope": "US/India",
+  "limits": "Regional training/retention policies conflict.",
+  "decision": [],
+  "cadence": "volatile"
+ },
+ {
+  "id": "C-NXT",
+  "claim": "Nextvisit: Go $49, Provider $99, Provider+ $199; AI patient timeline; ePrescribe add-on",
+  "url": "https://nextvisit.ai/pricing",
+  "type": "Vendor pricing page",
+  "published": "n/a",
+  "verified": "2026-10-26",
+  "label": "Verified",
+  "scope": "US",
+  "limits": "Psychiatry-first; ePrescribe quote-only.",
+  "decision": [],
+  "cadence": "volatile"
+ },
+ {
+  "id": "C-JOT",
+  "claim": "JotPsych: $53 / $135 / $269 per month; JotRx e-prescribing",
+  "url": "https://jotpsych.com/pricing",
+  "type": "Vendor pricing page",
+  "published": "n/a",
+  "verified": "2026-10-26",
+  "label": "Verified",
+  "scope": "US",
+  "limits": "BAA not mentioned on page; training policy unknown.",
+  "decision": [],
+  "cadence": "volatile"
+ },
+ {
+  "id": "C-ELE",
+  "claim": "Eleos Health: agency-focused, 300+ organisations, quote-only pricing",
+  "url": "https://eleos.health/",
+  "type": "Vendor site / third-party",
+  "published": "n/a",
+  "verified": "2026-10-26",
+  "label": "Reported",
+  "scope": "US",
+  "limits": "Pricing not public.",
+  "decision": [],
+  "cadence": "volatile"
+ },
+ {
+  "id": "C-TWO",
+  "claim": "Twofold: personal plan $69 (\"$19 first month\" promo); audio deleted \"unless you opt in to retention\"",
+  "url": "https://www.trytwofold.com/pricing",
+  "type": "Vendor pricing page",
+  "published": "n/a",
+  "verified": "2026-10-26",
+  "label": "Verified",
+  "scope": "US",
+  "limits": "Steady-state price after promo unknown.",
+  "decision": [
+   "D12"
+  ],
+  "cadence": "volatile"
+ },
+ {
+  "id": "C-SUP",
+  "claim": "Supanote: tiers appear as $19.99/$39.99/$69.99 (decimals lost in fetch); BAA included",
+  "url": "https://supanote.ai/pricing",
+  "type": "Vendor pricing page",
+  "published": "n/a",
+  "verified": "2026-10-26",
+  "label": "Verified",
+  "scope": "US",
+  "limits": "Decimal point lost in fetch; confirm.",
+  "decision": [],
+  "cadence": "volatile"
+ },
+ {
+  "id": "C-BER",
+  "claim": "Berries: Pro $79 (help center says $99); recordings not stored",
+  "url": "https://heyberries.com/",
+  "type": "Vendor site",
+  "published": "n/a",
+  "verified": "2026-10-26",
+  "label": "Verified",
+  "scope": "US",
+  "limits": "Pricing page had a certificate error; figures from other pages.",
+  "decision": [],
+  "cadence": "volatile"
+ },
+ {
+  "id": "C-QUE",
+  "claim": "Quenza: Spark $25 / Growth $50 / Impact $125 / Collective $160 per month",
+  "url": "https://quenza.com/pricing",
+  "type": "Vendor pricing page",
+  "published": "n/a",
+  "verified": "2026-10-26",
+  "label": "Verified",
+  "scope": "US",
+  "limits": "Feature details Reported via Software Advice.",
+  "decision": [
+   "D10"
+  ],
+  "cadence": "volatile"
+ },
+ {
+  "id": "C-PRO",
+  "claim": "ProTherapy (India): ₹499/mo for 3 months then ₹999/mo; ₹6,990/yr; WhatsApp reminders, UPI/Razorpay booking, client homework app",
+  "url": "https://www.protherapy.in",
+  "type": "Vendor site",
+  "published": "n/a",
+  "verified": "2026-10-26",
+  "label": "Verified",
+  "scope": "India",
+  "limits": "\"Client data stays in India\" and DPDP claims are marketing; AI notes not seen.",
+  "decision": [
+   "D09"
+  ],
+  "cadence": "volatile"
+ },
+ {
+  "id": "C-EKA",
+  "claim": "EkaScribe: Pro ₹1,499/doctor/mo; free 5 consults/day; page claims 10+/15+/20+ languages (inconsistent)",
+  "url": "https://ekascribe.ai",
+  "type": "Vendor pricing page",
+  "published": "n/a",
+  "verified": "2026-10-26",
+  "label": "Verified",
+  "scope": "India",
+  "limits": "Doctor consult workflow, not therapy; code-mixing support unknown.",
+  "decision": [
+   "D09"
+  ],
+  "cadence": "volatile"
+ },
+ {
+  "id": "C-RXN",
+  "claim": "RxNote AI: psychiatry among 50+ specialties; \"HIPAA & DPDP ready\" claim; no public price",
+  "url": "https://www.rxnote.ai",
+  "type": "Vendor site (marketing)",
+  "published": "n/a",
+  "verified": "2026-10-26",
+  "label": "Reported",
+  "scope": "India",
+  "limits": "Marketing claim only; storage location unknown.",
+  "decision": [],
+  "cadence": "volatile"
+ },
+ {
+  "id": "M-BLS-C",
+  "claim": "Substance abuse, behavioral disorder & mental health counselors: 533,400 jobs (2025), +18% 2025–35",
+  "url": "https://www.bls.gov/ooh/community-and-social-service/substance-abuse-behavioral-disorder-and-mental-health-counselors.htm",
+  "type": "Government statistics",
+  "published": "n/a",
+  "verified": "2026-10-26",
+  "label": "Verified",
+  "scope": "US",
+  "limits": "OOH counts exclude many self-employed; overlaps with other groups.",
+  "decision": [
+   "D09"
+  ],
+  "cadence": "stable"
+ },
+ {
+  "id": "M-BLS-P",
+  "claim": "Clinical and counseling psychologists: 81,300 (2025); 23% of psychologists self-employed",
+  "url": "https://www.bls.gov/ooh/life-physical-and-social-science/psychologists.htm",
+  "type": "Government statistics",
+  "published": "n/a",
+  "verified": "2026-10-26",
+  "label": "Verified",
+  "scope": "US",
+  "limits": "Self-employment figure covers all psychologist subgroups.",
+  "decision": [
+   "D09"
+  ],
+  "cadence": "stable"
+ },
+ {
+  "id": "M-BLS-M",
+  "claim": "Marriage and family therapists: ~77,800 jobs (2024); 13% self-employed",
+  "url": "https://www.bls.gov/ooh/community-and-social-service/marriage-and-family-therapists.htm",
+  "type": "Government statistics",
+  "published": "n/a",
+  "verified": "2026-10-25",
+  "label": "Verified",
+  "scope": "US",
+  "limits": "2024 base year; OOH moved to 2025 for other groups.",
+  "decision": [
+   "D09"
+  ],
+  "cadence": "stable"
+ },
+ {
+  "id": "M-ASWB",
+  "claim": "~463,000 licensed social workers (2024), 59% clinical (our derived ~273,000)",
+  "url": "https://www.aswb.org/regulation/research/2024-social-work-workforce-study-series/",
+  "type": "Professional body study",
+  "published": "n/a",
+  "verified": "2026-10-26",
+  "label": "Reported",
+  "scope": "US",
+  "limits": "273,000 is our arithmetic, not a published figure.",
+  "decision": [
+   "D09"
+  ],
+  "cadence": "stable"
+ },
+ {
+  "id": "M-APA25",
+  "claim": "56% of psychologists used AI at least once in past year (29% in 2024); 29% monthly; note-taking ~22% of uses",
+  "url": "https://www.apa.org/pubs/reports/practitioner/2025/ai-practice-management.html",
+  "type": "Professional survey (via summaries)",
+  "published": "n/a",
+  "verified": "2026-10-26",
+  "label": "Reported",
+  "scope": "US",
+  "limits": "Psychologists only; self-reported; summarised, not read in full.",
+  "decision": [
+   "D09"
+  ],
+  "cadence": "stable"
+ },
+ {
+  "id": "M-IND",
+  "claim": "Independent US therapy clinicians 150,000–400,000 (our range)",
+  "url": "https://www.bls.gov/ooh/",
+  "type": "Our model",
+  "published": "n/a",
+  "verified": "2026-10-26",
+  "label": "Hypothesis",
+  "scope": "US",
+  "limits": "Overlapping groups; private-practice share by profession unknown. Every input is an assumption.",
+  "decision": [
+   "D09"
+  ],
+  "cadence": "stable"
+ },
+ {
+  "id": "M-SEG",
+  "claim": "Software-market reports (US behavioral-health EHR $287M 2024; global $1.7B–$4.1B 2025) read only as paywalled previews; not relied on",
+  "url": "https://grandviewresearch.com/industry-analysis/us-behavioral-health-ehr-market-report",
+  "type": "Analyst report preview",
+  "published": "n/a",
+  "verified": "2026-10-26",
+  "label": "Reported",
+  "scope": "US",
+  "limits": "Scope differs; paywalled. Excluded from our model.",
+  "decision": [],
+  "cadence": "stable"
+ },
+ {
+  "id": "M-RCI",
+  "claim": "RCI clinical psychologists: 1,181 (Rajya Sabha, July 2023) vs 3,890 registered/~2,900 active (later study)",
+  "url": "https://madhyamamonline.com/amp/india/india-faces-acute-shortage-of-registered-clinical-psychologists-1494282",
+  "type": "Press / parliamentary reply",
+  "published": "n/a",
+  "verified": "2026-10-26",
+  "label": "Reported",
+  "scope": "India",
+  "limits": "Two figures disagree; check Central Rehabilitation Register directly.",
+  "decision": [
+   "D09"
+  ],
+  "cadence": "stable"
+ },
+ {
+  "id": "M-PSY",
+  "claim": "India psychiatrists ~9,000 (2019 IJP supplement)",
+  "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6341936/",
+  "type": "Journal supplement (not opened in full)",
+  "published": "n/a",
+  "verified": "2026-10-26",
+  "label": "Reported",
+  "scope": "India",
+  "limits": "Dated; IPS membership is not statutory registration; NHRC cites 2,052.",
+  "decision": [
+   "D09"
+  ],
+  "cadence": "stable"
+ },
+ {
+  "id": "M-CNS",
+  "claim": "India counsellors: unregulated, no count",
+  "url": "https://www.therapyroute.com/article/mental-health-licensing-regulation-in-india-2025-guide-by-therapyroute",
+  "type": "Secondary article",
+  "published": "n/a",
+  "verified": "2026-10-26",
+  "label": "Unknown",
+  "scope": "India",
+  "limits": "No authoritative count exists.",
+  "decision": [
+   "D09"
+  ],
+  "cadence": "stable"
+ },
+ {
+  "id": "R-IL",
+  "claim": "Illinois HB 1806: bars AI from independent therapy decisions and client therapeutic communication; penalties up to $10,000; written consent to record/transcribe",
+  "url": "https://idfpr.illinois.gov/content/dam/soi/en/web/idfpr/news/2025/2025-08-04-idfpr-press-release-hb1806.pdf",
+  "type": "Regulator press release",
+  "published": "n/a",
+  "verified": "2026-10-26",
+  "label": "Verified",
+  "scope": "US-IL",
+  "limits": "Statute text not read; effective-date reports differ. Needs counsel.",
+  "decision": [
+   "D10",
+   "D13"
+  ],
+  "cadence": "legal"
+ },
+ {
+  "id": "R-NV",
+  "claim": "Nevada AB 406 (effective 1 Jul 2025): restricts AI that provides mental health care; administrative tools carved out",
+  "url": "https://www.wsgr.com/en/insights/nevada-passes-law-limiting-ai-use-for-mental-and-behavioral-healthcare.html",
+  "type": "Law-firm summary",
+  "published": "n/a",
+  "verified": "2026-10-26",
+  "label": "Reported",
+  "scope": "US-NV",
+  "limits": "Whether clinician-supervised AI-drafted homework counts as \"providing care\" is unknown.",
+  "decision": [
+   "D10",
+   "D13"
+  ],
+  "cadence": "legal"
+ },
+ {
+  "id": "R-UT",
+  "claim": "Utah HB 452: disclosure and data limits for therapy-like chatbots",
+  "url": "https://perkinscoie.com/insights/update/new-utah-ai-laws-change-disclosure-requirements-and-identity-protections-target",
+  "type": "Law-firm summary",
+  "published": "n/a",
+  "verified": "2026-10-26",
+  "label": "Reported",
+  "scope": "US-UT",
+  "limits": "Sources disagree on disclosure timing.",
+  "decision": [
+   "D13"
+  ],
+  "cadence": "legal"
+ },
+ {
+  "id": "R-2026",
+  "claim": "2026 state chatbot activity (CA SB 243, TN SB 1580, OR SB 1546, NE LB 525; 70+ bills in 36 states Q1 2026)",
+  "url": "https://www.orrick.com/en/Insights/2026/04/2026-State-Chatbot-Laws-Key-Provisions-and-Regulatory-Trends",
+  "type": "Law-firm summary",
+  "published": "n/a",
+  "verified": "2026-10-26",
+  "label": "Reported",
+  "scope": "US",
+  "limits": "Statuses may have changed since April 2026.",
+  "decision": [
+   "D13"
+  ],
+  "cadence": "legal"
+ },
+ {
+  "id": "R-FDA",
+  "claim": "FDA Digital Health Advisory Committee met 6 Nov 2025 on generative-AI mental health devices; guidance reported on FY2027 priority list",
+  "url": "https://www.psychiatrictimes.com/view/fda-committee-meets-on-generative-ai-digital-mental-health-devices",
+  "type": "Trade press",
+  "published": "n/a",
+  "verified": "2026-10-26",
+  "label": "Reported",
+  "scope": "US",
+  "limits": "No published guidance confirmed; planning item only.",
+  "decision": [
+   "D10"
+  ],
+  "cadence": "legal"
+ },
+ {
+  "id": "R-CUR",
+  "claim": "Information blocking rules apply to providers and health-IT developers; exceptions are case-by-case",
+  "url": "https://www.healthit.gov/topic/information-blocking",
+  "type": "Government guidance",
+  "published": "n/a",
+  "verified": "2026-10-26",
+  "label": "Verified",
+  "scope": "US",
+  "limits": "Page does not address AI-drafted notes or open notes specifically.",
+  "decision": [
+   "D13"
+  ],
+  "cadence": "legal"
+ },
+ {
+  "id": "R-HIP",
+  "claim": "Psychotherapy notes are defined at 45 CFR 164.501 and excluded from the right of access at 164.524(a)(1)(i)",
+  "url": "https://www.ecfr.gov/current/title-45/part-164",
+  "type": "Federal regulation",
+  "published": "n/a",
+  "verified": "2026-10-26",
+  "label": "Verified",
+  "scope": "US",
+  "limits": "Cited from regulation knowledge, not re-fetched; whether patient reflections count is unknown. Needs counsel.",
+  "decision": [
+   "D13"
+  ],
+  "cadence": "legal"
+ },
+ {
+  "id": "R-DPDP",
+  "claim": "DPDP Rules 2025 published 13 Nov 2025; consent-manager rule 13 Nov 2026; main obligations 13 May 2027",
+  "url": "https://static.pib.gov.in/WriteReadData/specificdocs/documents/2025/nov/doc20251117695301.pdf",
+  "type": "Government document",
+  "published": "2025-11-17",
+  "verified": "2026-10-26",
+  "label": "Verified",
+  "scope": "India",
+  "limits": "Cross-border transfer and health-data treatment unverified; Supreme Court challenges reported pending.",
+  "decision": [
+   "D09",
+   "D13"
+  ],
+  "cadence": "legal"
+ },
+ {
+  "id": "R-MHCA",
+  "claim": "Mental Healthcare Act 2017: s.23 confidentiality, s.24 release limits, s.25 client access to basic records",
+  "url": "https://qps.nhsrcindia.org/sites/default/files/2022-01/THE%20MENTAL%20HEALTHCARE%20ACT%2C%202017.pdf",
+  "type": "Statute",
+  "published": "2017",
+  "verified": "2026-10-26",
+  "label": "Verified",
+  "scope": "India",
+  "limits": "No AI-specific source; ss.24–25 exceptions not read.",
+  "decision": [
+   "D09",
+   "D13"
+  ],
+  "cadence": "legal"
+ },
+ {
+  "id": "R-BAA",
+  "claim": "OpenAI and Anthropic BAAs are conditional on eligible zero-retention API use and approval; none executed by TherapOS",
+  "url": "https://www.hhs.gov/hipaa/for-professionals/covered-entities/sample-business-associate-agreement-provisions/index.html",
+  "type": "Primary source + our status",
+  "published": "n/a",
+  "verified": "2026-10-25",
+  "label": "Inferred",
+  "scope": "US",
+  "limits": "Vendor terms change; our status is a documented fact of this project.",
+  "decision": [
+   "D05",
+   "D14"
+  ],
+  "cadence": "legal"
+ },
+ {
+  "id": "E-HW",
+  "claim": "Homework compliance associates with CBT outcomes: Kazantzis 2016, 17 studies, N=2,312, g≈0.79",
+  "url": "https://openresearch-repository.anu.edu.au/items/7c8a2dc0-0366-4437-a722-1a074e44ef2a",
+  "type": "Meta-analysis (via summary)",
+  "published": "n/a",
+  "verified": "2026-10-26",
+  "label": "Reported",
+  "scope": "Both",
+  "limits": "Correlational; compliance often self-reported; does not show assigning homework causes improvement.",
+  "decision": [
+   "D10"
+  ],
+  "cadence": "stable"
+ },
+ {
+  "id": "E-ROM",
+  "claim": "Routine outcome monitoring effects are small (De Jong 2021, d≈0.15)",
+  "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11703940",
+  "type": "Narrative review (2024)",
+  "published": "n/a",
+  "verified": "2026-10-26",
+  "label": "Reported",
+  "scope": "Both",
+  "limits": "Effects about half as large in routine practice as in trials.",
+  "decision": [
+   "D10"
+  ],
+  "cadence": "stable"
+ },
+ {
+  "id": "E-WOE",
+  "claim": "Woebot consumer app shut down 30 Jun 2025, citing FDA cost and unclear LLM rules",
+  "url": "https://www.statnews.com/2025/07/02/woebot-mental-health-chatbot-shuts-down-founder-says-ai-moving-faster-than-regulators/",
+  "type": "News report",
+  "published": "2025-07-02",
+  "verified": "2026-10-26",
+  "label": "Reported",
+  "scope": "US",
+  "limits": "Founder explanation, not a regulator statement.",
+  "decision": [
+   "D10"
+  ],
+  "cadence": "stable"
+ },
+ {
+  "id": "E-TIME",
+  "claim": "No reliable published figure for time therapists spend per note was found; earlier site statistics removed",
+  "url": "https://therapos-site.vercel.app/docs/research.html#pain",
+  "type": "Our review",
+  "published": "n/a",
+  "verified": "2026-10-25",
+  "label": "Unknown",
+  "scope": "Both",
+  "limits": "Absence of evidence in our search, not proof none exists.",
+  "decision": [
+   "D05"
+  ],
+  "cadence": "stable"
+ }
+]

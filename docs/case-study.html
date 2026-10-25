@@ -9,40 +9,47 @@
 <link rel="stylesheet" href="../styles/main.css">
 </head>
 <body>
+<a class="skip-link" href="#main">Skip to content</a>
 <nav class="site-nav">
   <a href="/" class="nav-logo">⬡ <span>TherapOS</span></a>
   <div class="nav-links">
-    <a href="../index.html#features">Features</a>
-    <a href="../index.html#pricing">Pricing</a>
+    <a href="/index.html#features">Features</a>
+    <a href="/index.html#pricing">Pricing</a>
     <a href="/docs/index.html" style="color:var(--accent)">Docs</a>
-    <a href="../index.html#pricing" class="nav-cta">Join the waitlist</a>
+    <button type="button" class="nav-search" aria-label="Search documentation">Search<kbd>/</kbd></button>
+    <a href="/index.html#pricing" class="nav-cta">Join the waitlist</a>
   </div>
 </nav>
 <div class="docs-layout">
-  <nav class="docs-sidebar">
-    <div class="group">Getting Started</div>
+                                                <nav class="docs-sidebar" aria-label="Documentation">
+    <div class="group">Start</div>
     <a href="/docs/index.html">Overview</a>
     <a href="/docs/quickstart.html">Quickstart</a>
-    <div class="group">Product</div>
+    <div class="group">Strategy &amp; evidence</div>
     <a href="/docs/plan.html">Full Product Plan</a>
     <a href="/docs/research.html">Market &amp; Regulatory Research</a>
     <a href="/docs/competitors.html">Competitors &amp; Strategy</a>
-    <a href="/docs/case-study.html" class="active">Case Study</a>
-    <a href="/docs/review.html">Product Review</a>
+    <a href="/docs/case-study.html" class="active" aria-current="page">Case Study</a>
+    <a href="/docs/sources.html">Source Register</a>
+    <div class="group">Product</div>
     <a href="/docs/features.html">Features</a>
     <a href="/docs/pricing.html">Pricing</a>
     <a href="/docs/roadmap.html">Roadmap</a>
+    <a href="/docs/review.html">Product Review</a>
     <div class="group">Technical</div>
     <a href="/docs/architecture.html">Architecture</a>
     <a href="/docs/schema.html">Database Schema</a>
     <a href="/docs/api.html">API Reference</a>
     <a href="/docs/ai.html">AI &amp; Prompts</a>
   </nav>
-  <main class="docs-content">
+  <main class="docs-content" id="main">
+    <!--enh:mnav--><details class="mobile-nav"><summary>Documentation menu</summary><div class="group">Start</div><a href="/docs/index.html">Overview</a><a href="/docs/quickstart.html">Quickstart</a><div class="group">Strategy &amp; evidence</div><a href="/docs/plan.html">Full Product Plan</a><a href="/docs/research.html">Market &amp; Regulatory Research</a><a href="/docs/competitors.html">Competitors &amp; Strategy</a><a href="/docs/case-study.html" aria-current="page">Case Study</a><a href="/docs/sources.html">Source Register</a><div class="group">Product</div><a href="/docs/features.html">Features</a><a href="/docs/pricing.html">Pricing</a><a href="/docs/roadmap.html">Roadmap</a><a href="/docs/review.html">Product Review</a><div class="group">Technical</div><a href="/docs/architecture.html">Architecture</a><a href="/docs/schema.html">Database Schema</a><a href="/docs/api.html">API Reference</a><a href="/docs/ai.html">AI &amp; Prompts</a></details><!--/enh:mnav-->
+    <!--enh:crumbs--><nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span class="sep" aria-hidden="true">/</span><a href="/docs/index.html">Docs</a><span class="sep" aria-hidden="true">/</span><span>Strategy &amp; evidence</span><span class="sep" aria-hidden="true">/</span><span aria-current="page">Case Study</span></nav><!--/enh:crumbs-->
     <span class="eyebrow">Product</span>
     <h1>Case Study: Building TherapOS</h1>
     <p class="page-desc">The TherapOS story so far: the problem, what research changed, the key decisions, what was built in the first four days, what broke, and what is still unproven.</p>
 
+    <!--enh:purpose--><div class="purpose"><div><b>Role</b>Evidence of execution</div><div><b>Audience</b>Everyone</div><div><b>Last reviewed</b><time datetime="2026-10-26">2026-10-26</time></div><div><b>Related</b><a href="/docs/plan.html">Full Product Plan</a>, <a href="/docs/architecture.html">Architecture</a>, <a href="/docs/roadmap.html">Roadmap</a></div></div><p class="sr-only" style="position:absolute;left:-999px">How TherapOS is being built, what changed and what the team learned.</p><div class="legend" role="note" aria-label="Product status labels"><p class="legend-title">Product status</p><div><span class="st st-built">Built</span> implemented and verified</div><div><span class="st st-in-progress">In progress</span> partly implemented</div><div><span class="st st-planned">Planned</span> accepted, not built</div><div><span class="st st-exploratory">Exploratory</span> under consideration</div><div><span class="st st-deferred">Deferred</span> intentionally postponed</div><div><span class="st st-rejected">Rejected</span> evaluated and declined</div></div><div class="legend" role="note" aria-label="Evidence labels"><p class="legend-title">Evidence labels</p><div><span class="ev ev-verified">Verified</span> primary source or documented implementation</div><div><span class="ev ev-reported">Reported</span> secondary or third-party source</div><div><span class="ev ev-inferred">Inferred</span> our reasoning from evidence</div><div><span class="ev ev-hypothesis">Hypothesis</span> assumption needing validation</div><div><span class="ev ev-unknown">Unknown</span> not found or inconclusive</div></div><!--/enh:purpose-->
     <div class="callout callout-warn">
       <div class="callout-icon">⚠</div>
       <div class="callout-body">
@@ -64,7 +71,7 @@
     <p><strong>The gap we chose:</strong> notes and memory for the therapist who does not want a recording tool in the room.</p>
 
     <h2 id="customer">2. The customer</h2>
-    <div class="table-wrap">
+    <div class="table-wrap" role="region" tabindex="0" aria-label="Table: 2. The customer">
       <table>
         <thead><tr><th>Segment</th><th>Why</th><th>Open questions</th></tr></thead>
         <tbody>
@@ -85,7 +92,7 @@
     <p>The full evidence, with confidence tags, is on the <a href="/docs/research.html">Research page</a>.</p>
 
     <h2 id="decisions">4. Key product decisions and trade-offs</h2>
-    <div class="table-wrap">
+    <div class="table-wrap" role="region" tabindex="0" aria-label="Table: 4. Key product decisions and trade-offs">
       <table>
         <thead><tr><th>Decision</th><th>Why</th><th>What it costs</th></tr></thead>
         <tbody>
@@ -104,15 +111,15 @@
 
     <h2 id="how">5. How it works</h2>
     <ol class="steps">
-      <li><div class="step-num"></div><div class="step-body"><h4>Prepare</h4><p>Before a session the therapist opens a prep brief built from goals, the last five completed sessions (note text truncated to a token budget), and recent homework: key topics, interventions to consider, goals to review, and homework to follow up.</p></div></li>
-      <li><div class="step-num"></div><div class="step-body"><h4>Capture</h4><p>During or after the session they type raw notes into the session page. Nothing is recorded.</p></div></li>
-      <li><div class="step-num"></div><div class="step-body"><h4>Draft</h4><p>The draft endpoint streams a structured note in the chosen format. The system prompt forbids fabrication and diagnosis, requires "[Therapist to complete]" for gaps, and uses neutral third-person clinical language.</p></div></li>
-      <li><div class="step-num"></div><div class="step-body"><h4>Edit and finalize</h4><p>The therapist edits every field and finalizes. Finalized notes cannot be edited.</p></div></li>
-      <li><div class="step-num"></div><div class="step-body"><h4>Remember</h4><p>Finalizing queues a background job: embed the note into pgvector, then regenerate the patient's rolling summary from the last ten finalized notes. The next prep brief starts from that memory.</p></div></li>
+      <li><div class="step-num"></div><div class="step-body"><h3 id="prepare">Prepare</h3><p>Before a session the therapist opens a prep brief built from goals, the last five completed sessions (note text truncated to a token budget), and recent homework: key topics, interventions to consider, goals to review, and homework to follow up.</p></div></li>
+      <li><div class="step-num"></div><div class="step-body"><h3 id="capture">Capture</h3><p>During or after the session they type raw notes into the session page. Nothing is recorded.</p></div></li>
+      <li><div class="step-num"></div><div class="step-body"><h3 id="draft">Draft</h3><p>The draft endpoint streams a structured note in the chosen format. The system prompt forbids fabrication and diagnosis, requires "[Therapist to complete]" for gaps, and uses neutral third-person clinical language.</p></div></li>
+      <li><div class="step-num"></div><div class="step-body"><h3 id="edit-and-finalize">Edit and finalize</h3><p>The therapist edits every field and finalizes. Finalized notes cannot be edited.</p></div></li>
+      <li><div class="step-num"></div><div class="step-body"><h3 id="remember">Remember</h3><p>Finalizing queues a background job: embed the note into pgvector, then regenerate the patient's rolling summary from the last ten finalized notes. The next prep brief starts from that memory.</p></div></li>
     </ol>
 
     <h2 id="timeline">6. Build log</h2>
-    <div class="table-wrap">
+    <div class="table-wrap" role="region" tabindex="0" aria-label="Table: 6. Build log">
       <table>
         <thead><tr><th>When (2026)</th><th>Commit</th><th>What happened</th></tr></thead>
         <tbody>
@@ -126,8 +133,8 @@
       </table>
     </div>
 
-    <h3>What broke, and what it taught</h3>
-    <div class="table-wrap">
+    <h3 id="what-broke-and-what-it-taught">What broke, and what it taught</h3>
+    <div class="table-wrap" role="region" tabindex="0" aria-label="Table: What broke, and what it taught">
       <table>
         <thead><tr><th>Problem</th><th>Cause</th><th>Fix</th><th>Lesson</th></tr></thead>
         <tbody>
@@ -139,28 +146,14 @@
       </table>
     </div>
 
-    <h2 id="status">7. Honest status</h2>
-    <div class="table-wrap">
-      <table>
-        <thead><tr><th>Area</th><th>State</th><th>Notes</th></tr></thead>
-        <tbody>
-          <tr><td>Patients: CRUD, search, discharge, timeline</td><td><span class="badge badge-green">Built</span></td><td>Per-therapist isolation enforced in the service layer</td></tr>
-          <tr><td>Sessions: create, start, complete</td><td><span class="badge badge-green">Built</span></td><td>Next session number computed read-then-insert (race possible)</td></tr>
-          <tr><td>Notes: create, edit, finalize, four formats</td><td><span class="badge badge-green">Built</span></td><td>Finalized notes are locked</td></tr>
-          <tr><td>AI note draft (streaming), prep brief, homework ideas</td><td><span class="badge badge-green">Built</span></td><td>GPT-4o; prep result is not saved to the session</td></tr>
-          <tr><td>Embeddings and rolling patient summary</td><td><span class="badge badge-yellow">Partial</span></td><td>Pipeline written; queue dependency and production Redis need verification; no search endpoint reads the vectors yet</td></tr>
-          <tr><td>Email/password auth and JWT</td><td><span class="badge badge-yellow">Partial</span></td><td>API done; the web app has no login page and does not send a token in production</td></tr>
-          <tr><td>Goals and homework: create, update</td><td><span class="badge badge-red">Not built</span></td><td>Only read today</td></tr>
-          <tr><td>Natural-language search</td><td><span class="badge badge-red">Not built</span></td><td>Documented; Q4 2026 on the roadmap</td></tr>
-          <tr><td>Audit logging, rate limits, field encryption, MFA</td><td><span class="badge badge-red">Not built</span></td><td>Audit table exists; nothing writes to it</td></tr>
-          <tr><td>Billing (Stripe / Razorpay)</td><td><span class="badge badge-red">Not built</span></td><td>Subscription row is created; no payment code</td></tr>
-          <tr><td>Automated tests</td><td><span class="badge badge-yellow">Minimal</span></td><td>Seven unit tests for the draft parser; nothing yet for the API, tenant isolation or note locking</td></tr>
-          <tr><td>App UI theme</td><td><span class="badge badge-green">Built</span></td><td>Light, AA-contrast theme on the shared palette; Poppins and Alegreya</td></tr>
-        </tbody>
-      </table>
-    </div>
+    <!--seed:cs-dec--><h3 id="decision-timeline">Decision timeline</h3>
+<p>Chronological. Full rationale and evidence: <a href="/docs/plan.html#decision-log">Decision log</a>.</p>
+<!--gen:timeline--><ol class="timeline" aria-label="Decision timeline"><li><time datetime="2026-07-20">2026-07-20</time><b>D01</b> Write the plan and docs before the code <span class="st st-decided">Decided</span></li><li><time datetime="2026-07-21">2026-07-21</time><b>D02</b> Stack: Turborepo, NestJS API, Next.js app, Prisma with pgvector, BullMQ <span class="st st-decided">Decided</span></li><li><time datetime="2026-07-23">2026-07-23</time><b>D03</b> Own email/password JWT auth instead of the documented Clerk with MFA <span class="st st-decided">Decided</span></li><li><time datetime="2026-10-25">2026-10-25</time><b>D04</b> Withdrew the claim that no competitor has prep and cross-session memory <span class="st st-decided">Decided</span></li><li><time datetime="2026-10-25">2026-10-25</time><b>D05</b> Removed unsourced time-saved statistics and &quot;HIPAA-ready&quot; / signed-BAA claims <span class="st st-decided">Decided</span></li><li><time datetime="2026-10-25">2026-10-25</time><b>D06</b> Solo plan capped at 200 AI notes per month with a 30-day trial <span class="st st-decided">Decided</span></li><li><time datetime="2026-10-25">2026-10-25</time><b>D07</b> Parse note drafts as JSON first, with labelled-prose fallback <span class="st st-decided">Decided</span></li><li><time datetime="2026-10-25">2026-10-25</time><b>D08</b> Restyle the app and docs on a calm light palette <span class="st st-decided">Decided</span></li><li><time datetime="2026-10-26">2026-10-26</time><b>D09</b> First segment: US independent therapists already using AI; India deferred <span class="st st-proposed">Proposed</span></li><li><time datetime="2026-10-26">2026-10-26</time><b>D10</b> Patient-facing activity loop is a gated pilot, not an MVP feature <span class="st st-proposed">Proposed</span></li><li><time datetime="2026-10-26">2026-10-26</time><b>D11</b> Build a discovery and pilot-recruitment deck now; defer the investor deck <span class="st st-proposed">Proposed</span></li><li><time datetime="2026-10-26">2026-10-26</time><b>D12</b> Position on inspectable memory and a strict no-retention posture, not on price or &quot;AI notes&quot; <span class="st st-proposed">Proposed</span></li><li><time datetime="2026-10-26">2026-10-26</time><b>D13</b> Obtain counsel opinion before any patient-facing release <span class="st st-proposed">Proposed</span></li><li><time datetime="2026-10-26">2026-10-26</time><b>D14</b> Pseudonymise names before AI calls and pursue zero-retention endpoints before any pilot <span class="st st-proposed">Proposed</span></li></ol><!--/gen:timeline-->
+<!--/seed:cs-dec-->
+<h2 id="status">7. Honest status</h2>
+    <!--gen:status--><div class="table-wrap" role="region" tabindex="0" aria-label="Table: 7. Honest status"><table><thead><tr><th scope="col">Item</th><th scope="col">Status</th><th scope="col">Area</th><th scope="col">Notes and evidence</th></tr></thead><tbody><tr><td>Patients: CRUD, search, discharge, timeline</td><td><span class="st st-built">Built</span></td><td>Core</td><td>Per-therapist isolation enforced in the service layer; no automated isolation test yet.</td></tr><tr><td>Sessions: create, start, complete</td><td><span class="st st-built">Built</span></td><td>Core</td><td>Next session number is computed read-then-insert; a race is possible.</td></tr><tr><td>Notes: create, edit, finalize; SOAP, DAP, BIRP, free text</td><td><span class="st st-built">Built</span></td><td>Core</td><td>Finalized notes are locked; no addenda yet.</td></tr><tr><td>AI note draft (streaming), prep brief, homework ideas</td><td><span class="st st-built">Built</span></td><td>Core</td><td>GPT-4o. JSON-first draft parser with 7 unit tests (apps/web/lib/draft-parser.test.mjs). Prep result is not saved to the session.</td></tr><tr><td>Embeddings and rolling patient summary</td><td><span class="st st-in-progress">In progress</span></td><td>Core</td><td>Pipeline written; queue and production Redis need verification; no search endpoint reads the vectors yet.</td></tr><tr><td>Email/password auth and JWT</td><td><span class="st st-in-progress">In progress</span></td><td>Core</td><td>API done; the web app has no login page and does not send a token in production.</td></tr><tr><td>App UI theme (light, AA-contrast palette)</td><td><span class="st st-built">Built</span></td><td>Core</td><td>Poppins and Alegreya; contrast measured at 5.03:1 minimum for body text.</td></tr><tr><td>Automated tests</td><td><span class="st st-in-progress">In progress</span></td><td>Quality</td><td>Seven unit tests for the draft parser; none yet for the API, tenant isolation or note locking.</td></tr><tr><td>Goals and homework: create and update</td><td><span class="st st-planned">Planned</span></td><td>Core</td><td>Only read today; data models exist.</td></tr><tr><td>Natural-language search</td><td><span class="st st-planned">Planned</span></td><td>Core</td><td>Documented; Q4 2026 on the roadmap.</td></tr><tr><td>Pseudonymise client names before AI calls</td><td><span class="st st-planned">Planned</span></td><td>Compliance</td><td>Required before any pilot; not built.</td></tr><tr><td>Audit logging, rate limits, field encryption, MFA</td><td><span class="st st-planned">Planned</span></td><td>Compliance</td><td>Audit table exists; nothing writes to it.</td></tr><tr><td>Business associate agreements with AI and cloud vendors</td><td><span class="st st-planned">Planned</span></td><td>Compliance</td><td>None executed; OpenAI/Anthropic BAAs are conditional on zero-retention eligibility.</td></tr><tr><td>Source-linked summaries (provenance)</td><td><span class="st st-planned">Planned</span></td><td>Strategy</td><td>Strategic bet 1; needs a source-reference table.</td></tr><tr><td>Copy-to-EHR structured export</td><td><span class="st st-planned">Planned</span></td><td>Strategy</td><td>Strategic bet 3.</td></tr><tr><td>Note addenda and AI-assisted marker</td><td><span class="st st-planned">Planned</span></td><td>Strategy</td><td>Needed for a trustworthy record.</td></tr><tr><td>Billing (Stripe / Razorpay)</td><td><span class="st st-planned">Planned</span></td><td>Business</td><td>Subscription row is created; no payment code.</td></tr><tr><td>Clinician-approved activity loop with patient secure link</td><td><span class="st st-exploratory">Exploratory</span></td><td>Strategy</td><td>Strategic bet 2; gated on discovery, counsel opinion and BAA path.</td></tr><tr><td>Voice dictation</td><td><span class="st st-exploratory">Exploratory</span></td><td>Strategy</td><td>Not scoped.</td></tr><tr><td>Clinic accounts with roles</td><td><span class="st st-deferred">Deferred</span></td><td>Business</td><td>After retention and revenue are proven (months 13–24).</td></tr><tr><td>India launch and localisation</td><td><span class="st st-deferred">Deferred</span></td><td>Business</td><td>On pull only; needs Indian data hosting and DPDP compliance.</td></tr><tr><td>Ambient session recording / audio scribe</td><td><span class="st st-rejected">Rejected</span></td><td>Strategy</td><td>Conflicts with the text-first positioning.</td></tr><tr><td>AI that converses with patients in a therapeutic role</td><td><span class="st st-rejected">Rejected</span></td><td>Strategy</td><td>State AI-therapy laws and clinical-safety risk (see R-IL, R-NV).</td></tr></tbody></table></div><!--/gen:status-->
 
-    <h3>Where the docs and code still disagree</h3>
+    <h3 id="where-the-docs-and-code-still-disagree">Where the docs and code still disagree</h3>
     <ul>
       <li><strong>Models:</strong> docs describe Claude for drafts and summaries; code uses GPT-4o everywhere with hard-coded IDs. Decision pending in §9.</li>
       <li><strong>Auth:</strong> docs describe Clerk with MFA; code uses its own JWT.</li>
@@ -168,8 +161,47 @@
       <li><strong>Editor and UI kit:</strong> docs name Tiptap and shadcn/ui; the app uses plain inputs and Tailwind.</li>
     </ul>
 
-    <h2 id="risks">8. Risks we are carrying</h2>
-    <div class="table-wrap">
+    <!--seed:cs-sec--><h2 id="security">Security and compliance status</h2>
+<p>As of 26 October 2026. TherapOS makes no HIPAA, DPDP, SOC 2 or clinical-validation claim.</p>
+<div class="table-wrap" role="region" tabindex="0" aria-label="Table: Security and compliance status"><table><thead><tr><th scope="col">Control</th><th scope="col">Status</th><th scope="col">Evidence</th></tr></thead><tbody>
+<tr><td>Email and password authentication with JWT</td><td><span class="st st-in-progress">In progress</span></td><td>API implemented; web app lacks a login page</td></tr>
+<tr><td>Per-clinician data isolation</td><td><span class="st st-built">Built</span></td><td>Enforced in the service layer; no automated test yet</td></tr>
+<tr><td>Audit log</td><td><span class="st st-planned">Planned</span></td><td>Table exists; nothing writes to it</td></tr>
+<tr><td>Field-level encryption, MFA, rate limits</td><td><span class="st st-planned">Planned</span></td><td>Not implemented</td></tr>
+<tr><td>CORS and secrets configured from environment</td><td><span class="st st-planned">Planned</span></td><td>Open item from the <a href="/docs/review.html">product review</a></td></tr>
+<tr><td>Pseudonymise client names before AI calls</td><td><span class="st st-planned">Planned</span></td><td>Not implemented; names currently reach the model</td></tr>
+<tr><td>Business associate agreements</td><td><span class="st st-planned">Planned</span></td><td>None executed (<a href="/docs/sources.html#r-baa">R-BAA</a>)</td></tr>
+<tr><td>SOC 2, HIPAA or DPDP compliance</td><td><span class="st st-planned">Planned</span></td><td>Not started and not claimed</td></tr>
+</tbody></table></div>
+<h2 id="testing">Testing and validation evidence</h2>
+<div class="table-wrap" role="region" tabindex="0" aria-label="Table: Testing and validation evidence"><table><thead><tr><th scope="col">Check</th><th scope="col">Result</th><th scope="col">Evidence label</th></tr></thead><tbody>
+<tr><td>Draft parser unit tests (<code>npm test</code> in <code>apps/web</code>)</td><td>7 tests pass: JSON, fenced JSON, DAP and BIRP mapping, partial streams, prose fallback, free text, stream preview</td><td><span class="ev ev-verified">Verified</span></td></tr>
+<tr><td>Type check and production build (25 Oct 2026)</td><td><code>tsc</code> clean; <code>next build</code> passes</td><td><span class="ev ev-verified">Verified</span></td></tr>
+<tr><td>Live model output through the parser</td><td>One manual run parsed four SOAP fields; not automated</td><td><span class="ev ev-verified">Verified</span></td></tr>
+<tr><td>Text contrast (WCAG AA 4.5:1)</td><td>Body text minimum 5.03:1 on the shared palette; computed, not screen-reader tested</td><td><span class="ev ev-verified">Verified</span></td></tr>
+<tr><td>Docs link, anchor and heading checks (<code>tools/check.py</code>)</td><td>Run on every build of these docs</td><td><span class="ev ev-verified">Verified</span></td></tr>
+<tr><td>API tests, tenant isolation, note locking</td><td>None written</td><td><span class="st st-planned">Planned</span></td></tr>
+<tr><td>User testing with clinicians or patients</td><td>None done</td><td><span class="st st-not-started">Not started</span></td></tr>
+</tbody></table></div>
+<h2 id="beta-template">Beta evidence template</h2>
+<p>Empty until a pilot runs. When it does, report the number of participants beside every figure, and never show a percentage without its denominator.</p>
+<div class="table-wrap" role="region" tabindex="0" aria-label="Table: Beta evidence template"><table><thead><tr><th scope="col">Field</th><th scope="col">Value</th></tr></thead><tbody>
+<tr><td>Cohort and recruitment method</td><td><span class="st st-not-started">Not started</span></td></tr>
+<tr><td>Participants (n) and dates</td><td>—</td></tr>
+<tr><td>Method (observed sessions, diary, interviews)</td><td>—</td></tr>
+<tr><td>Observed behaviour (unprompted weekly use, edits to drafts, source-link opens)</td><td>—</td></tr>
+<tr><td>Measured outcomes (time per note, with the measurement method)</td><td>—</td></tr>
+<tr><td>Willingness to pay (commitments, not stated intent)</td><td>—</td></tr>
+<tr><td>Limitations and bias</td><td>—</td></tr>
+</tbody></table></div>
+<h2 id="update-log">Update log</h2>
+<div class="table-wrap" role="region" tabindex="0" aria-label="Table: Update log"><table><thead><tr><th scope="col">Date</th><th scope="col">Change</th></tr></thead><tbody>
+<tr><td>2026-10-26</td><td>Added decision log, shared evidence and status labels, source register, founder dashboard and navigation search.</td></tr>
+<tr><td>2026-10-25</td><td>Corrected unsupported claims; draft-parser fix; app restyle; pricing decisions applied.</td></tr>
+</tbody></table></div>
+<!--/seed:cs-sec-->
+<h2 id="risks">8. Risks we are carrying</h2>
+    <div class="table-wrap" role="region" tabindex="0" aria-label="Table: 8. Risks we are carrying">
       <table>
         <thead><tr><th>Risk</th><th>Severity</th><th>Next step</th></tr></thead>
         <tbody>
@@ -187,7 +219,7 @@
 
     <h2 id="metrics">9. Measuring it</h2>
     <p>The plan's success signals are <em>hypotheses</em>. Here is how each will be measured, with no PHI in analytics.</p>
-    <div class="table-wrap">
+    <div class="table-wrap" role="region" tabindex="0" aria-label="Table: 9. Measuring it">
       <table>
         <thead><tr><th>Hypothesis</th><th>Metric</th><th>Instrument</th><th>Result</th></tr></thead>
         <tbody>
@@ -217,14 +249,7 @@
     </ul>
 
     <div class="doc-nav">
-      <a href="/docs/research.html" class="doc-nav-btn">
-        <span class="doc-nav-label">← Previous</span>
-        <span class="doc-nav-title">Market & Regulatory Research</span>
-      </a>
-      <a href="/docs/features.html" class="doc-nav-btn next">
-        <span class="doc-nav-label">Next →</span>
-        <span class="doc-nav-title">Features</span>
-      </a>
+      <a href="/docs/competitors.html" class="doc-nav-btn"><span class="doc-nav-label">← Previous</span><span class="doc-nav-title">Competitors &amp; Strategy</span></a><a href="/docs/roadmap.html" class="doc-nav-btn next"><span class="doc-nav-label">Next →</span><span class="doc-nav-title">Roadmap</span></a>
     </div>
   </main>
 
@@ -238,10 +263,14 @@
     <a href="#how">How it works</a>
     <a href="#timeline">Build log</a>
     <a href="#status">Honest status</a>
+    <a href="#security">Security status</a>
+    <a href="#testing">Testing evidence</a>
+    <a href="#beta-template">Beta template</a>
     <a href="#risks">Risks</a>
     <a href="#metrics">Measuring</a>
     <a href="#next">Next 90 days</a>
     <a href="#lessons">Lessons</a>
+    <a href="#update-log">Update log</a>
   </aside>
 </div>
 <footer class="site-footer">
@@ -257,5 +286,6 @@
     <div class="footer-copy">© 2026 TherapOS · Pre-launch</div>
   </div>
 </footer>
+<script src="/scripts/docs.js" defer></script>
 </body>
 </html>

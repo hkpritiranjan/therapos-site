@@ -22,36 +22,42 @@
 </style>
 </head>
 <body>
+<a class="skip-link" href="#main">Skip to content</a>
 <nav class="site-nav">
   <a href="/" class="nav-logo">⬡ <span>TherapOS</span></a>
   <div class="nav-links">
-    <a href="../index.html#features">Features</a>
-    <a href="../index.html#pricing">Pricing</a>
+    <a href="/index.html#features">Features</a>
+    <a href="/index.html#pricing">Pricing</a>
     <a href="/docs/index.html" style="color:var(--accent)">Docs</a>
-    <a href="../index.html#pricing" class="nav-cta">Join the waitlist</a>
+    <button type="button" class="nav-search" aria-label="Search documentation">Search<kbd>/</kbd></button>
+    <a href="/index.html#pricing" class="nav-cta">Join the waitlist</a>
   </div>
 </nav>
 <div class="docs-layout">
-  <nav class="docs-sidebar">
-    <div class="group">Getting Started</div>
+                                                <nav class="docs-sidebar" aria-label="Documentation">
+    <div class="group">Start</div>
     <a href="/docs/index.html">Overview</a>
     <a href="/docs/quickstart.html">Quickstart</a>
-    <div class="group">Product</div>
+    <div class="group">Strategy &amp; evidence</div>
     <a href="/docs/plan.html">Full Product Plan</a>
     <a href="/docs/research.html">Market &amp; Regulatory Research</a>
     <a href="/docs/competitors.html">Competitors &amp; Strategy</a>
     <a href="/docs/case-study.html">Case Study</a>
-    <a href="/docs/review.html">Product Review</a>
+    <a href="/docs/sources.html">Source Register</a>
+    <div class="group">Product</div>
     <a href="/docs/features.html">Features</a>
     <a href="/docs/pricing.html">Pricing</a>
-    <a href="/docs/roadmap.html" class="active">Roadmap</a>
+    <a href="/docs/roadmap.html" class="active" aria-current="page">Roadmap</a>
+    <a href="/docs/review.html">Product Review</a>
     <div class="group">Technical</div>
     <a href="/docs/architecture.html">Architecture</a>
     <a href="/docs/schema.html">Database Schema</a>
     <a href="/docs/api.html">API Reference</a>
     <a href="/docs/ai.html">AI &amp; Prompts</a>
   </nav>
-  <main class="docs-content">
+  <main class="docs-content" id="main">
+    <!--enh:mnav--><details class="mobile-nav"><summary>Documentation menu</summary><div class="group">Start</div><a href="/docs/index.html">Overview</a><a href="/docs/quickstart.html">Quickstart</a><div class="group">Strategy &amp; evidence</div><a href="/docs/plan.html">Full Product Plan</a><a href="/docs/research.html">Market &amp; Regulatory Research</a><a href="/docs/competitors.html">Competitors &amp; Strategy</a><a href="/docs/case-study.html">Case Study</a><a href="/docs/sources.html">Source Register</a><div class="group">Product</div><a href="/docs/features.html">Features</a><a href="/docs/pricing.html">Pricing</a><a href="/docs/roadmap.html" aria-current="page">Roadmap</a><a href="/docs/review.html">Product Review</a><div class="group">Technical</div><a href="/docs/architecture.html">Architecture</a><a href="/docs/schema.html">Database Schema</a><a href="/docs/api.html">API Reference</a><a href="/docs/ai.html">AI &amp; Prompts</a></details><!--/enh:mnav-->
+    <!--enh:crumbs--><nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span class="sep" aria-hidden="true">/</span><a href="/docs/index.html">Docs</a><span class="sep" aria-hidden="true">/</span><span>Product</span><span class="sep" aria-hidden="true">/</span><span aria-current="page">Roadmap</span></nav><!--/enh:crumbs-->
     <span class="eyebrow">Product</span>
     <h1>Roadmap</h1>
     <p class="page-desc">Quarterly milestones from MVP to platform. The rule at every stage: when choosing between a CRUD feature and AI that saves 30 minutes — choose AI. Every quarter earns the right to build the next one.</p>
@@ -69,7 +75,7 @@
 
       <div class="tl-item">
         <div class="tl-dot active"></div>
-        <div class="tl-label">Q3 2026 — In build</div>
+        <div class="tl-label"><span id="q3-2026--in-build"></span>Q3 2026 — In build</div>
         <div class="tl-title">MVP — The Smallest Product That Creates Real Value</div>
         <div class="tl-status"><span class="badge badge-accent">In build</span></div>
         <ul class="tl-items">
@@ -100,7 +106,7 @@
 
       <div class="tl-item">
         <div class="tl-dot"></div>
-        <div class="tl-label">Q4 2026</div>
+        <div class="tl-label"><span id="q4-2026"></span>Q4 2026</div>
         <div class="tl-title">Memory + Search — The Intelligence Layer</div>
         <div class="tl-status"><span class="badge badge-muted">Planned</span></div>
         <ul class="tl-items">
@@ -125,7 +131,7 @@
 
       <div class="tl-item">
         <div class="tl-dot"></div>
-        <div class="tl-label">Q1 2027</div>
+        <div class="tl-label"><span id="q1-2027"></span>Q1 2027</div>
         <div class="tl-title">Insights — Progress Becomes Visible</div>
         <div class="tl-status"><span class="badge badge-muted">Planned</span></div>
         <ul class="tl-items">
@@ -142,7 +148,7 @@
 
       <div class="tl-item">
         <div class="tl-dot"></div>
-        <div class="tl-label">Q2 2027</div>
+        <div class="tl-label"><span id="q2-2027"></span>Q2 2027</div>
         <div class="tl-title">Collaboration — Small Clinics</div>
         <div class="tl-status"><span class="badge badge-muted">Planned</span></div>
         <ul class="tl-items">
@@ -159,7 +165,7 @@
 
       <div class="tl-item">
         <div class="tl-dot"></div>
-        <div class="tl-label">Q3 2027</div>
+        <div class="tl-label"><span id="q3-2027"></span>Q3 2027</div>
         <div class="tl-title">India Launch — New Market</div>
         <div class="tl-status"><span class="badge badge-muted">Planned</span></div>
         <ul class="tl-items">
@@ -175,7 +181,7 @@
 
       <div class="tl-item">
         <div class="tl-dot"></div>
-        <div class="tl-label">Q4 2027</div>
+        <div class="tl-label"><span id="q4-2027"></span>Q4 2027</div>
         <div class="tl-title">Platform — Content and Integrations</div>
         <div class="tl-status"><span class="badge badge-muted">Planned</span></div>
         <ul class="tl-items">
@@ -191,7 +197,7 @@
 
       <div class="tl-item">
         <div class="tl-dot"></div>
-        <div class="tl-label">2028+</div>
+        <div class="tl-label"><span id="2028"></span>2028+</div>
         <div class="tl-title">Network — Compound Intelligence at Scale</div>
         <div class="tl-status"><span class="badge badge-muted">Vision</span></div>
         <ul class="tl-items">
@@ -209,9 +215,9 @@
 
     <hr>
 
-    <h2>What We Will Not Build</h2>
+    <h2 id="what-we-will-not-build">What We Will Not Build</h2>
     <p>Staying out of adjacent categories is a product discipline. The list of things we won't build is as important as the roadmap.</p>
-    <div class="table-wrap">
+    <div class="table-wrap" role="region" tabindex="0" aria-label="Table: What We Will Not Build">
       <table>
         <thead><tr><th>Feature</th><th>Timeline</th><th>Why not</th></tr></thead>
         <tbody>
@@ -228,7 +234,7 @@
     </div>
 
     <div class="callout callout-info"><div class="callout-icon">ℹ</div><div class="callout-body"><div class="callout-label">Staged roadmap with gates</div><p>The 3 / 6 / 12 / 24-month horizons, entry conditions and the gated patient-activity pilot are in <a href="/docs/competitors.html#s15">Competitors &amp; Strategy §15</a>. Patient-facing features are exploratory until the continue/pivot/stop gates (<a href="/docs/competitors.html#s14">§14</a>) pass.</p></div></div>
-    <h2>How We Decide What to Ship Next</h2>
+    <h2 id="how-we-decide-what-to-ship-next">How We Decide What to Ship Next</h2>
     <p>Three criteria determine priority order:</p>
     <ol>
       <li><strong>Retention impact:</strong> Does this improve week-4 or month-3 retention? Features that touch the compound memory loop (notes, prep, search, goals) always win.</li>
@@ -250,7 +256,7 @@
 
   <aside class="page-toc">
     <span class="toc-label">On this page</span>
-    <a href="#q3-2026--now-shipping">Q3 2026 — MVP</a>
+    <a href="#q3-2026--in-build">Q3 2026 — MVP</a>
     <a href="#q4-2026">Q4 2026 — Memory</a>
     <a href="#q1-2027">Q1 2027 — Insights</a>
     <a href="#q2-2027">Q2 2027 — Clinic</a>
@@ -273,5 +279,6 @@
     <div class="footer-copy">© 2026 TherapOS · Pre-launch · building toward HIPAA</div>
   </div>
 </footer>
+<script src="/scripts/docs.js" defer></script>
 </body>
 </html>

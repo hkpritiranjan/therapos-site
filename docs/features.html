@@ -8,45 +8,51 @@
 <link rel="stylesheet" href="../styles/main.css">
 </head>
 <body>
+<a class="skip-link" href="#main">Skip to content</a>
 <nav class="site-nav">
   <a href="/" class="nav-logo">⬡ <span>TherapOS</span></a>
   <div class="nav-links">
-    <a href="../index.html#features">Features</a>
-    <a href="../index.html#pricing">Pricing</a>
+    <a href="/index.html#features">Features</a>
+    <a href="/index.html#pricing">Pricing</a>
     <a href="/docs/index.html" style="color:var(--accent)">Docs</a>
-    <a href="../index.html#pricing" class="nav-cta">Join the waitlist</a>
+    <button type="button" class="nav-search" aria-label="Search documentation">Search<kbd>/</kbd></button>
+    <a href="/index.html#pricing" class="nav-cta">Join the waitlist</a>
   </div>
 </nav>
 <div class="docs-layout">
-  <nav class="docs-sidebar">
-    <div class="group">Getting Started</div>
+                                                <nav class="docs-sidebar" aria-label="Documentation">
+    <div class="group">Start</div>
     <a href="/docs/index.html">Overview</a>
     <a href="/docs/quickstart.html">Quickstart</a>
-    <div class="group">Product</div>
+    <div class="group">Strategy &amp; evidence</div>
     <a href="/docs/plan.html">Full Product Plan</a>
     <a href="/docs/research.html">Market &amp; Regulatory Research</a>
     <a href="/docs/competitors.html">Competitors &amp; Strategy</a>
     <a href="/docs/case-study.html">Case Study</a>
-    <a href="/docs/review.html">Product Review</a>
-    <a href="/docs/features.html" class="active">Features</a>
+    <a href="/docs/sources.html">Source Register</a>
+    <div class="group">Product</div>
+    <a href="/docs/features.html" class="active" aria-current="page">Features</a>
     <a href="/docs/pricing.html">Pricing</a>
     <a href="/docs/roadmap.html">Roadmap</a>
+    <a href="/docs/review.html">Product Review</a>
     <div class="group">Technical</div>
     <a href="/docs/architecture.html">Architecture</a>
     <a href="/docs/schema.html">Database Schema</a>
     <a href="/docs/api.html">API Reference</a>
     <a href="/docs/ai.html">AI &amp; Prompts</a>
   </nav>
-  <main class="docs-content">
+  <main class="docs-content" id="main">
+    <!--enh:mnav--><details class="mobile-nav"><summary>Documentation menu</summary><div class="group">Start</div><a href="/docs/index.html">Overview</a><a href="/docs/quickstart.html">Quickstart</a><div class="group">Strategy &amp; evidence</div><a href="/docs/plan.html">Full Product Plan</a><a href="/docs/research.html">Market &amp; Regulatory Research</a><a href="/docs/competitors.html">Competitors &amp; Strategy</a><a href="/docs/case-study.html">Case Study</a><a href="/docs/sources.html">Source Register</a><div class="group">Product</div><a href="/docs/features.html" aria-current="page">Features</a><a href="/docs/pricing.html">Pricing</a><a href="/docs/roadmap.html">Roadmap</a><a href="/docs/review.html">Product Review</a><div class="group">Technical</div><a href="/docs/architecture.html">Architecture</a><a href="/docs/schema.html">Database Schema</a><a href="/docs/api.html">API Reference</a><a href="/docs/ai.html">AI &amp; Prompts</a></details><!--/enh:mnav-->
+    <!--enh:crumbs--><nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span class="sep" aria-hidden="true">/</span><a href="/docs/index.html">Docs</a><span class="sep" aria-hidden="true">/</span><span>Product</span><span class="sep" aria-hidden="true">/</span><span aria-current="page">Features</span></nav><!--/enh:crumbs-->
     <span class="eyebrow">Product</span>
     <h1>Features</h1>
     <p class="page-desc">Every feature in TherapOS exists to answer one question: how can AI remove work instead of creating it? This page documents every feature in detail — usage, configuration, keyboard shortcuts, and what happens under the hood.</p>
     <hr>
 
-    <h2>AI Session Notes</h2>
+    <h2 id="ai-session-notes">AI Session Notes</h2>
     <p>The core feature. Type your raw session notes — bullet points, shorthand, stream of consciousness. Click "Generate AI Draft" (<code>⌘G</code>). In 8–12 seconds, TherapOS produces a complete, professionally-worded clinical note using your therapeutic context.</p>
 
-    <h3>Supported Note Formats</h3>
+    <h3 id="supported-note-formats">Supported Note Formats</h3>
     <div class="grid2" style="margin:.75rem 0">
       <div class="card card-sm">
         <h4>SOAP</h4>
@@ -70,7 +76,7 @@
       </div>
     </div>
 
-    <h3>What Makes the AI Note Context-Aware</h3>
+    <h3 id="what-makes-the-ai-note-context-aware">What Makes the AI Note Context-Aware</h3>
     <p>Unlike generic AI note generators, TherapOS injects your patient's full treatment arc into every note generation call. The AI sees:</p>
     <ul>
       <li>Patient profile — name, primary concerns, diagnoses, therapeutic modality</li>
@@ -81,8 +87,8 @@
     </ul>
     <p>On session 1, only your raw notes and patient profile are available. By session 5, the AI has a rich treatment arc. The output quality improves measurably with each session.</p>
 
-    <h3>AI Note Settings</h3>
-    <div class="table-wrap">
+    <h3 id="ai-note-settings">AI Note Settings</h3>
+    <div class="table-wrap" role="region" tabindex="0" aria-label="Table: AI Note Settings">
       <table>
         <thead><tr><th>Setting</th><th>Location</th><th>Effect</th></tr></thead>
         <tbody>
@@ -104,10 +110,10 @@
 
     <hr>
 
-    <h2>Session Prep Briefs</h2>
+    <h2 id="session-prep-briefs">Session Prep Briefs</h2>
     <p>Before every session (from session 2 onward), TherapOS generates a 90-second preparation brief that surfaces what actually matters. Open the session page — it's already there.</p>
 
-    <h3>What the Brief Contains</h3>
+    <h3 id="what-the-brief-contains">What the Brief Contains</h3>
     <div class="grid2" style="margin:.75rem 0">
       <div class="card card-sm">
         <h4>Recap</h4>
@@ -127,18 +133,18 @@
       </div>
     </div>
 
-    <h3>How It's Generated</h3>
+    <h3 id="how-its-generated">How It's Generated</h3>
     <p>The prep brief calls GPT-4o with enforced JSON response format. The system prompt instructs the model to use the patient's modality to shape suggested questions — CBT, DBT, psychodynamic, ACT, and EMDR each have distinct questioning styles. The brief is cached (Redis, 24h TTL) so it doesn't regenerate every time you open the session page.</p>
 
-    <h3>Regenerating a Brief</h3>
+    <h3 id="regenerating-a-brief">Regenerating a Brief</h3>
     <p>If you've updated raw notes or the patient's goals since the brief was cached, click <strong>"Regenerate"</strong> in the prep panel. The brief will be refreshed and the cache updated.</p>
 
     <hr>
 
-    <h2>Patient Memory (Rolling AI Summary)</h2>
+    <h2 id="patient-memory-rolling-ai-summary">Patient Memory (Rolling AI Summary)</h2>
     <p>After every finalized note, TherapOS automatically regenerates a 3–5 sentence AI summary of the patient's clinical arc. This runs as a BullMQ background job — you see the note as finalized immediately, and the summary updates within 30 seconds.</p>
 
-    <h3>What the Summary Captures</h3>
+    <h3 id="what-the-summary-captures">What the Summary Captures</h3>
     <ul>
       <li>What has improved since treatment began</li>
       <li>What patterns or concerns persist</li>
@@ -148,16 +154,16 @@
     </ul>
     <p>The summary is intentionally brief — 3–5 sentences max. It's not meant to replace the notes; it's meant to quickly orient the AI for the next call. You can view and edit the current summary in the patient profile under "AI Summary."</p>
 
-    <h3>Editing the Summary</h3>
+    <h3 id="editing-the-summary">Editing the Summary</h3>
     <p>If the AI summary is inaccurate (it sometimes is, especially early in treatment), you can manually edit it in the patient profile. Your edit is preserved — the next <code>refresh-summary</code> job will incorporate it rather than overwriting it.</p>
 
     <hr>
 
-    <h2>Natural Language Search</h2>
+    <h2 id="natural-language-search">Natural Language Search</h2>
     <p>Press <code>⌘K</code> anywhere in TherapOS to open the command palette. Natural language search runs across all finalized session notes via vector similarity search.</p>
 
-    <h3>Example Queries</h3>
-    <div class="table-wrap">
+    <h3 id="example-queries">Example Queries</h3>
+    <div class="table-wrap" role="region" tabindex="0" aria-label="Table: Example Queries">
       <table>
         <thead><tr><th>Query</th><th>What it finds</th></tr></thead>
         <tbody>
@@ -170,10 +176,10 @@
       </table>
     </div>
 
-    <h3>Scoping Your Search</h3>
+    <h3 id="scoping-your-search">Scoping Your Search</h3>
     <p>By default, search is scoped to your entire practice. You can filter by patient using the patient dropdown in the search panel. Results show: the relevant snippet, session number, date, patient name (for cross-patient searches), and a relevance score.</p>
 
-    <h3>How It Works</h3>
+    <h3 id="how-it-works">How It Works</h3>
     <p>When you type a query, TherapOS embeds it using OpenAI's text-embedding-3-small (1,536 dimensions), then performs cosine similarity search against all <code>NoteEmbedding</code> vectors scoped to your therapist ID. Results are ordered by similarity score. The HNSW index makes this sub-100ms for up to ~500,000 embeddings.</p>
 
     <div class="callout callout-info">
@@ -186,11 +192,11 @@
 
     <hr>
 
-    <h2>Treatment Goals</h2>
+    <h2 id="treatment-goals">Treatment Goals</h2>
     <p>Create and track treatment goals per patient. Goals are injected into every AI call — the AI knows what you're working toward and reflects that in notes and session prep.</p>
 
-    <h3>Goal Lifecycle</h3>
-    <div class="table-wrap">
+    <h3 id="goal-lifecycle">Goal Lifecycle</h3>
+    <div class="table-wrap" role="region" tabindex="0" aria-label="Table: Goal Lifecycle">
       <table>
         <thead><tr><th>Status</th><th>Meaning</th><th>AI behavior</th></tr></thead>
         <tbody>
@@ -202,7 +208,7 @@
       </table>
     </div>
 
-    <h3>Goal Fields</h3>
+    <h3 id="goal-fields">Goal Fields</h3>
     <ul>
       <li><strong>Title:</strong> Short name — e.g., "Reduce workplace anxiety"</li>
       <li><strong>Description:</strong> Optional longer description — the AI uses this for context</li>
@@ -210,15 +216,15 @@
       <li><strong>Progress notes:</strong> Timestamped notes attached to any goal — linked to a specific session</li>
     </ul>
 
-    <h3>Adding Progress Notes to a Goal</h3>
+    <h3 id="adding-progress-notes-to-a-goal">Adding Progress Notes to a Goal</h3>
     <p>Open any goal on the patient profile and click "Add progress note." You can link the note to a specific session. Progress notes appear in the goal's history and are visible in the patient timeline. The AI doesn't automatically read progress note text, but goal status and recent progress are included in context.</p>
 
     <hr>
 
-    <h2>Homework Generator</h2>
+    <h2 id="homework-generator">Homework Generator</h2>
     <p>After a session, click <strong>"Suggest Homework"</strong> in the session panel. TherapOS calls GPT-4o with the session themes, active goals, and your therapeutic modality, and generates 3 homework options.</p>
 
-    <h3>What Each Suggestion Includes</h3>
+    <h3 id="what-each-suggestion-includes">What Each Suggestion Includes</h3>
     <ul>
       <li><strong>Title:</strong> Short, patient-friendly name for the assignment</li>
       <li><strong>Description:</strong> Detailed instructions written from the therapist's perspective — ready to share or adapt</li>
@@ -227,16 +233,16 @@
     </ul>
     <p>Choose one, edit it, or dismiss all three and write your own. The selected or custom homework is saved to the patient's record and tracked for completion in the next session.</p>
 
-    <h3>Tracking Completion</h3>
+    <h3 id="tracking-completion">Tracking Completion</h3>
     <p>At the start of the next session, the session prep brief prompts you on how to approach the homework check-in. You can mark homework as Completed / Partial / Skipped from the session panel or the homework tab on the patient profile. Completion history is visible in the patient timeline.</p>
 
     <hr>
 
-    <h2>Patient Timeline</h2>
+    <h2 id="patient-timeline">Patient Timeline</h2>
     <p>Every patient has a chronological timeline showing all clinical activity in one scroll. Access it via the "Timeline" tab on the patient profile.</p>
 
-    <h3>Timeline Events</h3>
-    <div class="table-wrap">
+    <h3 id="timeline-events">Timeline Events</h3>
+    <div class="table-wrap" role="region" tabindex="0" aria-label="Table: Timeline Events">
       <table>
         <thead><tr><th>Event type</th><th>What it shows</th></tr></thead>
         <tbody>
@@ -253,7 +259,7 @@
 
     <hr>
 
-    <h2>Dashboard</h2>
+    <h2 id="dashboard">Dashboard</h2>
     <p>The first thing you see when you open TherapOS. Designed to get you into a session or back to a patient in two clicks or fewer.</p>
 
     <div class="wireframe">┌────────────────────────────────────────────────────────┐
@@ -279,7 +285,7 @@
 │  [+ New patient]  [+ New session]  [⌘K Search]        │
 └────────────────────────────────────────────────────────┘</div>
 
-    <h3>Dashboard Elements</h3>
+    <h3 id="dashboard-elements">Dashboard Elements</h3>
     <ul>
       <li><strong>Today's sessions:</strong> All sessions scheduled for today, sorted by time, with status indicators. Click any row to open the session page.</li>
       <li><strong>Note needed indicator:</strong> Sessions marked as Completed where the note hasn't been finalized. Click to go directly to the note editor.</li>
@@ -289,11 +295,11 @@
 
     <hr>
 
-    <h2>Command Palette (⌘K)</h2>
+    <h2 id="command-palette-k">Command Palette (⌘K)</h2>
     <p>Press <code>⌘K</code> from anywhere in TherapOS to open the global command palette. It's the fastest way to navigate, search, and take actions.</p>
 
-    <h3>What You Can Do From ⌘K</h3>
-    <div class="table-wrap">
+    <h3 id="what-you-can-do-from-k">What You Can Do From ⌘K</h3>
+    <div class="table-wrap" role="region" tabindex="0" aria-label="Table: What You Can Do From ⌘K">
       <table>
         <thead><tr><th>Type</th><th>Example</th><th>Result</th></tr></thead>
         <tbody>
@@ -310,10 +316,10 @@
 
     <hr>
 
-    <h2>Patient Profile</h2>
+    <h2 id="patient-profile">Patient Profile</h2>
     <p>The complete clinical record for a patient. Tabs: Overview · Sessions · Goals · Homework · Timeline · Settings.</p>
 
-    <h3>Overview Tab</h3>
+    <h3 id="overview-tab">Overview Tab</h3>
     <ul>
       <li>Patient info: name, DOB, contact, status</li>
       <li>Clinical info: primary concerns, diagnoses, modality, session frequency</li>
@@ -322,18 +328,18 @@
       <li>Session stats: total sessions, last session date, average session frequency</li>
     </ul>
 
-    <h3>Sessions Tab</h3>
+    <h3 id="sessions-tab">Sessions Tab</h3>
     <p>Paginated list of all sessions — session number, date, type, status, note status (finalized / draft / not created). Click any row to open the session.</p>
 
-    <h3>Goals Tab</h3>
+    <h3 id="goals-tab">Goals Tab</h3>
     <p>All goals grouped by status (Active first). Each goal shows title, category, creation date, status, and a collapsible progress notes history.</p>
 
-    <h3>Homework Tab</h3>
+    <h3 id="homework-tab">Homework Tab</h3>
     <p>All homework items — filterable by status (Assigned / Completed / Partial / Skipped). Shows assigned session, due date, category, and completion notes.</p>
 
     <hr>
 
-    <h2>Export and Data Portability</h2>
+    <h2 id="export-and-data-portability">Export and Data Portability</h2>
     <p>Your data is always exportable. From Settings → Export:</p>
     <ul>
       <li><strong>Patient PDF:</strong> Full clinical record for a single patient — all sessions, notes, goals, homework in a formatted PDF</li>
@@ -382,5 +388,6 @@
     <div class="footer-copy">© 2026 TherapOS · Pre-launch · building toward HIPAA</div>
   </div>
 </footer>
+<script src="/scripts/docs.js" defer></script>
 </body>
 </html>

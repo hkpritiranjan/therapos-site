@@ -9,49 +9,75 @@
 <link rel="stylesheet" href="../styles/main.css">
 </head>
 <body>
+<a class="skip-link" href="#main">Skip to content</a>
 <nav class="site-nav">
   <a href="/" class="nav-logo">⬡ <span>TherapOS</span></a>
   <div class="nav-links">
-    <a href="../index.html#features">Features</a>
-    <a href="../index.html#pricing">Pricing</a>
+    <a href="/index.html#features">Features</a>
+    <a href="/index.html#pricing">Pricing</a>
     <a href="/docs/index.html" style="color:var(--accent)">Docs</a>
-    <a href="../index.html#pricing" class="nav-cta">Join the waitlist</a>
+    <button type="button" class="nav-search" aria-label="Search documentation">Search<kbd>/</kbd></button>
+    <a href="/index.html#pricing" class="nav-cta">Join the waitlist</a>
   </div>
 </nav>
 <div class="docs-layout">
-  <nav class="docs-sidebar">
-    <div class="group">Getting Started</div>
+                                                <nav class="docs-sidebar" aria-label="Documentation">
+    <div class="group">Start</div>
     <a href="/docs/index.html">Overview</a>
     <a href="/docs/quickstart.html">Quickstart</a>
-    <div class="group">Product</div>
+    <div class="group">Strategy &amp; evidence</div>
     <a href="/docs/plan.html">Full Product Plan</a>
-    <a href="/docs/research.html" class="active">Market &amp; Regulatory Research</a>
+    <a href="/docs/research.html" class="active" aria-current="page">Market &amp; Regulatory Research</a>
     <a href="/docs/competitors.html">Competitors &amp; Strategy</a>
     <a href="/docs/case-study.html">Case Study</a>
-    <a href="/docs/review.html">Product Review</a>
+    <a href="/docs/sources.html">Source Register</a>
+    <div class="group">Product</div>
     <a href="/docs/features.html">Features</a>
     <a href="/docs/pricing.html">Pricing</a>
     <a href="/docs/roadmap.html">Roadmap</a>
+    <a href="/docs/review.html">Product Review</a>
     <div class="group">Technical</div>
     <a href="/docs/architecture.html">Architecture</a>
     <a href="/docs/schema.html">Database Schema</a>
     <a href="/docs/api.html">API Reference</a>
     <a href="/docs/ai.html">AI &amp; Prompts</a>
   </nav>
-  <main class="docs-content">
+  <main class="docs-content" id="main">
+    <!--enh:mnav--><details class="mobile-nav"><summary>Documentation menu</summary><div class="group">Start</div><a href="/docs/index.html">Overview</a><a href="/docs/quickstart.html">Quickstart</a><div class="group">Strategy &amp; evidence</div><a href="/docs/plan.html">Full Product Plan</a><a href="/docs/research.html" aria-current="page">Market &amp; Regulatory Research</a><a href="/docs/competitors.html">Competitors &amp; Strategy</a><a href="/docs/case-study.html">Case Study</a><a href="/docs/sources.html">Source Register</a><div class="group">Product</div><a href="/docs/features.html">Features</a><a href="/docs/pricing.html">Pricing</a><a href="/docs/roadmap.html">Roadmap</a><a href="/docs/review.html">Product Review</a><div class="group">Technical</div><a href="/docs/architecture.html">Architecture</a><a href="/docs/schema.html">Database Schema</a><a href="/docs/api.html">API Reference</a><a href="/docs/ai.html">AI &amp; Prompts</a></details><!--/enh:mnav-->
+    <!--enh:crumbs--><nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span class="sep" aria-hidden="true">/</span><a href="/docs/index.html">Docs</a><span class="sep" aria-hidden="true">/</span><span>Strategy &amp; evidence</span><span class="sep" aria-hidden="true">/</span><span aria-current="page">Market &amp; Regulatory Research</span></nav><!--/enh:crumbs-->
     <span class="eyebrow">Product</span>
     <h1>Market &amp; Regulatory Research</h1>
     <p class="page-desc">Evidence base for the TherapOS plan: market size, AI adoption, competitors, HIPAA, state AI laws and India DPDP. Each claim is tagged by confidence. Compiled 25 October 2026.</p>
 
+    <!--enh:purpose--><div class="purpose"><div><b>Role</b>Evidence layer</div><div><b>Audience</b>Founders, clinical advisors, investors</div><div><b>Last reviewed</b><time datetime="2026-10-26">2026-10-26</time></div><div><b>Related</b><a href="/docs/sources.html">Source Register</a>, <a href="/docs/competitors.html">Competitors &amp; Strategy</a>, <a href="/docs/plan.html">Full Product Plan</a></div></div><p class="sr-only" style="position:absolute;left:-999px">What is known, what is uncertain and what evidence supports decisions.</p><div class="legend" role="note" aria-label="Evidence labels"><p class="legend-title">Evidence labels</p><div><span class="ev ev-verified">Verified</span> primary source or documented implementation</div><div><span class="ev ev-reported">Reported</span> secondary or third-party source</div><div><span class="ev ev-inferred">Inferred</span> our reasoning from evidence</div><div><span class="ev ev-hypothesis">Hypothesis</span> assumption needing validation</div><div><span class="ev ev-unknown">Unknown</span> not found or inconclusive</div></div><!--/enh:purpose-->
     <div class="callout callout-info">
       <div class="callout-icon">ℹ</div>
       <div class="callout-body">
         <div class="callout-label">How to read this page</div>
-        <p>Research compiled <strong>25 October 2026</strong> from public web sources. Each claim carries a confidence tag: <span class="badge badge-green">Confirmed</span> official or primary source; <span class="badge badge-yellow">Reported</span> secondary source, vendor blog or compliance tracker — directionally useful, verify before relying on it; <span class="badge badge-red">Unverified</span> an assumption of ours with no source. Most competitor material is written by competitors. This is product research, not legal advice.</p>
+        <p>Research compiled <strong>25 October 2026</strong> from public web sources. Each claim carries a confidence tag: <span class="ev ev-verified">Verified</span> official or primary source; <span class="ev ev-reported">Reported</span> secondary source, vendor blog or compliance tracker — directionally useful, verify before relying on it; <span class="ev ev-hypothesis">Hypothesis</span> an assumption of ours with no source. Most competitor material is written by competitors. This is product research, not legal advice.</p>
       </div>
     </div>
 
-    <h2 id="summary">1. Summary: what the research changed</h2>
+    <!--seed:research-exec--><h2 id="exec">Research executive summary</h2>
+<ul>
+<li><b>Demand is rising, but evidence is thin.</b> APA reports 56% of psychologists used AI at least once in the past year and 29% monthly <span class="ev ev-reported">Reported</span> (<a href="/docs/sources.html#m-apa25">M-APA25</a>); this covers psychologists only.</li>
+<li><b>The documentation-burden statistics were removed.</b> No reliable per-note time figure was found <span class="ev ev-unknown">Unknown</span> (<a href="/docs/sources.html#e-time">E-TIME</a>).</li>
+<li><b>The market supports a small business.</b> 150,000 to 400,000 independent therapy clinicians is our own range <span class="ev ev-hypothesis">Hypothesis</span> (<a href="/docs/sources.html#m-ind">M-IND</a>).</li>
+<li><b>Regulation constrains patient-facing AI.</b> Illinois and Nevada restrict AI delivering care; none of it is legal advice (<a href="/docs/sources.html#r-il">R-IL</a>, <a href="/docs/sources.html#r-nv">R-NV</a>).</li>
+<li><b>TherapOS holds no compliance attestations.</b> No BAAs, SOC 2 or HIPAA/DPDP compliance claims are made or supported <span class="ev ev-verified">Verified</span> (<a href="/docs/sources.html#r-baa">R-BAA</a>).</li>
+</ul>
+<!--gen:researchfresh--><p>43 tracked records: <span class="ev ev-hypothesis">Hypothesis</span> <b>1</b> <span class="ev ev-inferred">Inferred</span> <b>1</b> <span class="ev ev-reported">Reported</span> <b>16</b> <span class="ev ev-unknown">Unknown</span> <b>2</b> <span class="ev ev-verified">Verified</span> <b>23</b>. Latest verification 2026-10-26. Legal records are re-checked every 90 days, competitor prices every 30, market statistics every 180. See the <a href="/docs/sources.html">Source Register</a>.</p><!--/gen:researchfresh-->
+<h3 id="evidence-decisions">How evidence feeds decisions</h3>
+<div class="table-wrap" role="region" tabindex="0" aria-label="Table: How evidence feeds decisions"><table><thead><tr><th scope="col">Finding</th><th scope="col">Evidence</th><th scope="col">Decision it affects</th></tr></thead><tbody>
+<tr><td>Competitors have cross-session features; AI notes are free or cheap</td><td><a href="/docs/sources.html#c-uph">C-UPH</a>, <a href="/docs/sources.html#c-men">C-MEN</a>, <a href="/docs/sources.html#c-car">C-CAR</a></td><td><a href="/docs/plan.html#d04">D04</a>, <a href="/docs/plan.html#d12">D12</a></td></tr>
+<tr><td>Therapists already adopting AI</td><td><a href="/docs/sources.html#m-apa25">M-APA25</a></td><td><a href="/docs/plan.html#d09">D09</a></td></tr>
+<tr><td>Small independent pool; India pool uncountable</td><td><a href="/docs/sources.html#m-ind">M-IND</a>, <a href="/docs/sources.html#m-rci">M-RCI</a></td><td><a href="/docs/plan.html#d09">D09</a></td></tr>
+<tr><td>State laws limit AI in therapy; Woebot consumer app closed</td><td><a href="/docs/sources.html#r-il">R-IL</a>, <a href="/docs/sources.html#r-nv">R-NV</a>, <a href="/docs/sources.html#e-woe">E-WOE</a></td><td><a href="/docs/plan.html#d10">D10</a>, <a href="/docs/plan.html#d13">D13</a></td></tr>
+<tr><td>Homework evidence is correlational</td><td><a href="/docs/sources.html#e-hw">E-HW</a></td><td><a href="/docs/plan.html#d10">D10</a></td></tr>
+<tr><td>No BAAs; vendor BAAs need zero-retention eligibility</td><td><a href="/docs/sources.html#r-baa">R-BAA</a></td><td><a href="/docs/plan.html#d05">D05</a>, <a href="/docs/plan.html#d14">D14</a></td></tr>
+</tbody></table></div>
+<!--/seed:research-exec-->
+<h2 id="summary">1. Summary: what the research changed</h2>
     <div class="grid2" style="margin:1rem 0">
       <div class="card"><h4>Still true</h4><p>AI use among therapists is rising fast, the buyer is price-sensitive, and the "keep your EHR, add TherapOS" positioning avoids a painful migration.</p></div>
       <div class="card"><h4>No longer true</h4><p>"No competitor has session prep and cross-session memory." Upheal, Mentalyc and SimplePractice all ship cross-session features. The moat claim has to be rebuilt on something else.</p></div>
@@ -60,23 +86,23 @@
     </div>
 
     <h2 id="market">2. Market size</h2>
-    <h3>US clinician population</h3>
-    <div class="table-wrap">
+    <h3 id="us-clinician-population">US clinician population</h3>
+    <div class="table-wrap" role="region" tabindex="0" aria-label="Table: US clinician population">
       <table>
         <thead><tr><th>Group</th><th>Figure</th><th>Source / caveat</th><th>Confidence</th></tr></thead>
         <tbody>
-          <tr><td>Marriage &amp; family therapists</td><td>~77,800 jobs (2024); 13% self-employed; +13% growth 2024–34</td><td><a href="https://www.bls.gov/ooh/community-and-social-service/marriage-and-family-therapists.htm">BLS OOH</a></td><td><span class="badge badge-green">Confirmed</span></td></tr>
-          <tr><td>Substance-abuse, behavioral-disorder &amp; mental-health counselors</td><td>~483,500 jobs (2024)</td><td><a href="https://www.bls.gov/ooh/community-and-social-service/substance-abuse-behavioral-disorder-and-mental-health-counselors.htm">BLS OOH</a>. A mixed group, and wage-and-salary counts likely understate private practice.</td><td><span class="badge badge-green">Confirmed</span></td></tr>
-          <tr><td>Social workers (all)</td><td>~810,900 jobs (2024)</td><td><a href="https://www.bls.gov/ooh/community-and-social-service/social-workers.htm">BLS OOH</a> via secondary summary. Includes non-clinical roles.</td><td><span class="badge badge-yellow">Reported</span></td></tr>
-          <tr><td>Licensed clinical social workers</td><td>~273,000 (our arithmetic: ~463,000 licensed × 59% clinical)</td><td><a href="https://www.aswb.org/wp-content/uploads/2025/07/Social-Work-Workforce-Study-Series-Report-2.pdf">ASWB workforce study</a>. The 273k figure is derived, not published.</td><td><span class="badge badge-yellow">Reported</span></td></tr>
-          <tr><td>Practicing psychologists</td><td>~93,000–106,500 (dated: 2013–2014)</td><td>APA Center for Workforce Studies figures, differing definitions. No current count found.</td><td><span class="badge badge-yellow">Reported</span></td></tr>
-          <tr><td>Share in private practice</td><td>~45% of licensed psychologists (2015); 70% of APA's 2024 survey sample</td><td><a href="https://www.apa.org/pubs/reports/practitioner/2024/topline-data-2024-practitioner-survey.pdf">APA 2024 practitioner survey</a> is not a representative sample.</td><td><span class="badge badge-yellow">Reported</span></td></tr>
+          <tr><td>Marriage &amp; family therapists</td><td>~77,800 jobs (2024); 13% self-employed; +13% growth 2024–34</td><td><a href="https://www.bls.gov/ooh/community-and-social-service/marriage-and-family-therapists.htm">BLS OOH</a></td><td><span class="ev ev-verified">Verified</span></td></tr>
+          <tr><td>Substance-abuse, behavioral-disorder &amp; mental-health counselors</td><td>~483,500 jobs (2024)</td><td><a href="https://www.bls.gov/ooh/community-and-social-service/substance-abuse-behavioral-disorder-and-mental-health-counselors.htm">BLS OOH</a>. A mixed group, and wage-and-salary counts likely understate private practice.</td><td><span class="ev ev-verified">Verified</span></td></tr>
+          <tr><td>Social workers (all)</td><td>~810,900 jobs (2024)</td><td><a href="https://www.bls.gov/ooh/community-and-social-service/social-workers.htm">BLS OOH</a> via secondary summary. Includes non-clinical roles.</td><td><span class="ev ev-reported">Reported</span></td></tr>
+          <tr><td>Licensed clinical social workers</td><td>~273,000 (our arithmetic: ~463,000 licensed × 59% clinical)</td><td><a href="https://www.aswb.org/wp-content/uploads/2025/07/Social-Work-Workforce-Study-Series-Report-2.pdf">ASWB workforce study</a>. The 273k figure is derived, not published.</td><td><span class="ev ev-reported">Reported</span></td></tr>
+          <tr><td>Practicing psychologists</td><td>~93,000–106,500 (dated: 2013–2014)</td><td>APA Center for Workforce Studies figures, differing definitions. No current count found.</td><td><span class="ev ev-reported">Reported</span></td></tr>
+          <tr><td>Share in private practice</td><td>~45% of licensed psychologists (2015); 70% of APA's 2024 survey sample</td><td><a href="https://www.apa.org/pubs/reports/practitioner/2024/topline-data-2024-practitioner-survey.pdf">APA 2024 practitioner survey</a> is not a representative sample.</td><td><span class="ev ev-reported">Reported</span></td></tr>
         </tbody>
       </table>
     </div>
-    <h3>Bottom-up serviceable market (our model)</h3>
-    <p>The groups above overlap and none of them isolates "independent, solo or small-group, therapy-focused." We therefore model a range rather than quote a single TAM. <strong>Every input in the "assumption" rows is <span class="badge badge-red">Unverified</span>.</strong></p>
-    <div class="table-wrap">
+    <h3 id="bottom-up-serviceable-market-our-model">Bottom-up serviceable market (our model)</h3>
+    <p>The groups above overlap and none of them isolates "independent, solo or small-group, therapy-focused." We therefore model a range rather than quote a single TAM. <strong>Every input in the "assumption" rows is <span class="ev ev-hypothesis">Hypothesis</span>.</strong></p>
+    <div class="table-wrap" role="region" tabindex="0" aria-label="Table: Bottom-up serviceable market (our model)">
       <table>
         <thead><tr><th>Step</th><th>Low</th><th>High</th><th>Basis</th></tr></thead>
         <tbody>
@@ -100,19 +126,19 @@
 
     <h2 id="demand">3. Demand: are therapists adopting AI?</h2>
     <ul>
-      <li><strong>Adoption is rising quickly.</strong> APA's 2025 Practitioner Pulse Survey: psychologists who <em>never</em> used AI in practice fell from 71% to 44% in a year. <span class="badge badge-green">Confirmed</span> — <a href="https://www.apa.org/monitor/2026/03/ai-reshaping-therapy">APA Monitor</a>, <a href="https://bhbusiness.com/2025/12/10/proliferation-of-ai-tools-brings-increased-adoption-skepticism-among-psychologists/">Behavioral Health Business</a>.</li>
-      <li><strong>Regular use is still minority.</strong> 8% daily, 14% weekly, ~29% at least monthly. <span class="badge badge-yellow">Reported</span></li>
-      <li><strong>Use is administrative.</strong> Top uses: writing assistance, content generation, summarisation. Only 8% and 5% use AI for clinical diagnosis and client assistance. <span class="badge badge-yellow">Reported</span> This matches TherapOS's documentation-only scope.</li>
-      <li><strong>Trust is the barrier.</strong> ~9 in 10 psychologists report concerns about AI; about two-thirds worry about data breaches. <span class="badge badge-yellow">Reported</span></li>
-      <li><strong>Other professions agree.</strong> AAMFT's 2025 workforce study: 52% of MFTs use AI for administrative tasks such as note-taking. <span class="badge badge-yellow">Reported</span> — <a href="https://plus.aamft.org/?p=1277">AAMFT</a>. Different surveys use different windows, so do not compare the figures directly.</li>
+      <li><strong>Adoption is rising quickly.</strong> APA's 2025 Practitioner Pulse Survey: psychologists who <em>never</em> used AI in practice fell from 71% to 44% in a year. <span class="ev ev-verified">Verified</span> — <a href="https://www.apa.org/monitor/2026/03/ai-reshaping-therapy">APA Monitor</a>, <a href="https://bhbusiness.com/2025/12/10/proliferation-of-ai-tools-brings-increased-adoption-skepticism-among-psychologists/">Behavioral Health Business</a>.</li>
+      <li><strong>Regular use is still minority.</strong> 8% daily, 14% weekly, ~29% at least monthly. <span class="ev ev-reported">Reported</span></li>
+      <li><strong>Use is administrative.</strong> Top uses: writing assistance, content generation, summarisation. Only 8% and 5% use AI for clinical diagnosis and client assistance. <span class="ev ev-reported">Reported</span> This matches TherapOS's documentation-only scope.</li>
+      <li><strong>Trust is the barrier.</strong> ~9 in 10 psychologists report concerns about AI; about two-thirds worry about data breaches. <span class="ev ev-reported">Reported</span></li>
+      <li><strong>Other professions agree.</strong> AAMFT's 2025 workforce study: 52% of MFTs use AI for administrative tasks such as note-taking. <span class="ev ev-reported">Reported</span> — <a href="https://plus.aamft.org/?p=1277">AAMFT</a>. Different surveys use different windows, so do not compare the figures directly.</li>
     </ul>
     <p><strong>Implication:</strong> demand is not the constraint; credibility is. A product that is transparent about data flow, always shows its sources, and never overclaims on compliance has a real edge over louder competitors.</p>
 
     <h2 id="pain">4. The documentation-burden claim</h2>
     <p>Our earlier copy said therapists lose <strong>35% of working time</strong> to documentation, spend <strong>16 minutes per session</strong> on notes, and that <strong>77%</strong> report mental fatigue. A focused search found <strong>no reliable primary survey</strong> measuring psychotherapist documentation time. The nearest figures were:</p>
     <ul>
-      <li>A vendor page claiming 15–20 hours/week, attributed to unlinked "NASW and APA workforce surveys." <span class="badge badge-red">Unverified</span></li>
-      <li>The APTA's 2025 survey of ~19,000 <em>physical</em> therapists (91% say administrative burden contributes to burnout). A different profession and mostly about prior authorisation. <span class="badge badge-yellow">Reported</span></li>
+      <li>A vendor page claiming 15–20 hours/week, attributed to unlinked "NASW and APA workforce surveys." <span class="ev ev-hypothesis">Hypothesis</span></li>
+      <li>The APTA's 2025 survey of ~19,000 <em>physical</em> therapists (91% say administrative burden contributes to burnout). A different profession and mostly about prior authorisation. <span class="ev ev-reported">Reported</span></li>
     </ul>
     <p><strong>Action taken:</strong> the unsourced statistics have been removed from the site. The ROI page now uses a transparent, adjustable assumption, and we will replace it with <em>measured</em> numbers from beta users (time-to-final-note, edit rate). See <a href="/docs/case-study.html#metrics">Case Study — Measuring</a>.</p>
 
@@ -124,24 +150,24 @@
         <p>The plan previously said no competitor combined AI notes, session prep and cross-session memory. That is not accurate. Upheal advertises a "Golden Thread" linking diagnosis, goals and every note, a "Case Snapshot" summary of a client's history, and an assistant that can pull history and open goals before a session. Mentalyc advertises a treatment planner and progress tracking across sessions. SimplePractice's Note Taker reads the client's previous progress note to match style. Whether each works well is a separate question, but we can no longer claim the feature gap.</p>
       </div>
     </div>
-    <div class="table-wrap">
+    <div class="table-wrap" role="region" tabindex="0" aria-label="Table: 5. Competitive landscape">
       <table>
         <thead><tr><th>Product</th><th>What it is</th><th>Cross-session features (as advertised)</th><th>Price as reported</th><th>Conf.</th></tr></thead>
         <tbody>
-          <tr><td>SimplePractice</td><td>EHR + Note Taker add-on</td><td>Note Taker reads the previous progress note for style</td><td>EHR from ~$49/mo; Note Taker $35/mo per clinician</td><td><span class="badge badge-yellow">Reported</span></td></tr>
-          <tr><td>TherapyNotes</td><td>EHR + "TherapyFuel" AI</td><td>SOAP drafts from summary or transcript; locked to the TherapyNotes ecosystem</td><td>$69 solo / $79 first clinician; TherapyFuel $40/clinician</td><td><span class="badge badge-yellow">Reported</span></td></tr>
-          <tr><td>Upheal</td><td>AI scribe + optional EHR</td><td>Golden Thread; Case Snapshot; pre-session assistant</td><td>~$39/mo notes-only; EHR pay-per-session or capped (sources disagree)</td><td><span class="badge badge-yellow">Reported</span></td></tr>
-          <tr><td>Mentalyc</td><td>AI scribe (volume tiers)</td><td>AI treatment planner; progress and symptom tracking</td><td>~$19.99 (40 notes) to ~$119.99 (330 notes)</td><td><span class="badge badge-yellow">Reported</span></td></tr>
-          <tr><td>Freed</td><td>General-medicine AI scribe</td><td>Limited; EHR push on top tier</td><td>$39 (40 notes) / $79 / $119 per month</td><td><span class="badge badge-yellow">Reported</span></td></tr>
-          <tr><td>Heidi</td><td>General-medicine AI scribe</td><td>Not therapy-specific</td><td>Free tier; paid ~$110–$150/mo</td><td><span class="badge badge-yellow">Reported</span></td></tr>
-          <tr><td>Eleos Health</td><td>Enterprise behavioral-health AI</td><td>Advanced (agency-focused)</td><td>No public price; custom quotes; sells to organisations. <strong>Not $200/mo solo.</strong></td><td><span class="badge badge-yellow">Reported</span></td></tr>
+          <tr><td>SimplePractice</td><td>EHR + Note Taker add-on</td><td>Note Taker reads the previous progress note for style</td><td>EHR from ~$49/mo; Note Taker $35/mo per clinician</td><td><span class="ev ev-reported">Reported</span></td></tr>
+          <tr><td>TherapyNotes</td><td>EHR + "TherapyFuel" AI</td><td>SOAP drafts from summary or transcript; locked to the TherapyNotes ecosystem</td><td>$69 solo / $79 first clinician; TherapyFuel $40/clinician</td><td><span class="ev ev-reported">Reported</span></td></tr>
+          <tr><td>Upheal</td><td>AI scribe + optional EHR</td><td>Golden Thread; Case Snapshot; pre-session assistant</td><td>~$39/mo notes-only; EHR pay-per-session or capped (sources disagree)</td><td><span class="ev ev-reported">Reported</span></td></tr>
+          <tr><td>Mentalyc</td><td>AI scribe (volume tiers)</td><td>AI treatment planner; progress and symptom tracking</td><td>~$19.99 (40 notes) to ~$119.99 (330 notes)</td><td><span class="ev ev-reported">Reported</span></td></tr>
+          <tr><td>Freed</td><td>General-medicine AI scribe</td><td>Limited; EHR push on top tier</td><td>$39 (40 notes) / $79 / $119 per month</td><td><span class="ev ev-reported">Reported</span></td></tr>
+          <tr><td>Heidi</td><td>General-medicine AI scribe</td><td>Not therapy-specific</td><td>Free tier; paid ~$110–$150/mo</td><td><span class="ev ev-reported">Reported</span></td></tr>
+          <tr><td>Eleos Health</td><td>Enterprise behavioral-health AI</td><td>Advanced (agency-focused)</td><td>No public price; custom quotes; sells to organisations. <strong>Not $200/mo solo.</strong></td><td><span class="ev ev-reported">Reported</span></td></tr>
         </tbody>
       </table>
     </div>
     <p>Sources: <a href="https://www.trytwofold.com/blog/ai-scribe-cost-for-therapists">Twofold cost comparison</a>, <a href="https://practiceharbor.com/blog/therapynotes-pricing">PracticeHarbor</a>, <a href="https://www.upheal.io/features/treatment-plans">Upheal</a>, <a href="https://www.trytwofold.com/compare/eleos-health-review">Eleos review</a>, <a href="https://www.softwareadvice.com/resources/simplepractice-vs-therapynotes-ai-features/">Software Advice</a>. Several are competitor-authored; re-check each vendor's own pricing page before publishing numbers.</p>
 
-    <h3>Where TherapOS can still win</h3>
-    <div class="table-wrap">
+    <h3 id="where-therapos-can-still-win">Where TherapOS can still win</h3>
+    <div class="table-wrap" role="region" tabindex="0" aria-label="Table: Where TherapOS can still win">
       <table>
         <thead><tr><th>Wedge</th><th>Why it is defensible</th><th>Risk</th></tr></thead>
         <tbody>
@@ -156,9 +182,23 @@
     <p>The honest, defensible one-liner is therefore <strong>"AI clinical notes and patient memory for therapists, without recording your sessions."</strong> Not "the only product with memory."</p>
 
     <div class="callout callout-info"><div class="callout-icon">ℹ</div><div class="callout-body"><div class="callout-label">Deeper dive</div><p>Verified per-vendor profiles (US and India), the comparison matrix, opportunity ranking and the validation plan are on <a href="/docs/competitors.html">Competitors &amp; Strategy</a>.</p></div></div>
-    <h2 id="regulation">6. Regulation and compliance</h2>
-    <h3>HIPAA: psychotherapy notes versus progress notes</h3>
-    <p>Under <a href="https://www.law.cornell.edu/cfr/text/45/164.501">45 CFR 164.501</a>, <em>psychotherapy notes</em> are a mental-health professional's notes documenting or analysing the content of a counselling session, <strong>kept separate from the rest of the record</strong>. They get extra protection and generally need specific authorisation to disclose. The definition excludes medication monitoring, session times, modalities and frequencies, test results, and summaries of diagnosis, functional status, treatment plan, symptoms, prognosis and progress. <span class="badge badge-green">Confirmed</span> for the definition; <span class="badge badge-yellow">Reported</span> for how it applies to AI output — we found no authoritative guidance.</p>
+    <h2 id="regulation">6. Regulation and compliance</h2><!--seed:research-req--><h3 id="requirement-types">What kind of statement is each item?</h3>
+<p>Do not read recommendations as legal requirements. Items marked for counsel need professional review.</p>
+<div class="table-wrap" role="region" tabindex="0" aria-label="Table: What kind of statement is each item?"><table><thead><tr><th scope="col">Item</th><th scope="col">Type</th><th scope="col">Jurisdiction</th><th scope="col">Source</th></tr></thead><tbody>
+<tr><td>Business associate agreement with vendors handling PHI</td><td>Legal requirement (HIPAA) for covered entities and business associates</td><td>US</td><td><a href="/docs/sources.html#r-baa">R-BAA</a></td></tr>
+<tr><td>Psychotherapy notes defined and excluded from patient access</td><td>Legal requirement; application to our features needs counsel</td><td>US</td><td><a href="/docs/sources.html#r-hip">R-HIP</a></td></tr>
+<tr><td>Limits on AI delivering therapy; written consent to record</td><td>Legal requirement in Illinois and Nevada; scope needs counsel</td><td>US-IL, US-NV</td><td><a href="/docs/sources.html#r-il">R-IL</a>, <a href="/docs/sources.html#r-nv">R-NV</a></td></tr>
+<tr><td>DPDP Rules obligations from 13 May 2027</td><td>Legal requirement</td><td>India</td><td><a href="/docs/sources.html#r-dpdp">R-DPDP</a></td></tr>
+<tr><td>Confidentiality and client access to records</td><td>Legal requirement (Mental Healthcare Act); AI application unclear</td><td>India</td><td><a href="/docs/sources.html#r-mhca">R-MHCA</a></td></tr>
+<tr><td>Pseudonymise names before AI calls</td><td>Recommended practice and our design decision <span class="st st-planned">Planned</span></td><td>Both</td><td><a href="/docs/plan.html#d14">D14</a></td></tr>
+<tr><td>SOC 2 attestation</td><td>Voluntary market expectation, not a legal requirement</td><td>US</td><td><span class="ev ev-inferred">Inferred</span></td></tr>
+<tr><td>Zero-retention AI endpoints</td><td>Vendor condition for a BAA</td><td>US</td><td><a href="/docs/sources.html#r-baa">R-BAA</a></td></tr>
+<tr><td>Patient-facing activity features are lawful</td><td>Open question requiring counsel; not asserted</td><td>US states</td><td><a href="/docs/plan.html#d13">D13</a></td></tr>
+</tbody></table></div>
+<!--/seed:research-req-->
+
+    <h3 id="hipaa-psychotherapy-notes-versus-progress-notes">HIPAA: psychotherapy notes versus progress notes</h3>
+    <p>Under <a href="https://www.law.cornell.edu/cfr/text/45/164.501">45 CFR 164.501</a>, <em>psychotherapy notes</em> are a mental-health professional's notes documenting or analysing the content of a counselling session, <strong>kept separate from the rest of the record</strong>. They get extra protection and generally need specific authorisation to disclose. The definition excludes medication monitoring, session times, modalities and frequencies, test results, and summaries of diagnosis, functional status, treatment plan, symptoms, prognosis and progress. <span class="ev ev-verified">Verified</span> for the definition; <span class="ev ev-reported">Reported</span> for how it applies to AI output — we found no authoritative guidance.</p>
     <div class="callout callout-accent">
       <div class="callout-icon">✦</div>
       <div class="callout-body">
@@ -167,15 +207,15 @@
       </div>
     </div>
 
-    <h3>AI vendors and BAAs</h3>
+    <h3 id="ai-vendors-and-baas">AI vendors and BAAs</h3>
     <ul>
-      <li><strong>OpenAI:</strong> signs BAAs for API customers, but only for endpoints that qualify for zero data retention (ZDR); without ZDR, API traffic can be retained up to 30 days. Approval is case-by-case. <span class="badge badge-yellow">Reported</span> — <a href="https://cdn.openai.com/osa/baa-hipaa-guide.pdf">OpenAI HIPAA guide</a>.</li>
-      <li><strong>Anthropic:</strong> offers HIPAA-ready API access with a BAA for eligible customers, conditioned on specific eligible services (such as zero-retention). Excludes Workbench/Console, consumer plans and beta features. <span class="badge badge-yellow">Reported</span> — <a href="https://platform.claude.com/docs/en/manage-claude/api-and-data-retention">Anthropic docs</a>.</li>
+      <li><strong>OpenAI:</strong> signs BAAs for API customers, but only for endpoints that qualify for zero data retention (ZDR); without ZDR, API traffic can be retained up to 30 days. Approval is case-by-case. <span class="ev ev-reported">Reported</span> — <a href="https://cdn.openai.com/osa/baa-hipaa-guide.pdf">OpenAI HIPAA guide</a>.</li>
+      <li><strong>Anthropic:</strong> offers HIPAA-ready API access with a BAA for eligible customers, conditioned on specific eligible services (such as zero-retention). Excludes Workbench/Console, consumer plans and beta features. <span class="ev ev-reported">Reported</span> — <a href="https://platform.claude.com/docs/en/manage-claude/api-and-data-retention">Anthropic docs</a>.</li>
       <li><strong>Implication:</strong> "signed BAAs with Anthropic and OpenAI" is a <em>to-do</em>, not a fact. Until executed, no real patient data may touch either API, and the product must be marketed as pre-launch. The current app also sends patient names to OpenAI in prompts; this must change (pseudonymise before the model call).</li>
     </ul>
 
-    <h3>State laws on AI in mental health</h3>
-    <div class="table-wrap">
+    <h3 id="state-laws-on-ai-in-mental-health">State laws on AI in mental health</h3>
+    <div class="table-wrap" role="region" tabindex="0" aria-label="Table: State laws on AI in mental health">
       <table>
         <thead><tr><th>State</th><th>Rule (per secondary trackers)</th><th>Relevance to TherapOS</th></tr></thead>
         <tbody>
@@ -186,23 +226,23 @@
         </tbody>
       </table>
     </div>
-    <p>Sources: <a href="https://psychology.com/ai-therapy/state-bans">psychology.com tracker</a>, <a href="https://acuity.news/regulation/state-ai-mental-health-laws-compliance-2026/">Acuity compliance guide</a>. <span class="badge badge-yellow">Reported</span> — read the statute text.</p>
+    <p>Sources: <a href="https://psychology.com/ai-therapy/state-bans">psychology.com tracker</a>, <a href="https://acuity.news/regulation/state-ai-mental-health-laws-compliance-2026/">Acuity compliance guide</a>. <span class="ev ev-reported">Reported</span> — read the statute text.</p>
 
-    <h3>Professional ethics</h3>
-    <p>APA guidance expects informed consent that explains the purpose, risks and data flow of AI tools. Standard 4.03 requires permission before recording a client's voice. <span class="badge badge-yellow">Reported</span> — <a href="https://www.apa.org/topics/artificial-intelligence-machine-learning/ethical-guidance-ai-professional-practice">APA AI ethical guidance</a>. We found no NASW-specific AI guidance; verify directly. TherapOS should ship a <strong>client-disclosure template</strong> that therapists can use, naming the tool and the vendors.</p>
+    <h3 id="professional-ethics">Professional ethics</h3>
+    <p>APA guidance expects informed consent that explains the purpose, risks and data flow of AI tools. Standard 4.03 requires permission before recording a client's voice. <span class="ev ev-reported">Reported</span> — <a href="https://www.apa.org/topics/artificial-intelligence-machine-learning/ethical-guidance-ai-professional-practice">APA AI ethical guidance</a>. We found no NASW-specific AI guidance; verify directly. TherapOS should ship a <strong>client-disclosure template</strong> that therapists can use, naming the tool and the vendors.</p>
 
-    <h3>India</h3>
+    <h3 id="india">India</h3>
     <ul>
-      <li>The DPDP Rules were notified on <strong>13 November 2025</strong>; consent-manager provisions (Rule 4) apply from 13 Nov 2026, and most substantive duties from about <strong>13 May 2027</strong>. <span class="badge badge-yellow">Reported</span> — <a href="https://www.pib.gov.in/PressReleasePage.aspx?PRID=2190014&amp;reg=3&amp;lang=2">PIB</a>.</li>
+      <li>The DPDP Rules were notified on <strong>13 November 2025</strong>; consent-manager provisions (Rule 4) apply from 13 Nov 2026, and most substantive duties from about <strong>13 May 2027</strong>. <span class="ev ev-reported">Reported</span> — <a href="https://www.pib.gov.in/PressReleasePage.aspx?PRID=2190014&amp;reg=3&amp;lang=2">PIB</a>.</li>
       <li><strong>Correction:</strong> our earlier docs said health data is "Sensitive Personal Data under the DPDP Act 2023." As far as we can tell the Act has no separate sensitive-data category, although practitioner guides claim otherwise. Check the Act text; treat health data as high-risk regardless. The Mental Healthcare Act 2017 also applies to consent.</li>
-      <li>RCI (CRR) registration is legally required for clinical and rehabilitation psychologists. "Counsellor" is not a registered title, so the India ICP is fuzzy. <span class="badge badge-yellow">Reported</span> — <a href="https://www.therapyroute.com/article/mental-health-licensing-regulation-in-india-2025-guide-by-therapyroute">TherapyRoute</a>.</li>
+      <li>RCI (CRR) registration is legally required for clinical and rehabilitation psychologists. "Counsellor" is not a registered title, so the India ICP is fuzzy. <span class="ev ev-reported">Reported</span> — <a href="https://www.therapyroute.com/article/mental-health-licensing-regulation-in-india-2025-guide-by-therapyroute">TherapyRoute</a>.</li>
     </ul>
 
-    <h3>FDA</h3>
-    <p>Our position, unchanged: documentation assistance, no diagnosis, no treatment recommendations. Note that "suggested interventions" in the prep brief and the homework generator sit closer to clinical decision support than pure documentation. Keep them clearly framed as drafts for the therapist and have a regulatory attorney review before scaling. <span class="badge badge-red">Unverified</span></p>
+    <h3 id="fda">FDA</h3>
+    <p>Our position, unchanged: documentation assistance, no diagnosis, no treatment recommendations. Note that "suggested interventions" in the prep brief and the homework generator sit closer to clinical decision support than pure documentation. Keep them clearly framed as drafts for the therapist and have a regulatory attorney review before scaling. <span class="ev ev-hypothesis">Hypothesis</span></p>
 
     <h2 id="implications">7. Product implications (decisions)</h2>
-    <div class="table-wrap">
+    <div class="table-wrap" role="region" tabindex="0" aria-label="Table: 7. Product implications (decisions)">
       <table>
         <thead><tr><th>#</th><th>Decision</th><th>Reason</th></tr></thead>
         <tbody>
@@ -219,7 +259,7 @@
     </div>
 
     <h2 id="corrections">8. Corrections applied to this site</h2>
-    <div class="table-wrap">
+    <div class="table-wrap" role="region" tabindex="0" aria-label="Table: 8. Corrections applied to this site">
       <table>
         <thead><tr><th>Earlier claim</th><th>Finding</th><th>Change made</th></tr></thead>
         <tbody>
@@ -272,19 +312,13 @@
     </ul>
 
     <div class="doc-nav">
-      <a href="/docs/plan.html" class="doc-nav-btn">
-        <span class="doc-nav-label">← Previous</span>
-        <span class="doc-nav-title">Full Product Plan</span>
-      </a>
-      <a href="/docs/case-study.html" class="doc-nav-btn next">
-        <span class="doc-nav-label">Next →</span>
-        <span class="doc-nav-title">Case Study</span>
-      </a>
+      <a href="/docs/plan.html" class="doc-nav-btn"><span class="doc-nav-label">← Previous</span><span class="doc-nav-title">Full Product Plan</span></a><a href="/docs/competitors.html" class="doc-nav-btn next"><span class="doc-nav-label">Next →</span><span class="doc-nav-title">Competitors &amp; Strategy</span></a>
     </div>
   </main>
 
   <aside class="page-toc">
     <span class="toc-label">On this page</span>
+    <a href="#exec">Executive summary</a>
     <a href="#summary">Summary</a>
     <a href="#market">Market size</a>
     <a href="#demand">Demand</a>
@@ -310,5 +344,6 @@
     <div class="footer-copy">© 2026 TherapOS · Pre-launch</div>
   </div>
 </footer>
+<script src="/scripts/docs.js" defer></script>
 </body>
 </html>

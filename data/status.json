@@ -1,0 +1,478 @@
+{
+ "status": [
+  {
+   "item": "Patients: CRUD, search, discharge, timeline",
+   "status": "Built",
+   "note": "Per-therapist isolation enforced in the service layer; no automated isolation test yet.",
+   "area": "Core"
+  },
+  {
+   "item": "Sessions: create, start, complete",
+   "status": "Built",
+   "note": "Next session number is computed read-then-insert; a race is possible.",
+   "area": "Core"
+  },
+  {
+   "item": "Notes: create, edit, finalize; SOAP, DAP, BIRP, free text",
+   "status": "Built",
+   "note": "Finalized notes are locked; no addenda yet.",
+   "area": "Core"
+  },
+  {
+   "item": "AI note draft (streaming), prep brief, homework ideas",
+   "status": "Built",
+   "note": "GPT-4o. JSON-first draft parser with 7 unit tests (apps/web/lib/draft-parser.test.mjs). Prep result is not saved to the session.",
+   "area": "Core"
+  },
+  {
+   "item": "Embeddings and rolling patient summary",
+   "status": "In progress",
+   "note": "Pipeline written; queue and production Redis need verification; no search endpoint reads the vectors yet.",
+   "area": "Core"
+  },
+  {
+   "item": "Email/password auth and JWT",
+   "status": "In progress",
+   "note": "API done; the web app has no login page and does not send a token in production.",
+   "area": "Core"
+  },
+  {
+   "item": "App UI theme (light, AA-contrast palette)",
+   "status": "Built",
+   "note": "Poppins and Alegreya; contrast measured at 5.03:1 minimum for body text.",
+   "area": "Core"
+  },
+  {
+   "item": "Automated tests",
+   "status": "In progress",
+   "note": "Seven unit tests for the draft parser; none yet for the API, tenant isolation or note locking.",
+   "area": "Quality"
+  },
+  {
+   "item": "Goals and homework: create and update",
+   "status": "Planned",
+   "note": "Only read today; data models exist.",
+   "area": "Core"
+  },
+  {
+   "item": "Natural-language search",
+   "status": "Planned",
+   "note": "Documented; Q4 2026 on the roadmap.",
+   "area": "Core"
+  },
+  {
+   "item": "Pseudonymise client names before AI calls",
+   "status": "Planned",
+   "note": "Required before any pilot; not built.",
+   "area": "Compliance"
+  },
+  {
+   "item": "Audit logging, rate limits, field encryption, MFA",
+   "status": "Planned",
+   "note": "Audit table exists; nothing writes to it.",
+   "area": "Compliance"
+  },
+  {
+   "item": "Business associate agreements with AI and cloud vendors",
+   "status": "Planned",
+   "note": "None executed; OpenAI/Anthropic BAAs are conditional on zero-retention eligibility.",
+   "area": "Compliance"
+  },
+  {
+   "item": "Source-linked summaries (provenance)",
+   "status": "Planned",
+   "note": "Strategic bet 1; needs a source-reference table.",
+   "area": "Strategy"
+  },
+  {
+   "item": "Copy-to-EHR structured export",
+   "status": "Planned",
+   "note": "Strategic bet 3.",
+   "area": "Strategy"
+  },
+  {
+   "item": "Note addenda and AI-assisted marker",
+   "status": "Planned",
+   "note": "Needed for a trustworthy record.",
+   "area": "Strategy"
+  },
+  {
+   "item": "Billing (Stripe / Razorpay)",
+   "status": "Planned",
+   "note": "Subscription row is created; no payment code.",
+   "area": "Business"
+  },
+  {
+   "item": "Clinician-approved activity loop with patient secure link",
+   "status": "Exploratory",
+   "note": "Strategic bet 2; gated on discovery, counsel opinion and BAA path.",
+   "area": "Strategy"
+  },
+  {
+   "item": "Voice dictation",
+   "status": "Exploratory",
+   "note": "Not scoped.",
+   "area": "Strategy"
+  },
+  {
+   "item": "Clinic accounts with roles",
+   "status": "Deferred",
+   "note": "After retention and revenue are proven (months 13–24).",
+   "area": "Business"
+  },
+  {
+   "item": "India launch and localisation",
+   "status": "Deferred",
+   "note": "On pull only; needs Indian data hosting and DPDP compliance.",
+   "area": "Business"
+  },
+  {
+   "item": "Ambient session recording / audio scribe",
+   "status": "Rejected",
+   "note": "Conflicts with the text-first positioning.",
+   "area": "Strategy"
+  },
+  {
+   "item": "AI that converses with patients in a therapeutic role",
+   "status": "Rejected",
+   "note": "State AI-therapy laws and clinical-safety risk (see R-IL, R-NV).",
+   "area": "Strategy"
+  }
+ ],
+ "decisions": [
+  {
+   "id": "D01",
+   "date": "2026-07-20",
+   "title": "Write the plan and docs before the code",
+   "status": "Decided",
+   "why": "Make assumptions explicit early.",
+   "links": [
+    [
+     "plan.html",
+     "Full Product Plan"
+    ]
+   ]
+  },
+  {
+   "id": "D02",
+   "date": "2026-07-21",
+   "title": "Stack: Turborepo, NestJS API, Next.js app, Prisma with pgvector, BullMQ",
+   "status": "Decided",
+   "why": "One TypeScript codebase with shared types.",
+   "links": [
+    [
+     "architecture.html",
+     "Architecture"
+    ]
+   ]
+  },
+  {
+   "id": "D03",
+   "date": "2026-07-23",
+   "title": "Own email/password JWT auth instead of the documented Clerk with MFA",
+   "status": "Decided",
+   "why": "Faster to ship; docs and code still disagree, MFA not built.",
+   "links": [
+    [
+     "case-study.html#status",
+     "Where docs and code disagree"
+    ]
+   ]
+  },
+  {
+   "id": "D04",
+   "date": "2026-10-25",
+   "title": "Withdrew the claim that no competitor has prep and cross-session memory",
+   "status": "Decided",
+   "why": "Upheal, Mentalyc and SimplePractice advertise cross-session features.",
+   "links": [
+    [
+     "research.html#competitors",
+     "Research §5"
+    ]
+   ],
+   "src": [
+    "C-UPH",
+    "C-MEN",
+    "C-SPR"
+   ]
+  },
+  {
+   "id": "D05",
+   "date": "2026-10-25",
+   "title": "Removed unsourced time-saved statistics and \"HIPAA-ready\" / signed-BAA claims",
+   "status": "Decided",
+   "why": "No supporting source; no BAAs executed.",
+   "links": [
+    [
+     "research.html#pain",
+     "Research §4"
+    ]
+   ],
+   "src": [
+    "E-TIME",
+    "R-BAA"
+   ]
+  },
+  {
+   "id": "D06",
+   "date": "2026-10-25",
+   "title": "Solo plan capped at 200 AI notes per month with a 30-day trial",
+   "status": "Decided",
+   "why": "Founder accepted the recommendation; to be tested against $19 / $29 / $39 on the waitlist.",
+   "links": [
+    [
+     "pricing.html",
+     "Pricing"
+    ]
+   ],
+   "src": [
+    "C-MEN",
+    "C-CAR"
+   ]
+  },
+  {
+   "id": "D07",
+   "date": "2026-10-25",
+   "title": "Parse note drafts as JSON first, with labelled-prose fallback",
+   "status": "Decided",
+   "why": "The live model returns fenced JSON; the old parser showed raw JSON.",
+   "links": [
+    [
+     "case-study.html#status",
+     "Honest status"
+    ]
+   ]
+  },
+  {
+   "id": "D08",
+   "date": "2026-10-25",
+   "title": "Restyle the app and docs on a calm light palette",
+   "status": "Decided",
+   "why": "Contrast failures (2.84:1 and 3.06:1) and a flat dark theme.",
+   "links": [
+    [
+     "review.html",
+     "Product Review"
+    ]
+   ]
+  },
+  {
+   "id": "D09",
+   "date": "2026-10-26",
+   "title": "First segment: US independent therapists already using AI; India deferred",
+   "status": "Proposed",
+   "why": "Reachable, price-sensitive, clear workflow; India pool small and uncountable. Not yet confirmed by the founder.",
+   "links": [
+    [
+     "competitors.html#s2",
+     "Competitors §2"
+    ],
+    [
+     "competitors.html#s12",
+     "Competitors §12"
+    ]
+   ],
+   "src": [
+    "M-APA25",
+    "M-IND",
+    "M-RCI"
+   ]
+  },
+  {
+   "id": "D10",
+   "date": "2026-10-26",
+   "title": "Patient-facing activity loop is a gated pilot, not an MVP feature",
+   "status": "Proposed",
+   "why": "Differentiation candidate but adds PHI surface and state-law risk.",
+   "links": [
+    [
+     "competitors.html#s10",
+     "Competitors §10"
+    ]
+   ],
+   "src": [
+    "R-IL",
+    "R-NV",
+    "E-HW"
+   ]
+  },
+  {
+   "id": "D11",
+   "date": "2026-10-26",
+   "title": "Build a discovery and pilot-recruitment deck now; defer the investor deck",
+   "status": "Proposed",
+   "why": "No traction, validation or compliance evidence yet.",
+   "links": [
+    [
+     "competitors.html#s18",
+     "Competitors §18"
+    ]
+   ]
+  },
+  {
+   "id": "D12",
+   "date": "2026-10-26",
+   "title": "Position on inspectable memory and a strict no-retention posture, not on price or \"AI notes\"",
+   "status": "Proposed",
+   "why": "AI notes and the $29 price are not differentiators.",
+   "links": [
+    [
+     "competitors.html#s7",
+     "Competitors §7"
+    ]
+   ],
+   "src": [
+    "C-UPH",
+    "C-MEN",
+    "C-SPR2",
+    "C-TWO"
+   ]
+  },
+  {
+   "id": "D13",
+   "date": "2026-10-26",
+   "title": "Obtain counsel opinion before any patient-facing release",
+   "status": "Proposed",
+   "why": "Nevada scope, psychotherapy-notes status of reflections, information blocking.",
+   "links": [
+    [
+     "research.html#regulation",
+     "Research §6"
+    ]
+   ],
+   "src": [
+    "R-NV",
+    "R-HIP",
+    "R-CUR"
+   ]
+  },
+  {
+   "id": "D14",
+   "date": "2026-10-26",
+   "title": "Pseudonymise names before AI calls and pursue zero-retention endpoints before any pilot",
+   "status": "Proposed",
+   "why": "No BAA exists; reduces exposure.",
+   "links": [
+    [
+     "competitors.html#s15",
+     "Competitors §15"
+    ]
+   ],
+   "src": [
+    "R-BAA"
+   ]
+  }
+ ],
+ "bets": [
+  {
+   "id": "B1",
+   "name": "Source-linked, editable patient memory",
+   "problem": "Therapists distrust AI summaries and re-read old notes.",
+   "evidence": [
+    "C-UPH",
+    "C-MEN"
+   ],
+   "hypothesis": "Clinicians will click through to sources and trust the brief more.",
+   "action": "Add a source-reference table and link every summary line to its note.",
+   "metric": "≥50% of weekly users open a source link at least weekly",
+   "threshold": "<20% after 4 weeks: drop or redesign",
+   "review": "Proposed: end of 30-day discovery",
+   "outcome": "Untested",
+   "status": "Planned"
+  },
+  {
+   "id": "B2",
+   "name": "Clinician-approved activity loop",
+   "problem": "Homework is ad hoc and rarely reviewed.",
+   "evidence": [
+    "E-HW",
+    "C-QUE",
+    "R-IL"
+   ],
+   "hypothesis": "Clinicians want session-grounded activities with patient reflections feeding the next prep brief.",
+   "action": "Clickable prototype first; gated pilot only after counsel opinion and BAA path.",
+   "metric": "≥40% activities opened; clinicians review reflections for ≥60% of cases",
+   "threshold": "Clinicians reject patient contact: stop",
+   "review": "Proposed: after prototype tests",
+   "outcome": "Untested",
+   "status": "Exploratory"
+  },
+  {
+   "id": "B3",
+   "name": "Copy-to-EHR export with strict no-retention posture",
+   "problem": "Notes must live in the EHR; fear of recorded transcripts.",
+   "evidence": [
+    "C-SPR2",
+    "C-TWO"
+   ],
+   "hypothesis": "Text-first plus no retention moves buying decisions.",
+   "action": "Per-EHR formatted copy; publish data-flow; pseudonymise before model calls.",
+   "metric": "≥70% of notes copied out within 24h",
+   "threshold": "Privacy cited by <3 of 10 conversion interviews: reposition",
+   "review": "Proposed: end of pilot",
+   "outcome": "Untested",
+   "status": "Planned"
+  }
+ ],
+ "milestones": [
+  {
+   "n": 1,
+   "title": "30-day customer-discovery sprint",
+   "state": "Not started",
+   "link": "competitors.html#s13"
+  },
+  {
+   "n": 2,
+   "title": "Login/register, pseudonymised AI calls, BAA path chosen",
+   "state": "Planned",
+   "link": "competitors.html#s15"
+  },
+  {
+   "n": 3,
+   "title": "Source-linked summaries and copy-to-EHR export",
+   "state": "Planned",
+   "link": "competitors.html#s15"
+  }
+ ],
+ "open_decisions": [
+  [
+   "Confirm the first segment (D09) and that India is deferred",
+   "competitors.html#s2"
+  ],
+  [
+   "Choose the waitlist destination and run the $19 / $29 / $39 test",
+   "pricing.html"
+  ],
+  [
+   "Reconcile docs and code: Clerk vs own JWT, Claude vs GPT-4o (D03)",
+   "case-study.html#status"
+  ],
+  [
+   "Decide the BAA route: zero-retention OpenAI or Anthropic endpoint (D14)",
+   "research.html#regulation"
+  ],
+  [
+   "Commission a counsel opinion on patient-facing features (D13)",
+   "research.html#regulation"
+  ]
+ ],
+ "risks": [
+  [
+   "No customer-discovery evidence yet",
+   "Not started"
+  ],
+  [
+   "No BAAs, SOC 2 or MFA; audit table unused",
+   "Planned"
+  ],
+  [
+   "Free and bundled competitors make AI notes a commodity",
+   "Verified in market scan"
+  ],
+  [
+   "Web app has no login page or production token handling",
+   "In progress"
+  ]
+ ]
+}

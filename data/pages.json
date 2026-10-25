@@ -1,0 +1,146 @@
+{
+ "updated": "2026-10-26",
+ "groups": [
+  [
+   "Start",
+   [
+    [
+     "index",
+     "Overview"
+    ],
+    [
+     "quickstart",
+     "Quickstart"
+    ]
+   ]
+  ],
+  [
+   "Strategy &amp; evidence",
+   [
+    [
+     "plan",
+     "Full Product Plan"
+    ],
+    [
+     "research",
+     "Market &amp; Regulatory Research"
+    ],
+    [
+     "competitors",
+     "Competitors &amp; Strategy"
+    ],
+    [
+     "case-study",
+     "Case Study"
+    ],
+    [
+     "sources",
+     "Source Register"
+    ]
+   ]
+  ],
+  [
+   "Product",
+   [
+    [
+     "features",
+     "Features"
+    ],
+    [
+     "pricing",
+     "Pricing"
+    ],
+    [
+     "roadmap",
+     "Roadmap"
+    ],
+    [
+     "review",
+     "Product Review"
+    ]
+   ]
+  ],
+  [
+   "Technical",
+   [
+    [
+     "architecture",
+     "Architecture"
+    ],
+    [
+     "schema",
+     "Database Schema"
+    ],
+    [
+     "api",
+     "API Reference"
+    ],
+    [
+     "ai",
+     "AI &amp; Prompts"
+    ]
+   ]
+  ]
+ ],
+ "purpose": {
+  "plan": {
+   "role": "Strategic source of truth",
+   "purpose": "What TherapOS is, whom it serves, what it will build and how it may grow.",
+   "audience": "Founders, product team",
+   "related": [
+    "research",
+    "competitors",
+    "roadmap"
+   ]
+  },
+  "research": {
+   "role": "Evidence layer",
+   "purpose": "What is known, what is uncertain and what evidence supports decisions.",
+   "audience": "Founders, clinical advisors, investors",
+   "related": [
+    "sources",
+    "competitors",
+    "plan"
+   ]
+  },
+  "competitors": {
+   "role": "Decision layer",
+   "purpose": "Where TherapOS competes, why customers might choose it, and which bets deserve investment.",
+   "audience": "Founders, investors, partners",
+   "related": [
+    "research",
+    "sources",
+    "roadmap"
+   ]
+  },
+  "case-study": {
+   "role": "Evidence of execution",
+   "purpose": "How TherapOS is being built, what changed and what the team learned.",
+   "audience": "Everyone",
+   "related": [
+    "plan",
+    "architecture",
+    "roadmap"
+   ]
+  }
+ },
+ "journey": [
+  "index",
+  "plan",
+  "research",
+  "competitors",
+  "case-study",
+  "roadmap",
+  "architecture"
+ ],
+ "titles": {
+  "index": "Overview",
+  "plan": "Full Product Plan",
+  "research": "Market &amp; Regulatory Research",
+  "competitors": "Competitors &amp; Strategy",
+  "case-study": "Case Study",
+  "roadmap": "Roadmap",
+  "architecture": "Architecture",
+  "sources": "Source Register"
+ }
+}

@@ -8,42 +8,48 @@
 <link rel="stylesheet" href="../styles/main.css">
 </head>
 <body>
+<a class="skip-link" href="#main">Skip to content</a>
 <nav class="site-nav">
   <a href="/" class="nav-logo">⬡ <span>TherapOS</span></a>
   <div class="nav-links">
-    <a href="../index.html#features">Features</a>
-    <a href="../index.html#pricing">Pricing</a>
+    <a href="/index.html#features">Features</a>
+    <a href="/index.html#pricing">Pricing</a>
     <a href="/docs/index.html" style="color:var(--accent)">Docs</a>
-    <a href="../index.html#pricing" class="nav-cta">Join the waitlist</a>
+    <button type="button" class="nav-search" aria-label="Search documentation">Search<kbd>/</kbd></button>
+    <a href="/index.html#pricing" class="nav-cta">Join the waitlist</a>
   </div>
 </nav>
 <div class="docs-layout">
-  <nav class="docs-sidebar">
-    <div class="group">Getting Started</div>
+                                                <nav class="docs-sidebar" aria-label="Documentation">
+    <div class="group">Start</div>
     <a href="/docs/index.html">Overview</a>
     <a href="/docs/quickstart.html">Quickstart</a>
-    <div class="group">Product</div>
+    <div class="group">Strategy &amp; evidence</div>
     <a href="/docs/plan.html">Full Product Plan</a>
     <a href="/docs/research.html">Market &amp; Regulatory Research</a>
     <a href="/docs/competitors.html">Competitors &amp; Strategy</a>
     <a href="/docs/case-study.html">Case Study</a>
-    <a href="/docs/review.html">Product Review</a>
+    <a href="/docs/sources.html">Source Register</a>
+    <div class="group">Product</div>
     <a href="/docs/features.html">Features</a>
     <a href="/docs/pricing.html">Pricing</a>
     <a href="/docs/roadmap.html">Roadmap</a>
+    <a href="/docs/review.html">Product Review</a>
     <div class="group">Technical</div>
-    <a href="/docs/architecture.html" class="active">Architecture</a>
+    <a href="/docs/architecture.html" class="active" aria-current="page">Architecture</a>
     <a href="/docs/schema.html">Database Schema</a>
     <a href="/docs/api.html">API Reference</a>
     <a href="/docs/ai.html">AI &amp; Prompts</a>
   </nav>
-  <main class="docs-content">
+  <main class="docs-content" id="main">
+    <!--enh:mnav--><details class="mobile-nav"><summary>Documentation menu</summary><div class="group">Start</div><a href="/docs/index.html">Overview</a><a href="/docs/quickstart.html">Quickstart</a><div class="group">Strategy &amp; evidence</div><a href="/docs/plan.html">Full Product Plan</a><a href="/docs/research.html">Market &amp; Regulatory Research</a><a href="/docs/competitors.html">Competitors &amp; Strategy</a><a href="/docs/case-study.html">Case Study</a><a href="/docs/sources.html">Source Register</a><div class="group">Product</div><a href="/docs/features.html">Features</a><a href="/docs/pricing.html">Pricing</a><a href="/docs/roadmap.html">Roadmap</a><a href="/docs/review.html">Product Review</a><div class="group">Technical</div><a href="/docs/architecture.html" aria-current="page">Architecture</a><a href="/docs/schema.html">Database Schema</a><a href="/docs/api.html">API Reference</a><a href="/docs/ai.html">AI &amp; Prompts</a></details><!--/enh:mnav-->
+    <!--enh:crumbs--><nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span class="sep" aria-hidden="true">/</span><a href="/docs/index.html">Docs</a><span class="sep" aria-hidden="true">/</span><span>Technical</span><span class="sep" aria-hidden="true">/</span><span aria-current="page">Architecture</span></nav><!--/enh:crumbs-->
     <span class="eyebrow">Technical</span>
     <h1>System Architecture</h1>
     <p class="page-desc">TherapOS is a Turborepo monorepo with a Next.js frontend and NestJS API. PostgreSQL with pgvector handles relational data and vector search. All AI calls are non-blocking — the product works without AI as a graceful fallback.</p>
     <hr>
 
-    <h2>System Overview</h2>
+    <h2 id="system-overview">System Overview</h2>
     <pre>┌────────────────────────────────────────────────────────────────┐
 │                    CLIENT (Next.js 14)                         │
 │  App Router · TypeScript · Tailwind CSS · shadcn/ui            │
@@ -79,7 +85,7 @@ Third-party services:
   Storage:  AWS S3  (encrypted, exports)
   Deploy:   AWS ECS (API, Blue/Green) + Vercel (Next.js)</pre>
 
-    <h2>Repository Structure</h2>
+    <h2 id="repository-structure">Repository Structure</h2>
     <pre>therapos/                           # Turborepo monorepo root
 ├── apps/
 │   ├── web/                        # Next.js 14 (App Router)
@@ -149,30 +155,30 @@ Third-party services:
 ├── turbo.json
 └── package.json                    # Workspace root</pre>
 
-    <h2>Key Architectural Decisions</h2>
+    <h2 id="key-architectural-decisions">Key Architectural Decisions</h2>
 
-    <h3>1. Monolith First, Microservices Later</h3>
+    <h3 id="1-monolith-first-microservices-later"><span id="1-monolith-first"></span>1. Monolith First, Microservices Later</h3>
     <p>The NestJS API is a single deployable unit. AI processing, search, and CRUD are all in one service. The benefit: simpler debugging, shared transactions, one deployment target.</p>
     <p><strong>Extract the AI module</strong> into a separate service only when you need independent scaling — typically at ~10,000 active users where AI inference is the bottleneck. The NestJS module boundary makes this extraction clean.</p>
 
-    <h3>2. pgvector Over Pinecone for MVP</h3>
+    <h3 id="2-pgvector-over-pinecone-for-mvp"><span id="2-pgvector-over-pinecone"></span>2. pgvector Over Pinecone for MVP</h3>
     <p>Pinecone adds infrastructure complexity (another service to manage, another cost center) and an extra network hop. pgvector in PostgreSQL handles millions of embeddings efficiently with HNSW indexing, with the added benefit that row-level therapist isolation is enforced at the database layer.</p>
     <p><strong>Migration trigger:</strong> If note embedding count exceeds 500k, or if metadata filtering requirements become complex enough that raw pgvector queries are difficult to maintain, migrate to Pinecone. The <code>search/</code> NestJS module is the only code that changes.</p>
 
-    <h3>3. SSE Over WebSockets for AI Streaming</h3>
+    <h3 id="3-sse-over-websockets-for-ai-streaming"><span id="3-sse-over-websockets"></span>3. SSE Over WebSockets for AI Streaming</h3>
     <p>AI note generation streams token-by-token to the frontend using Server-Sent Events. SSE is simpler than WebSockets for one-directional streaming (server → client), works through HTTP/2 without special infrastructure, and requires no WebSocket server management.</p>
     <p>The frontend uses a custom <code>useAiStream</code> hook that manages the EventSource lifecycle, error handling, and reconnection. When the stream ends, the full JSON note object is returned in the final event.</p>
 
-    <h3>4. BullMQ for All Post-Finalization Jobs</h3>
+    <h3 id="4-bullmq-for-all-post-finalization-jobs">4. BullMQ for All Post-Finalization Jobs</h3>
     <p>Note generation itself streams directly. But the post-finalization memory pipeline (embedding and summary refresh) runs entirely via BullMQ jobs. Benefits: the therapist sees "Finalized" immediately, jobs are retried on failure, job history is inspectable.</p>
     <p>Two queues: <code>note-embeddings</code> and <code>patient-summaries</code>. Both use Redis as the queue backend. Summary refresh is chained to fire after embedding completes (not in parallel) to ensure the embedding is available when the summary is generated.</p>
 
-    <h3>5. Row-Level Therapist Isolation in Every Query</h3>
+    <h3 id="5-row-level-therapist-isolation-in-every-query"><span id="5-row-level-therapist-isolation"></span>5. Row-Level Therapist Isolation in Every Query</h3>
     <p>Every Prisma query that touches a Patient, Session, Note, Goal, or Homework record filters by <code>therapistId = authenticatedUserId</code>. This is enforced in the service layer — not just the controller layer — to prevent accidental cross-therapist data exposure. Automated tests verify that therapist A cannot access therapist B's data even with a valid JWT.</p>
 
-    <h2>Frontend Architecture</h2>
-    <h3>State Management</h3>
-    <div class="table-wrap">
+    <h2 id="frontend-architecture">Frontend Architecture</h2>
+    <h3 id="state-management">State Management</h3>
+    <div class="table-wrap" role="region" tabindex="0" aria-label="Table: State Management">
       <table>
         <thead><tr><th>State type</th><th>Tool</th><th>Examples</th></tr></thead>
         <tbody>
@@ -185,13 +191,13 @@ Third-party services:
       </table>
     </div>
 
-    <h3>Route Structure</h3>
+    <h3 id="route-structure">Route Structure</h3>
     <p>All routes require authentication (Clerk middleware). Unauthenticated requests redirect to the Clerk sign-in page. The App Router's layout hierarchy: Root Layout → Auth Layout → Dashboard Layout → Patient/Session Layout. Streaming (React Suspense) is used on session pages for the AI prep brief.</p>
 
     <h2 id="security">Security Architecture</h2>
 
-    <h3>Encryption</h3>
-    <div class="table-wrap">
+    <h3 id="encryption">Encryption</h3>
+    <div class="table-wrap" role="region" tabindex="0" aria-label="Table: Encryption">
       <table>
         <thead><tr><th>Layer</th><th>Method</th><th>What's protected</th></tr></thead>
         <tbody>
@@ -204,7 +210,7 @@ Third-party services:
       </table>
     </div>
 
-    <h3>Access Control</h3>
+    <h3 id="access-control">Access Control</h3>
     <ul>
       <li><strong>Authentication:</strong> Every API endpoint is guarded by <code>ClerkGuard</code> — verifies JWT signature, extracts <code>therapistId</code>, rejects expired or malformed tokens.</li>
       <li><strong>Authorization:</strong> Every patient/session/note query filters by <code>therapistId = req.user.id</code>. A valid JWT for therapist A cannot retrieve therapist B's data — enforced in service layer, verified by automated tests.</li>
@@ -212,13 +218,13 @@ Third-party services:
       <li><strong>Rate limiting:</strong> AI endpoints — 20 requests/minute per user. General API — 200 requests/minute per user. Redis-backed.</li>
     </ul>
 
-    <h3>Audit Logging</h3>
+    <h3 id="audit-logging">Audit Logging</h3>
     <p>A NestJS interceptor runs on every request that touches PHI. For each such request, it writes an <code>AuditLog</code> row containing: <code>userId</code>, <code>patientId</code> (if applicable), action verb (<code>PATIENT_VIEWED</code>, <code>NOTE_CREATED</code>, <code>AI_GENERATED</code>, etc.), resource type, resource ID, IP address, user agent, timestamp.</p>
     <p>Audit logs are retained for 6 years per HIPAA requirements. After retention expires, logs are permanently deleted. The <code>createdAt</code> index ensures efficient time-range queries. Therapists can view their own audit log in Settings → Privacy → Audit Log.</p>
 
-    <h3>Business Associate Agreements</h3>
+    <h3 id="business-associate-agreements">Business Associate Agreements</h3>
     <p><strong>Target state — no BAA has been executed yet.</strong> A BAA is required with every vendor that may process PHI. The "BAA status" column below shows what each vendor offers, not what has been signed. OpenAI and Anthropic BAAs are conditional on zero-retention-eligible usage and approval.</p>
-    <div class="table-wrap">
+    <div class="table-wrap" role="region" tabindex="0" aria-label="Table: Business Associate Agreements">
       <table>
         <thead><tr><th>Vendor</th><th>PHI contact</th><th>BAA (offered; not yet signed)</th></tr></thead>
         <tbody>
@@ -239,7 +245,7 @@ Third-party services:
       </div>
     </div>
 
-    <h2>Deployment Pipeline</h2>
+    <h2 id="deployment-pipeline">Deployment Pipeline</h2>
     <pre>Developer pushes to main branch
   │
   └─► GitHub Actions CI
@@ -260,8 +266,8 @@ Third-party services:
               Preview deployments for all PRs
               Production deploy gated on CI passing</pre>
 
-    <h2>BullMQ Job Details</h2>
-    <div class="table-wrap">
+    <h2 id="bullmq-job-details">BullMQ Job Details</h2>
+    <div class="table-wrap" role="region" tabindex="0" aria-label="Table: BullMQ Job Details">
       <table>
         <thead><tr><th>Job</th><th>Queue</th><th>Trigger</th><th>What it does</th><th>Retries</th></tr></thead>
         <tbody>
@@ -272,7 +278,7 @@ Third-party services:
     </div>
     <p>Jobs are chained: <code>refresh-summary</code> fires in the <code>embed-note</code> completion callback. If <code>embed-note</code> fails after 3 retries, <code>refresh-summary</code> does not fire for that session. The summary is regenerated on the next successful note finalization. This is an acceptable tradeoff — the summary is eventually consistent, not strongly consistent.</p>
 
-    <h2>Environment Variables</h2>
+    <h2 id="environment-variables">Environment Variables</h2>
     <pre>## API (apps/api/.env)
 DATABASE_URL=postgresql://user:pass@host:5432/therapos
 REDIS_URL=redis://localhost:6379
@@ -358,5 +364,6 @@ CLERK_SECRET_KEY=sk_...           # For server-side Clerk calls</pre>
     <div class="footer-copy">© 2026 TherapOS · Pre-launch · building toward HIPAA</div>
   </div>
 </footer>
+<script src="/scripts/docs.js" defer></script>
 </body>
 </html>

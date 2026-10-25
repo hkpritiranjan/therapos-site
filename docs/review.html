@@ -9,36 +9,42 @@
 <link rel="stylesheet" href="../styles/main.css">
 </head>
 <body>
+<a class="skip-link" href="#main">Skip to content</a>
 <nav class="site-nav">
   <a href="/" class="nav-logo">⬡ <span>TherapOS</span></a>
   <div class="nav-links">
-    <a href="../index.html#features">Features</a>
-    <a href="../index.html#pricing">Pricing</a>
+    <a href="/index.html#features">Features</a>
+    <a href="/index.html#pricing">Pricing</a>
     <a href="/docs/index.html" style="color:var(--accent)">Docs</a>
-    <a href="../index.html#pricing" class="nav-cta">Join the waitlist</a>
+    <button type="button" class="nav-search" aria-label="Search documentation">Search<kbd>/</kbd></button>
+    <a href="/index.html#pricing" class="nav-cta">Join the waitlist</a>
   </div>
 </nav>
 <div class="docs-layout">
-  <nav class="docs-sidebar">
-    <div class="group">Getting Started</div>
+                                                <nav class="docs-sidebar" aria-label="Documentation">
+    <div class="group">Start</div>
     <a href="/docs/index.html">Overview</a>
     <a href="/docs/quickstart.html">Quickstart</a>
-    <div class="group">Product</div>
+    <div class="group">Strategy &amp; evidence</div>
     <a href="/docs/plan.html">Full Product Plan</a>
     <a href="/docs/research.html">Market &amp; Regulatory Research</a>
     <a href="/docs/competitors.html">Competitors &amp; Strategy</a>
     <a href="/docs/case-study.html">Case Study</a>
-    <a href="/docs/review.html" class="active">Product Review</a>
+    <a href="/docs/sources.html">Source Register</a>
+    <div class="group">Product</div>
     <a href="/docs/features.html">Features</a>
     <a href="/docs/pricing.html">Pricing</a>
     <a href="/docs/roadmap.html">Roadmap</a>
+    <a href="/docs/review.html" class="active" aria-current="page">Product Review</a>
     <div class="group">Technical</div>
     <a href="/docs/architecture.html">Architecture</a>
     <a href="/docs/schema.html">Database Schema</a>
     <a href="/docs/api.html">API Reference</a>
     <a href="/docs/ai.html">AI &amp; Prompts</a>
   </nav>
-  <main class="docs-content">
+  <main class="docs-content" id="main">
+    <!--enh:mnav--><details class="mobile-nav"><summary>Documentation menu</summary><div class="group">Start</div><a href="/docs/index.html">Overview</a><a href="/docs/quickstart.html">Quickstart</a><div class="group">Strategy &amp; evidence</div><a href="/docs/plan.html">Full Product Plan</a><a href="/docs/research.html">Market &amp; Regulatory Research</a><a href="/docs/competitors.html">Competitors &amp; Strategy</a><a href="/docs/case-study.html">Case Study</a><a href="/docs/sources.html">Source Register</a><div class="group">Product</div><a href="/docs/features.html">Features</a><a href="/docs/pricing.html">Pricing</a><a href="/docs/roadmap.html">Roadmap</a><a href="/docs/review.html" aria-current="page">Product Review</a><div class="group">Technical</div><a href="/docs/architecture.html">Architecture</a><a href="/docs/schema.html">Database Schema</a><a href="/docs/api.html">API Reference</a><a href="/docs/ai.html">AI &amp; Prompts</a></details><!--/enh:mnav-->
+    <!--enh:crumbs--><nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span class="sep" aria-hidden="true">/</span><a href="/docs/index.html">Docs</a><span class="sep" aria-hidden="true">/</span><span>Product</span><span class="sep" aria-hidden="true">/</span><span aria-current="page">Product Review</span></nav><!--/enh:crumbs-->
     <span class="eyebrow">Product</span>
     <h1>Product Review: Six Lenses</h1>
     <p class="page-desc">A six-lens review of TherapOS from the founder, product manager, visual designer, UX designer, therapist and patient perspectives, with ranked actions and a presentation guide.</p>
@@ -52,7 +58,7 @@
     </div>
 
     <h2 id="scorecard">Scorecard</h2>
-    <div class="table-wrap">
+    <div class="table-wrap" role="region" tabindex="0" aria-label="Table: Scorecard">
       <table>
         <thead><tr><th>Lens</th><th>Score</th><th>One-line verdict</th></tr></thead>
         <tbody>
@@ -75,20 +81,20 @@
     </div>
 
     <h2 id="founder">1. Founder lens</h2>
-    <h3>What is strong</h3>
+    <h3 id="what-is-strong">What is strong</h3>
     <ul>
       <li><strong>A real wedge.</strong> Text-first, no recording, EHR-agnostic. It is a clear answer to the question every therapist asks first: "does it record my sessions?"</li>
       <li><strong>Speed.</strong> A working draft-to-memory loop in four days, with honest documentation of what it does and does not do.</li>
       <li><strong>Discipline about scope.</strong> The "will not build" list is a genuine strategic asset.</li>
     </ul>
-    <h3>What worries me</h3>
+    <h3 id="what-worries-me">What worries me</h3>
     <ul>
       <li><strong>Zero customer evidence.</strong> The plan was written before any therapist interview. Every key number is an assumption.</li>
       <li><strong>Low revenue ceiling.</strong> 1,500 to 4,000 paying seats yields only $0.4M to $1.4M a year (<a href="/docs/research.html#market">Research §2</a>). Customer acquisition has to stay near zero-cost, so community and referral channels are not optional.</li>
       <li><strong>Compliance before revenue.</strong> Counsel, BAAs, audit logging, and a security assessment cost real money and months, before the first paid seat.</li>
       <li><strong>Price anchor risk.</strong> EHR-bundled AI is $35 to $40 on top of an EHR the therapist already pays for. If TherapOS is "just notes" it is competing with something that feels free.</li>
     </ul>
-    <h3>Pre-mortem: the five most likely reasons this fails</h3>
+    <h3 id="pre-mortem-the-five-most-likely-reasons-this-fails">Pre-mortem: the five most likely reasons this fails</h3>
     <ol>
       <li>Therapists do not trust an unknown startup with client information, so activation stalls at "I tried it with fake data."</li>
       <li>Typing raw notes saves too little time compared with ambient scribes, so there is no strong reason to switch.</li>
@@ -96,8 +102,8 @@
       <li>An EHR vendor ships "good enough" memory inside the product therapists already use.</li>
       <li>Low ARPU plus paid acquisition never pays back.</li>
     </ol>
-    <h3>60-day validation plan with proposed kill criteria</h3>
-    <div class="table-wrap">
+    <h3 id="60-day-validation-plan-with-proposed-kill-criteria">60-day validation plan with proposed kill criteria</h3>
+    <div class="table-wrap" role="region" tabindex="0" aria-label="Table: 60-day validation plan with proposed kill criteria">
       <table>
         <thead><tr><th>Test</th><th>Continue if</th><th>Rethink if</th></tr></thead>
         <tbody>
@@ -110,24 +116,24 @@
       </table>
     </div>
     <p>Thresholds are proposals, not industry standards, except the 40% "very disappointed" benchmark, which is widely used as a rough signal. Agree them before the tests start.</p>
-    <h3>Unit economics to measure, not assume</h3>
+    <h3 id="unit-economics-to-measure-not-assume">Unit economics to measure, not assume</h3>
     <p>AI cost per finalized note = (draft tokens + prep tokens + summary tokens + embedding tokens) × provider price, plus retries. Track it from the first beta session. Gross margin at $29 should be comfortable at 100 notes a month, but only a measurement will tell, and the figure depends on provider choice and prompt length.</p>
 
     <h2 id="pm">2. Product manager lens</h2>
-    <h3>Job to be done</h3>
+    <h3 id="job-to-be-done">Job to be done</h3>
     <div class="grid2" style="margin:1rem 0">
       <div class="card"><h4>After a session</h4><p>"When I finish a client, I want a compliant progress note done in a few minutes, in my own voice, so I can leave on time and not carry the work home."</p></div>
       <div class="card"><h4>Before a session</h4><p>"When a client is about to arrive, I want to remember where we left off, what I assigned, and what to check in on, without rereading five notes."</p></div>
     </div>
     <p>The two jobs form a loop: <strong>write after → prepared before</strong>. The prep brief is the retention hook, because it only has value if notes were finalized the week before. Design the onboarding to reach "second session for the same client" as fast as possible.</p>
-    <h3>Metrics</h3>
+    <h3 id="metrics">Metrics</h3>
     <ul>
       <li><strong>North Star:</strong> finalized notes per active therapist per week.</li>
       <li><strong>Activation:</strong> a finalized note within the first session of use, <em>and</em> a prep brief opened before a repeat client.</li>
       <li><strong>Quality guardrails:</strong> share of draft words kept, time to finalize, and reports of inaccuracies.</li>
       <li><strong>Counter-metric:</strong> notes finalized with zero edits (a possible rubber-stamping signal).</li>
     </ul>
-    <h3>Packaging problems found in our own plan</h3>
+    <h3 id="packaging-problems-found-in-our-own-plan">Packaging problems found in our own plan</h3>
     <div class="callout callout-warn">
       <div class="callout-icon">⚠</div>
       <div class="callout-body">
@@ -142,8 +148,8 @@
         <p>The memory and prep value appears at a client's <em>second</em> or third session. With weekly sessions, 14 days gives most therapists one repeat visit, if that. <strong>Decision applied: the trial is now 30 days.</strong> "First 10 finalized notes free" remains a good alternative to test, since it measures value instead of time.</p>
       </div>
     </div>
-    <h3>Backlog, re-ranked</h3>
-    <div class="table-wrap">
+    <h3 id="backlog-re-ranked">Backlog, re-ranked</h3>
+    <div class="table-wrap" role="region" tabindex="0" aria-label="Table: Backlog, re-ranked">
       <table>
         <thead><tr><th>#</th><th>Item</th><th>Impact</th><th>Effort</th><th>Why now</th></tr></thead>
         <tbody>
@@ -163,19 +169,19 @@
     <p>Sequence: <strong>Gate 0</strong> (items 1–3, 8: it works and is safe) → <strong>Gate 1</strong> (4–7: it earns trust and saves time) → <strong>Gate 2</strong> (9–10: it grows). The existing roadmap puts search and billing in Q4 2026 alongside gates that are not met.</p>
 
     <h2 id="design">3. Visual and product designer lens</h2>
-    <h3>Diagnosis</h3>
+    <h3 id="diagnosis">Diagnosis</h3>
     <ul>
       <li><strong>Wrong emotional register.</strong> Near-black slate with indigo reads as a developer tool. A mental-health product has to feel calm, warm, and safe, for the therapist and, indirectly, the client.</li>
       <li><strong>Accessibility failure.</strong> The previous muted text colour measured <strong>3.06 : 1</strong> on the page background and <strong>2.84 : 1</strong> on cards. WCAG AA requires 4.5 : 1 for body text. The new palette's lowest body-text ratio is 5.03 : 1.</li>
       <li><strong>Emoji as icons.</strong> Inconsistent across platforms and, in testing, rendered as empty boxes. Replaced with one consistent line-icon set.</li>
       <li><strong>Generic template feel.</strong> No illustration, no brand shapes, no warmth.</li>
     </ul>
-    <h3>What changed</h3>
+    <h3 id="what-changed">What changed</h3>
     <p>The visual system now draws on two wellness-app references you supplied: deep navy, periwinkle, sunshine yellow and teal from the first, plus blush pink, peach and lavender from the second. Alegreya (a humanist serif) is paired with Poppins for a warm, editorial feel. Cards are rounded, colour is used to organise content rather than decorate it, and flower, blob and cloud shapes give the brand a human, hand-made quality.</p>
     <div class="grid4" style="margin:1rem 0"><div style="background:#070C56;color:#1F1340;border-radius:16px;padding:.9rem 1rem;border:1px solid rgba(31,19,64,.08)"><div style="font-weight:600;font-size:.85rem">Night navy</div><div style="font-size:.72rem;opacity:.75;font-family:var(--mono)">#070C56</div><div style="font-size:.72rem;margin-top:.25rem">Hero, footer, code</div></div><div style="background:#5B4BE0;color:#1F1340;border-radius:16px;padding:.9rem 1rem;border:1px solid rgba(31,19,64,.08)"><div style="font-weight:600;font-size:.85rem">Periwinkle</div><div style="font-size:.72rem;opacity:.75;font-family:var(--mono)">#5B4BE0</div><div style="font-size:.72rem;margin-top:.25rem">Links, primary actions</div></div><div style="background:#F4CF4B;color:#1F1340;border-radius:16px;padding:.9rem 1rem;border:1px solid rgba(31,19,64,.08)"><div style="font-weight:600;font-size:.85rem">Sunshine</div><div style="font-size:.72rem;opacity:.75;font-family:var(--mono)">#F4CF4B</div><div style="font-size:.72rem;margin-top:.25rem">Highlights, CTA</div></div><div style="background:#7FC6C0;color:#1F1340;border-radius:16px;padding:.9rem 1rem;border:1px solid rgba(31,19,64,.08)"><div style="font-weight:600;font-size:.85rem">Teal</div><div style="font-size:.72rem;opacity:.75;font-family:var(--mono)">#7FC6C0</div><div style="font-size:.72rem;margin-top:.25rem">Calm, "in build"</div></div><div style="background:#E5647A;color:#1F1340;border-radius:16px;padding:.9rem 1rem;border:1px solid rgba(31,19,64,.08)"><div style="font-weight:600;font-size:.85rem">Coral</div><div style="font-size:.72rem;opacity:.75;font-family:var(--mono)">#E5647A</div><div style="font-size:.72rem;margin-top:.25rem">Warnings, emphasis</div></div><div style="background:#F0589F;color:#1F1340;border-radius:16px;padding:.9rem 1rem;border:1px solid rgba(31,19,64,.08)"><div style="font-weight:600;font-size:.85rem">Blush pink</div><div style="font-size:.72rem;opacity:.75;font-family:var(--mono)">#F0589F</div><div style="font-size:.72rem;margin-top:.25rem">Accent</div></div><div style="background:#FBE3CC;color:#1F1340;border-radius:16px;padding:.9rem 1rem;border:1px solid rgba(31,19,64,.08)"><div style="font-weight:600;font-size:.85rem">Peach</div><div style="font-size:.72rem;opacity:.75;font-family:var(--mono)">#FBE3CC</div><div style="font-size:.72rem;margin-top:.25rem">Soft cards</div></div><div style="background:#A5DDB5;color:#1F1340;border-radius:16px;padding:.9rem 1rem;border:1px solid rgba(31,19,64,.08)"><div style="font-weight:600;font-size:.85rem">Mint</div><div style="font-size:.72rem;opacity:.75;font-family:var(--mono)">#A5DDB5</div><div style="font-size:.72rem;margin-top:.25rem">Success</div></div><div style="background:#F1EEFF;color:#1F1340;border-radius:16px;padding:.9rem 1rem;border:1px solid rgba(31,19,64,.08)"><div style="font-weight:600;font-size:.85rem">Lavender mist</div><div style="font-size:.72rem;opacity:.75;font-family:var(--mono)">#F1EEFF</div><div style="font-size:.72rem;margin-top:.25rem">Surfaces</div></div><div style="background:#1F1340;color:#1F1340;border-radius:16px;padding:.9rem 1rem;border:1px solid rgba(31,19,64,.08)"><div style="font-weight:600;font-size:.85rem">Plum ink</div><div style="font-size:.72rem;opacity:.75;font-family:var(--mono)">#1F1340</div><div style="font-size:.72rem;margin-top:.25rem">Body text</div></div></div>
-    <h3>Design principle: two moods, one system</h3>
+    <h3 id="design-principle-two-moods-one-system">Design principle: two moods, one system</h3>
     <p>The reference apps are <strong>patient-facing</strong> and playful. A <strong>clinician's</strong> tool needs to be calmer and denser: long reading, careful editing, daytime offices. So: the marketing site and docs use the full expressive palette; the product UI should use the same tokens with lower saturation, more whitespace, and a <strong>light theme by default</strong>. The app was dark-only (<code>className="dark"</code>, dark tokens in <code>globals.css</code>) and failed the contrast check above. <strong>It now uses the same palette as a calmer light theme</strong>: cream surfaces, plum text, periwinkle actions, rounded cards, Poppins with Alegreya headings, and AA-safe status colours.</p>
-    <h3>Next design steps</h3>
+    <h3 id="next-design-steps">Next design steps</h3>
     <ul>
       <li><strong>Done:</strong> new tokens and light theme in <code>apps/web/app/globals.css</code>. Still to do: an optional dark theme, and a review of every inline-styled component.</li>
       <li>Commission or adapt a small illustration set (calm figures, plants, clouds). Do not use stock "therapy couch" imagery.</li>
@@ -185,7 +191,7 @@
 
     <h2 id="ux">4. UX designer lens</h2>
     <p>Heuristic evaluation, from code reading. Severity: <span class="badge badge-red">High</span> blocks use or trust, <span class="badge badge-yellow">Medium</span> hurts efficiency, <span class="badge badge-green">Low</span> polish.</p>
-    <div class="table-wrap">
+    <div class="table-wrap" role="region" tabindex="0" aria-label="Table: 4. UX designer lens">
       <table>
         <thead><tr><th>Heuristic</th><th>Finding</th><th>Severity</th><th>Fix</th></tr></thead>
         <tbody>
@@ -202,18 +208,18 @@
         </tbody>
       </table>
     </div>
-    <h3>The flow, redesigned</h3>
+    <h3 id="the-flow-redesigned">The flow, redesigned</h3>
     <ol class="steps">
-      <li><div class="step-num"></div><div class="step-body"><h4>Before</h4><p>Open the client, see a three-line prep brief with links to the notes it came from, plus last session's homework status.</p></div></li>
-      <li><div class="step-num"></div><div class="step-body"><h4>During or right after</h4><p>Type or dictate rough notes. A small panel shows exactly which fields will be sent to the AI, with a per-client "AI off" switch.</p></div></li>
-      <li><div class="step-num"></div><div class="step-body"><h4>Draft</h4><p>The draft streams into the right structure. Placeholder gaps are highlighted. Stop, regenerate, and tone options are one click away.</p></div></li>
-      <li><div class="step-num"></div><div class="step-body"><h4>Review and sign</h4><p>A diff view shows what the therapist changed. The note is signed with a visible AI-assisted marker. Later changes are addenda.</p></div></li>
-      <li><div class="step-num"></div><div class="step-body"><h4>Hand off</h4><p>"Copy for SimplePractice" (or TherapyNotes, or plain text) puts correctly formatted sections on the clipboard.</p></div></li>
+      <li><div class="step-num"></div><div class="step-body"><h4 id="before">Before</h4><p>Open the client, see a three-line prep brief with links to the notes it came from, plus last session's homework status.</p></div></li>
+      <li><div class="step-num"></div><div class="step-body"><h4 id="during-or-right-after">During or right after</h4><p>Type or dictate rough notes. A small panel shows exactly which fields will be sent to the AI, with a per-client "AI off" switch.</p></div></li>
+      <li><div class="step-num"></div><div class="step-body"><h4 id="draft">Draft</h4><p>The draft streams into the right structure. Placeholder gaps are highlighted. Stop, regenerate, and tone options are one click away.</p></div></li>
+      <li><div class="step-num"></div><div class="step-body"><h4 id="review-and-sign">Review and sign</h4><p>A diff view shows what the therapist changed. The note is signed with a visible AI-assisted marker. Later changes are addenda.</p></div></li>
+      <li><div class="step-num"></div><div class="step-body"><h4 id="hand-off">Hand off</h4><p>"Copy for SimplePractice" (or TherapyNotes, or plain text) puts correctly formatted sections on the clipboard.</p></div></li>
     </ol>
 
     <h2 id="therapist">5. Therapist lens (consumer)</h2>
     <p>Speaking as the buyer: I am licensed, I am personally liable for my records, and I am tired at 6 p.m.</p>
-    <div class="table-wrap">
+    <div class="table-wrap" role="region" tabindex="0" aria-label="Table: 5. Therapist lens (consumer)">
       <table>
         <thead><tr><th>What I worry about</th><th>What would earn my trust</th><th>Status today</th></tr></thead>
         <tbody>
@@ -227,29 +233,29 @@
         </tbody>
       </table>
     </div>
-    <h3>A note on psychiatrists</h3>
+    <h3 id="a-note-on-psychiatrists">A note on psychiatrists</h3>
     <p>The plan is built for <strong>psychotherapists</strong>, and the roadmap explicitly excludes medication management. A psychiatrist's workflow is different: short medication-management visits, mental status exams, side-effect tracking, labs, e-prescribing and diagnosis coding. TherapOS today has none of this, and its "no diagnosis" rule conflicts with how psychiatric notes work. If psychiatrists are a target, treat them as a <em>separate ICP</em> that needs note templates (MSE, medication review), different prompts, and a regulatory review. Otherwise, say so out loud: "therapists first, psychiatry later or never."</p>
 
     <h2 id="patient">6. Patient lens (consumer)</h2>
     <p>Patients never log in, but every word the product writes is about them.</p>
-    <div class="table-wrap">
+    <div class="table-wrap" role="region" tabindex="0" aria-label="Table: 6. Patient lens (consumer)">
       <table>
         <thead><tr><th>Patient concern</th><th>Evidence</th><th>What the product should do</th></tr></thead>
         <tbody>
-          <tr><td>"Tell me, and ask me."</td><td>A 2026 UK poll found 81% want to be told when an AI scribe is used and asked for consent. <span class="badge badge-yellow">Reported</span></td><td>Ship a client-facing disclosure and consent template; per-client AI on/off</td></tr>
-          <tr><td>"Mental health is different."</td><td>Same poll: comfort was 48% for routine checks but 28% for mental-health topics. <span class="badge badge-yellow">Reported</span></td><td>Treat therapy as a harder case than general medicine; default to the most conservative setting</td></tr>
-          <tr><td>"Will it get me wrong?"</td><td>UC Davis survey: accuracy was the top worry (39%), then privacy (13%) and being recorded (13%). <span class="badge badge-yellow">Reported</span></td><td>Mandatory therapist review; no recording; provenance; correction path</td></tr>
-          <tr><td>"Can I read what you wrote?"</td><td>Under the Cures Act information-blocking rules, mental-health <em>progress</em> notes are generally available to patients; HIPAA psychotherapy notes are excluded; a patient-harm exception exists. Sources are 2020–21 vendor material, so verify. <span class="badge badge-yellow">Reported</span></td><td>Assume a patient may read every finalized note. Prompts must use respectful, non-pathologizing language, and drafts must be checked for accuracy</td></tr>
-          <tr><td>"Who else sees it?"</td><td>Two-thirds of psychologists themselves worry about breaches. <span class="badge badge-yellow">Reported</span></td><td>Publish a data-use statement; pseudonymise before AI; no training on client data</td></tr>
+          <tr><td>"Tell me, and ask me."</td><td>A 2026 UK poll found 81% want to be told when an AI scribe is used and asked for consent. <span class="ev ev-reported">Reported</span></td><td>Ship a client-facing disclosure and consent template; per-client AI on/off</td></tr>
+          <tr><td>"Mental health is different."</td><td>Same poll: comfort was 48% for routine checks but 28% for mental-health topics. <span class="ev ev-reported">Reported</span></td><td>Treat therapy as a harder case than general medicine; default to the most conservative setting</td></tr>
+          <tr><td>"Will it get me wrong?"</td><td>UC Davis survey: accuracy was the top worry (39%), then privacy (13%) and being recorded (13%). <span class="ev ev-reported">Reported</span></td><td>Mandatory therapist review; no recording; provenance; correction path</td></tr>
+          <tr><td>"Can I read what you wrote?"</td><td>Under the Cures Act information-blocking rules, mental-health <em>progress</em> notes are generally available to patients; HIPAA psychotherapy notes are excluded; a patient-harm exception exists. Sources are 2020–21 vendor material, so verify. <span class="ev ev-reported">Reported</span></td><td>Assume a patient may read every finalized note. Prompts must use respectful, non-pathologizing language, and drafts must be checked for accuracy</td></tr>
+          <tr><td>"Who else sees it?"</td><td>Two-thirds of psychologists themselves worry about breaches. <span class="ev ev-reported">Reported</span></td><td>Publish a data-use statement; pseudonymise before AI; no training on client data</td></tr>
         </tbody>
       </table>
     </div>
     <p>Sources: <a href="https://www.healthwatch.co.uk/blog/2026-07-16/what-does-public-think-about-ai-scribe-use-healthcare">Healthwatch England</a>, <a href="https://health.ucdavis.edu/news/headlines/exploring-how-patients-feel-about-ai-transcription/2025/12">UC Davis Health</a>, <a href="https://academic.oup.com/jamia/article/33/2/263/8371725">JAMIA</a>, <a href="https://www.qualifacts.com/resources/mental-health-providers-information-blocking/">Qualifacts on information blocking</a>, <a href="https://telehealth.org/open-notes-rule/">Telehealth.org on open notes</a>. These are general-medicine or vendor sources; none is a therapy-specific study.</p>
-    <h3>Should there be a patient-facing app?</h3>
+    <h3 id="should-there-be-a-patient-facing-app">Should there be a patient-facing app?</h3>
     <p>The two reference designs you shared are patient-facing: mood check-ins, guided sessions, playlists. That is a tempting direction (homework adherence, between-session engagement), but it would contradict the plan's "no patient portal" line, double the support surface, change the buyer, and bring chatbot and wellness regulation into scope. <strong>Recommendation:</strong> use that look and warmth for the brand, keep the product therapist-first, and revisit a patient companion only after the clinician loop is proven. If you do build it, the first feature should be homework and mood check-ins <em>assigned by the therapist</em>, not a free-standing wellness app.</p>
 
     <h2 id="actions">7. The ten actions, ranked</h2>
-    <div class="table-wrap">
+    <div class="table-wrap" role="region" tabindex="0" aria-label="Table: 7. The ten actions, ranked">
       <table>
         <thead><tr><th>#</th><th>Action</th><th>Lens</th><th>Effort</th><th>When</th></tr></thead>
         <tbody>
@@ -268,7 +274,7 @@
     </div>
 
     <h2 id="present">8. Presenting this</h2>
-    <h3>Story arc (about 10 minutes)</h3>
+    <h3 id="story-arc-about-10-minutes">Story arc (about 10 minutes)</h3>
     <ol>
       <li><strong>The human problem.</strong> Therapists finish the day and then start writing. Show the 6 p.m. scene.</li>
       <li><strong>The landscape.</strong> AI adoption is rising fast, but nine in ten clinicians are worried. Trust is the gap.</li>
@@ -278,8 +284,8 @@
       <li><strong>The plan.</strong> The 60-day validation plan with kill criteria, then the three gates.</li>
       <li><strong>The ask.</strong> Name it: introductions to 15 therapists, a legal review, or a decision on provider and pricing.</li>
     </ol>
-    <h3>Hard questions, honest answers</h3>
-    <div class="table-wrap">
+    <h3 id="hard-questions-honest-answers">Hard questions, honest answers</h3>
+    <div class="table-wrap" role="region" tabindex="0" aria-label="Table: Hard questions, honest answers">
       <table>
         <thead><tr><th>Question</th><th>Answer</th></tr></thead>
         <tbody>
@@ -293,7 +299,7 @@
         </tbody>
       </table>
     </div>
-    <h3>Live demo checklist</h3>
+    <h3 id="live-demo-checklist">Live demo checklist</h3>
     <ul>
       <li>Start Postgres and Redis (<code>docker compose up</code>), apply migrations, run the API (port 3001) and web app (port 3000), and set <code>OPENAI_API_KEY</code>.</li>
       <li>Use <strong>fictional data only</strong>. No real client information in a demo or a beta without BAAs.</li>
@@ -338,5 +344,6 @@
     <div class="footer-copy">© 2026 TherapOS · Pre-launch</div>
   </div>
 </footer>
+<script src="/scripts/docs.js" defer></script>
 </body>
 </html>

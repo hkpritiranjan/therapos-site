@@ -9,29 +9,33 @@
 <link rel="stylesheet" href="../styles/main.css">
 </head>
 <body>
+<a class="skip-link" href="#main">Skip to content</a>
 <nav class="site-nav">
   <a href="/" class="nav-logo">⬡ <span>TherapOS</span></a>
   <div class="nav-links">
-    <a href="../index.html#features">Features</a>
-    <a href="../index.html#pricing">Pricing</a>
+    <a href="/index.html#features">Features</a>
+    <a href="/index.html#pricing">Pricing</a>
     <a href="/docs/index.html" style="color:var(--accent)">Docs</a>
-    <a href="../index.html#pricing" class="nav-cta">Join the waitlist</a>
+    <button type="button" class="nav-search" aria-label="Search documentation">Search<kbd>/</kbd></button>
+    <a href="/index.html#pricing" class="nav-cta">Join the waitlist</a>
   </div>
 </nav>
 <div class="docs-layout">
-  <nav class="docs-sidebar">
-    <div class="group">Getting Started</div>
-    <a href="/docs/index.html" class="active">Overview</a>
+                                                <nav class="docs-sidebar" aria-label="Documentation">
+    <div class="group">Start</div>
+    <a href="/docs/index.html" class="active" aria-current="page">Overview</a>
     <a href="/docs/quickstart.html">Quickstart</a>
-    <div class="group">Product</div>
+    <div class="group">Strategy &amp; evidence</div>
     <a href="/docs/plan.html">Full Product Plan</a>
     <a href="/docs/research.html">Market &amp; Regulatory Research</a>
     <a href="/docs/competitors.html">Competitors &amp; Strategy</a>
     <a href="/docs/case-study.html">Case Study</a>
-    <a href="/docs/review.html">Product Review</a>
+    <a href="/docs/sources.html">Source Register</a>
+    <div class="group">Product</div>
     <a href="/docs/features.html">Features</a>
     <a href="/docs/pricing.html">Pricing</a>
     <a href="/docs/roadmap.html">Roadmap</a>
+    <a href="/docs/review.html">Product Review</a>
     <div class="group">Technical</div>
     <a href="/docs/architecture.html">Architecture</a>
     <a href="/docs/schema.html">Database Schema</a>
@@ -39,10 +43,38 @@
     <a href="/docs/ai.html">AI &amp; Prompts</a>
   </nav>
 
-  <main class="docs-content">
+  <main class="docs-content" id="main">
+    <!--enh:mnav--><details class="mobile-nav"><summary>Documentation menu</summary><div class="group">Start</div><a href="/docs/index.html" aria-current="page">Overview</a><a href="/docs/quickstart.html">Quickstart</a><div class="group">Strategy &amp; evidence</div><a href="/docs/plan.html">Full Product Plan</a><a href="/docs/research.html">Market &amp; Regulatory Research</a><a href="/docs/competitors.html">Competitors &amp; Strategy</a><a href="/docs/case-study.html">Case Study</a><a href="/docs/sources.html">Source Register</a><div class="group">Product</div><a href="/docs/features.html">Features</a><a href="/docs/pricing.html">Pricing</a><a href="/docs/roadmap.html">Roadmap</a><a href="/docs/review.html">Product Review</a><div class="group">Technical</div><a href="/docs/architecture.html">Architecture</a><a href="/docs/schema.html">Database Schema</a><a href="/docs/api.html">API Reference</a><a href="/docs/ai.html">AI &amp; Prompts</a></details><!--/enh:mnav-->
+    <!--enh:crumbs--><nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span class="sep" aria-hidden="true">/</span><a href="/docs/index.html">Docs</a></nav><!--/enh:crumbs-->
     <span class="eyebrow">Getting Started</span>
     <h1>TherapOS Documentation</h1>
-    <p class="page-desc">TherapOS is the AI-native operating system for independent therapists. Not an EHR. Not a therapy app. The clinical copilot therapists open before every session — and cannot practice without after 30 days.</p>
+    <p class="page-desc">TherapOS is the AI-native operating system for independent therapists. Not an EHR. Not a therapy app. A drafting and memory tool a therapist can open before a session. AI output is always an editable draft. Whether it becomes indispensable is a hypothesis we have not yet tested.</p><!--seed:index-dash--><!--gen:dashboard--><section aria-labelledby="dash-h"><h2 id="dash-h">Founder dashboard</h2>
+<p>Only facts with documented evidence are shown. Status as of <time datetime="2026-10-26">2026-10-26</time>. Source: <code>data/status.json</code> and <code>data/sources.json</code>.</p>
+<div class="dash">
+<div class="card"><h4>What TherapOS is</h4><p>An AI documentation and patient-memory tool for independent therapists. AI output is always a draft the clinician edits. <a href="/docs/plan.html#strategy">Strategy at a glance</a></p></div>
+<div class="card"><h4>Initial customer <span class="st st-proposed">Proposed</span></h4><p>US independent therapists who already use AI and keep their own EHR. India deferred. <a href="/docs/competitors.html#s2">Why</a></p></div>
+<div class="card"><h4>Product maturity</h4><div class="big">5 of 23 built</div><div class="counts"><span class="st st-built">Built</span> <b>5</b> <span class="st st-in-progress">In progress</span> <b>3</b> <span class="st st-planned">Planned</span> <b>9</b> <span class="st st-exploratory">Exploratory</span> <b>2</b> <span class="st st-deferred">Deferred</span> <b>2</b> <span class="st st-rejected">Rejected</span> <b>2</b></div><p style="font-size:.8rem;margin-top:.6rem"><a href="/docs/case-study.html#status">Full status table</a></p></div>
+<div class="card"><h4>Key hypothesis <span class="ev ev-hypothesis">Hypothesis</span></h4><p>Source-linked, editable patient memory plus a strict no-retention posture earns repeat use and payment where AI notes alone do not. <a href="/docs/plan.html#bets">Bets</a></p></div>
+<div class="card"><h4>Validated so far</h4><ul><li>Technical: draft parser has 7 passing unit tests <span class="ev ev-verified">Verified</span></li><li>Competitor scan, US and India, 26 Oct 2026 <span class="ev ev-verified">Verified</span></li><li><b>With users: nothing.</b></li></ul></div>
+<div class="card"><h4>Unproven</h4><ul><li>Willingness to pay</li><li>Time saved per note</li><li>Clinician trust in summaries</li><li>Patient appetite for activities</li></ul></div>
+<div class="card"><h4>Research freshness</h4><p>Latest verification <time datetime="2026-10-26">2026-10-26</time> across 43 records; next check due <time datetime="2026-11-25">2026-11-25</time>. <a href="/docs/sources.html">Source register</a></p></div>
+<div class="card"><h4>Competitive review</h4><p>Prices and features last verified <time datetime="2026-10-26">2026-10-26</time>; volatile claims are re-checked every 30 days. <a href="/docs/competitors.html#s3">Competitors</a></p></div>
+<div class="card"><h4>Customer discovery</h4><div class="big"><span class="st st-not-started">Not started</span></div><p style="font-size:.8rem;margin-top:.5rem">No interviews, pilots or willingness-to-pay data exist yet. <a href="/docs/competitors.html#s13">30-day plan</a></p></div>
+<div class="card"><h4>Critical risks</h4><ul><li>No customer-discovery evidence yet: <em>Not started</em></li><li>No BAAs, SOC 2 or MFA; audit table unused: <em>Planned</em></li><li>Free and bundled competitors make AI notes a commodity: <em>Verified in market scan</em></li><li>Web app has no login page or production token handling: <em>In progress</em></li></ul></div>
+<div class="card"><h4>Next three milestones</h4><ul><li><a href="/docs/competitors.html#s13">30-day customer-discovery sprint</a> <span class="st st-not-started">Not started</span></li><li><a href="/docs/competitors.html#s15">Login/register, pseudonymised AI calls, BAA path chosen</a> <span class="st st-planned">Planned</span></li><li><a href="/docs/competitors.html#s15">Source-linked summaries and copy-to-EHR export</a> <span class="st st-planned">Planned</span></li></ul></div>
+<div class="card"><h4>Decisions awaiting the founder</h4><ul><li><a href="/docs/competitors.html#s2">Confirm the first segment (D09) and that India is deferred</a></li><li><a href="/docs/pricing.html">Choose the waitlist destination and run the $19 / $29 / $39 test</a></li><li><a href="/docs/case-study.html#status">Reconcile docs and code: Clerk vs own JWT, Claude vs GPT-4o (D03)</a></li><li><a href="/docs/research.html#regulation">Decide the BAA route: zero-retention OpenAI or Anthropic endpoint (D14)</a></li><li><a href="/docs/research.html#regulation">Commission a counsel opinion on patient-facing features (D13)</a></li></ul></div>
+<div class="card"><h4>Last decision</h4><p><b>D08</b> Restyle the app and docs on a calm light palette <time datetime="2026-10-25">2026-10-25</time></p><p style="font-size:.8rem">6 further proposals await confirmation. <a href="/docs/plan.html#decision-log">Decision log</a></p></div>
+</div></section>
+<h3 id="how-to-read-these-docs"><span id="how"></span>How to read these docs</h3>
+<nav class="journey" aria-label="Reading order"><a href="/docs/plan.html">1 Product plan</a><span class="arrow" aria-hidden="true">→</span><a href="/docs/research.html">2 Market evidence</a><span class="arrow" aria-hidden="true">→</span><a href="/docs/competitors.html">3 Competitors</a><span class="arrow" aria-hidden="true">→</span><a href="/docs/case-study.html">4 Build evidence</a><span class="arrow" aria-hidden="true">→</span><a href="/docs/roadmap.html">5 Roadmap</a><span class="arrow" aria-hidden="true">→</span><a href="/docs/architecture.html">6 Technical</a></nav>
+<div class="table-wrap" role="region" tabindex="0" aria-label="Table: How to read these docs"><table><thead><tr><th scope="col">If you are…</th><th scope="col">Start here</th></tr></thead><tbody>
+<tr><td>Founder</td><td><a href="#dash-h">Dashboard</a> → <a href="/docs/plan.html#decision-log">Decision log</a> → <a href="/docs/competitors.html#s21">Decision memo</a></td></tr>
+<tr><td>Engineer</td><td><a href="/docs/architecture.html">Architecture</a> → <a href="/docs/schema.html">Schema</a> → <a href="/docs/case-study.html#status">Honest status</a></td></tr>
+<tr><td>Clinical advisor</td><td><a href="/docs/competitors.html#s10">Activities and safeguards</a> → <a href="/docs/research.html#regulation">Regulation</a> → <a href="/docs/ai.html">AI behavioural contract</a></td></tr>
+<tr><td>Investor or partner</td><td><a href="/docs/competitors.html#s1">Executive summary</a> → <a href="/docs/competitors.html#s12">Market scenarios</a> → <a href="/docs/sources.html">Source register</a>. Nothing here is traction.</td></tr>
+</tbody></table></div><!--/gen:dashboard-->
+<!--/seed:index-dash-->
+
 
     <div class="callout callout-accent">
       <div class="callout-icon">✦</div>
@@ -52,7 +84,7 @@
       </div>
     </div>
 
-    <h2>What TherapOS Does</h2>
+    <h2 id="what-therapos-does">What TherapOS Does</h2>
     <p>TherapOS turns the raw notes a therapist already takes into a clinically-worded SOAP, DAP or BIRP draft in seconds, and keeps an editable summary of each client between sessions. <strong>It does not record sessions.</strong> How much time it saves is something we are measuring with early users; earlier drafts of these docs quoted documentation-time statistics that we could not source, so they were removed (see <a href="/docs/research.html#pain">Research §4</a>).</p>
     <p>Speed is only the beginning. The real value is <strong>compound memory</strong>. Every finalized note makes the AI smarter about that patient. By session 10, TherapOS understands the treatment arc — patterns, progress, plateaus — better than any static EHR ever could. Session prep briefs, AI notes, and natural language search all draw from this accumulated context.</p>
 
@@ -83,9 +115,9 @@
       </div>
     </div>
 
-    <h2>What TherapOS Is Not</h2>
+    <h2 id="what-therapos-is-not">What TherapOS Is Not</h2>
     <p>TherapOS deliberately excludes billing, insurance claims, scheduling, and telehealth. This is a feature, not a limitation. Keep SimplePractice for billing. Use TherapOS for everything clinical. Zero migration cost, zero switching risk, immediate value from session one.</p>
-    <div class="table-wrap">
+    <div class="table-wrap" role="region" tabindex="0" aria-label="Table: What TherapOS Is Not">
       <table>
         <thead><tr><th>TherapOS handles</th><th>Use something else for</th></tr></thead>
         <tbody>
@@ -100,7 +132,7 @@
       </table>
     </div>
 
-    <h2>Core Principles</h2>
+    <h2 id="core-principles">Core Principles</h2>
     <ol>
       <li><strong>AI augments, never replaces.</strong> Every AI output is a draft. The therapist reviews, edits, and finalizes. The AI has no authority over the clinical record.</li>
       <li><strong>Minimal clicks.</strong> The most common action — generate an AI note — takes two clicks. That's the standard for everything else.</li>
@@ -110,8 +142,8 @@
       <li><strong>Compliance is a launch gate.</strong> Audit logging, encryption controls and executed BAAs are required before any real patient data is processed. Their status is tracked in the <a href="/docs/case-study.html#status">Case Study</a>.</li>
     </ol>
 
-    <h2>Documentation Map</h2>
-    <h3>Getting Started</h3>
+    <h2 id="documentation-map">Documentation Map</h2>
+    <h3 id="getting-started">Getting Started</h3>
     <div class="grid2" style="margin:.75rem 0 1.5rem">
       <a href="/docs/index.html" class="card card-link">
         <h4>Overview (this page)</h4>
@@ -122,7 +154,7 @@
         <p>Generate your first AI session note in under 10 minutes. Step-by-step with wireframes and troubleshooting.</p>
       </a>
     </div>
-    <h3>Product</h3>
+    <h3 id="product">Product</h3>
     <div class="grid2" style="margin:.75rem 0 1.5rem">
       <a href="/docs/plan.html" class="card card-link">
         <h4>Full Product Plan →</h4>
@@ -141,11 +173,11 @@
         <p>Six lenses — founder, PM, designer, UX, therapist, patient — with ranked actions and a presentation guide.</p>
       </a>
       <a href="/docs/features.html" class="card card-link">
-        <h4>Features →</h4>
+        <h4><span id="features"></span>Features →</h4>
         <p>Deep documentation on every feature: walkthroughs, wireframes, keyboard shortcuts, configuration options.</p>
       </a>
       <a href="/docs/pricing.html" class="card card-link">
-        <h4>Pricing →</h4>
+        <h4><span id="pricing"></span>Pricing →</h4>
         <p>Plan comparison, India pricing, ROI calculation, HIPAA BAA details, and cancellation policy.</p>
       </a>
       <a href="/docs/roadmap.html" class="card card-link">
@@ -153,7 +185,7 @@
         <p>Quarterly milestones Q3 2026 → 2028+. What ships next, what we'll never build, and why.</p>
       </a>
     </div>
-    <h3>Technical</h3>
+    <h3 id="technical">Technical</h3>
     <div class="grid2" style="margin:.75rem 0 1.5rem">
       <a href="/docs/architecture.html" class="card card-link">
         <h4>Architecture →</h4>
@@ -173,7 +205,7 @@
       </a>
     </div>
 
-    <h2>Tech Stack at a Glance</h2>
+    <h2 id="tech-stack-at-a-glance">Tech Stack at a Glance</h2>
     <div class="grid2" style="margin:.75rem 0">
       <div class="card card-sm">
         <h4>Frontend</h4>
@@ -220,13 +252,13 @@
       </div>
     </div>
 
-    <h2>Key Concepts</h2>
+    <h2 id="key-concepts">Key Concepts</h2>
 
-    <h3>Sessions and Notes</h3>
+    <h3 id="sessions-and-notes">Sessions and Notes</h3>
     <p>A <strong>Session</strong> is the scheduled meeting event — date, duration, type (Individual / Couples / Family / Group), and status (Scheduled / In Progress / Completed / Cancelled). A <strong>Session Note</strong> is the clinical documentation attached to that session. One session has exactly one note.</p>
     <p>The note lifecycle: therapist inputs raw notes → AI generates a structured draft → therapist edits → therapist finalizes. Finalization triggers the async memory pipeline.</p>
 
-    <h3>The Memory Pipeline</h3>
+    <h3 id="the-memory-pipeline">The Memory Pipeline</h3>
     <p>When a note is finalized, two BullMQ background jobs fire automatically:</p>
     <ol>
       <li><strong>embed-note</strong> — converts the finalized note to a 1,536-dimensional vector using OpenAI's text-embedding-3-small and stores it in <code>NoteEmbedding</code>. Powers natural language search.</li>
@@ -234,9 +266,9 @@
     </ol>
     <p>Both jobs are async. The therapist sees the note as finalized immediately. Memory updates complete in 10–30 seconds in the background.</p>
 
-    <h3>Context Assembly</h3>
+    <h3 id="context-assembly">Context Assembly</h3>
     <p>Every AI call (note generation, session prep) builds a <code>PatientContext</code> object that stays within a ~4,900 token budget:</p>
-    <div class="table-wrap">
+    <div class="table-wrap" role="region" tabindex="0" aria-label="Table: Context Assembly">
       <table>
         <thead><tr><th>Layer</th><th>Source</th><th>Budget</th></tr></thead>
         <tbody>
@@ -251,7 +283,7 @@
       </table>
     </div>
 
-    <h3>The AI-Is-Always-a-Draft Rule</h3>
+    <h3 id="the-ai-is-always-a-draft-rule">The AI-Is-Always-a-Draft Rule</h3>
     <p>No AI output in TherapOS is ever automatically saved or finalized. Every AI-generated field carries an <span class="ai-tag">AI Draft</span> indicator. The therapist must explicitly click "Finalize" to commit a note to the clinical record. Any field can be edited or deleted before finalization. This is a product principle and a regulatory requirement — the therapist is always the decision-maker.</p>
 
     <div class="callout callout-info">
@@ -273,6 +305,7 @@
 
   <aside class="page-toc">
     <span class="toc-label">On this page</span>
+    <a href="#dash-h">Founder dashboard</a>
     <a href="#what-therapos-does">What It Does</a>
     <a href="#what-therapos-is-not">What It's Not</a>
     <a href="#core-principles">Core Principles</a>
@@ -299,5 +332,6 @@
     <div class="footer-copy">© 2026 TherapOS · Pre-launch · building toward HIPAA</div>
   </div>
 </footer>
+<script src="/scripts/docs.js" defer></script>
 </body>
 </html>

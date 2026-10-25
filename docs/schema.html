@@ -8,36 +8,42 @@
 <link rel="stylesheet" href="../styles/main.css">
 </head>
 <body>
+<a class="skip-link" href="#main">Skip to content</a>
 <nav class="site-nav">
   <a href="/" class="nav-logo">⬡ <span>TherapOS</span></a>
   <div class="nav-links">
-    <a href="../index.html#features">Features</a>
-    <a href="../index.html#pricing">Pricing</a>
+    <a href="/index.html#features">Features</a>
+    <a href="/index.html#pricing">Pricing</a>
     <a href="/docs/index.html" style="color:var(--accent)">Docs</a>
-    <a href="../index.html#pricing" class="nav-cta">Join the waitlist</a>
+    <button type="button" class="nav-search" aria-label="Search documentation">Search<kbd>/</kbd></button>
+    <a href="/index.html#pricing" class="nav-cta">Join the waitlist</a>
   </div>
 </nav>
 <div class="docs-layout">
-  <nav class="docs-sidebar">
-    <div class="group">Getting Started</div>
+                                                <nav class="docs-sidebar" aria-label="Documentation">
+    <div class="group">Start</div>
     <a href="/docs/index.html">Overview</a>
     <a href="/docs/quickstart.html">Quickstart</a>
-    <div class="group">Product</div>
+    <div class="group">Strategy &amp; evidence</div>
     <a href="/docs/plan.html">Full Product Plan</a>
     <a href="/docs/research.html">Market &amp; Regulatory Research</a>
     <a href="/docs/competitors.html">Competitors &amp; Strategy</a>
     <a href="/docs/case-study.html">Case Study</a>
-    <a href="/docs/review.html">Product Review</a>
+    <a href="/docs/sources.html">Source Register</a>
+    <div class="group">Product</div>
     <a href="/docs/features.html">Features</a>
     <a href="/docs/pricing.html">Pricing</a>
     <a href="/docs/roadmap.html">Roadmap</a>
+    <a href="/docs/review.html">Product Review</a>
     <div class="group">Technical</div>
     <a href="/docs/architecture.html">Architecture</a>
-    <a href="/docs/schema.html" class="active">Database Schema</a>
+    <a href="/docs/schema.html" class="active" aria-current="page">Database Schema</a>
     <a href="/docs/api.html">API Reference</a>
     <a href="/docs/ai.html">AI &amp; Prompts</a>
   </nav>
-  <main class="docs-content">
+  <main class="docs-content" id="main">
+    <!--enh:mnav--><details class="mobile-nav"><summary>Documentation menu</summary><div class="group">Start</div><a href="/docs/index.html">Overview</a><a href="/docs/quickstart.html">Quickstart</a><div class="group">Strategy &amp; evidence</div><a href="/docs/plan.html">Full Product Plan</a><a href="/docs/research.html">Market &amp; Regulatory Research</a><a href="/docs/competitors.html">Competitors &amp; Strategy</a><a href="/docs/case-study.html">Case Study</a><a href="/docs/sources.html">Source Register</a><div class="group">Product</div><a href="/docs/features.html">Features</a><a href="/docs/pricing.html">Pricing</a><a href="/docs/roadmap.html">Roadmap</a><a href="/docs/review.html">Product Review</a><div class="group">Technical</div><a href="/docs/architecture.html">Architecture</a><a href="/docs/schema.html" aria-current="page">Database Schema</a><a href="/docs/api.html">API Reference</a><a href="/docs/ai.html">AI &amp; Prompts</a></details><!--/enh:mnav-->
+    <!--enh:crumbs--><nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span class="sep" aria-hidden="true">/</span><a href="/docs/index.html">Docs</a><span class="sep" aria-hidden="true">/</span><span>Technical</span><span class="sep" aria-hidden="true">/</span><span aria-current="page">Database Schema</span></nav><!--/enh:crumbs-->
     <span class="eyebrow">Technical</span>
     <h1>Database Schema</h1>
     <p class="page-desc">PostgreSQL 15 via Prisma ORM with the pgvector extension for embedding storage. All tables use CUID primary keys. PHI fields are additionally encrypted at the application layer via envelope encryption.</p>
@@ -51,7 +57,7 @@
       </div>
     </div>
 
-    <h2>Entity Relationship Map</h2>
+    <h2 id="entity-relationship-map">Entity Relationship Map</h2>
     <pre>User ──────────────────── Patient ──── Session ──── SessionNote
  │                          │              │              │
  │                          │              │         NoteEmbedding
@@ -63,7 +69,7 @@
  ├── Subscription
  └── AuditLog</pre>
 
-    <h3>Key Design Decisions</h3>
+    <h3 id="key-design-decisions">Key Design Decisions</h3>
     <ul>
       <li><strong>CUIDs over UUIDs:</strong> CUIDs are URL-safe by default, have better lexicographic properties than UUIDs v4, and sort naturally in most UI contexts without additional logic.</li>
       <li><strong>Soft deletes on patients:</strong> Patients are never hard-deleted — HIPAA audit requirements mean we must retain records. Deletion sets <code>status = DISCHARGED</code> and <code>endDate</code>. PHI is removed on account cancellation per our data retention policy.</li>
@@ -72,7 +78,7 @@
       <li><strong>therapistId on every leaf table:</strong> Sessions, Goals, Homework all carry a <code>therapistId</code> foreign key even though it's derivable through the Patient. This enables fast therapist-scoped queries without table joins, and is critical for the pgvector search query where we filter embeddings by therapist before similarity ranking.</li>
     </ul>
 
-    <h2>Full Prisma Schema</h2>
+    <h2 id="full-prisma-schema">Full Prisma Schema</h2>
     <pre>generator client {
   provider        = "prisma-client-js"
   previewFeatures = ["postgresqlExtensions"]
@@ -84,7 +90,7 @@ datasource db {
   extensions = [pgvector(map: "vector")]
 }
 
-// ── User ──────────────────────────────────────────────────────
+<span id="user-"></span>// ── User ──────────────────────────────────────────────────────
 
 model User {
   id            String        @id @default(cuid())
@@ -104,7 +110,7 @@ model User {
   updatedAt     DateTime      @updatedAt
 }
 
-// ── Patient ───────────────────────────────────────────────────
+<span id="patient-"></span>// ── Patient ───────────────────────────────────────────────────
 
 model Patient {
   id              String            @id @default(cuid())
@@ -147,7 +153,7 @@ enum PatientStatus {
   DISCHARGED
 }
 
-// ── Session ───────────────────────────────────────────────────
+<span id="session-"></span>// ── Session ───────────────────────────────────────────────────
 
 model Session {
   id            String        @id @default(cuid())
@@ -193,7 +199,7 @@ enum SessionStatus {
   NO_SHOW
 }
 
-// ── SessionNote ───────────────────────────────────────────────
+<span id="sessionnote-"></span>// ── SessionNote ───────────────────────────────────────────────
 
 model SessionNote {
   id            String     @id @default(cuid())
@@ -237,7 +243,7 @@ enum NoteFormat {
   FREE
 }
 
-// ── Goal ─────────────────────────────────────────────────────
+<span id="goal-"></span>// ── Goal ─────────────────────────────────────────────────────
 
 model Goal {
   id            String     @id @default(cuid())
@@ -265,7 +271,7 @@ enum GoalStatus {
   ABANDONED
 }
 
-// ── Homework ──────────────────────────────────────────────────
+<span id="homework-"></span>// ── Homework ──────────────────────────────────────────────────
 
 model Homework {
   id          String         @id @default(cuid())
@@ -295,7 +301,7 @@ enum HomeworkStatus {
   SKIPPED
 }
 
-// ── Vector Tables ──────────────────────────────────────────────
+<span id="vector-tables-"></span>// ── Vector Tables ──────────────────────────────────────────────
 
 model NoteEmbedding {
   id          String      @id @default(cuid())
@@ -324,7 +330,7 @@ model PatientEmbedding {
   @@index([patientId])
 }
 
-// ── Subscription ──────────────────────────────────────────────
+<span id="subscription-"></span>// ── Subscription ──────────────────────────────────────────────
 
 model Subscription {
   id                 String    @id @default(cuid())
@@ -363,7 +369,7 @@ enum SubStatus {
   CANCELLED
 }
 
-// ── HIPAA Audit Log ───────────────────────────────────────────
+<span id="hipaa-audit-log-"></span>// ── HIPAA Audit Log ───────────────────────────────────────────
 
 model AuditLog {
   id         String   @id @default(cuid())
@@ -383,7 +389,7 @@ model AuditLog {
   @@index([createdAt])  // Range queries for compliance reports
 }</pre>
 
-    <h2>pgvector Setup</h2>
+    <h2 id="pgvector-setup">pgvector Setup</h2>
     <p>Run these SQL commands once, after Prisma migrations have created the tables. These are not Prisma migrations — run them directly via <code>psql</code> or a migration script.</p>
     <pre>-- Enable the pgvector extension
 CREATE EXTENSION IF NOT EXISTS vector;
@@ -399,7 +405,7 @@ WITH (m = 16, ef_construction = 64);
 -- Set the search quality parameter at query time (higher = more accurate, slower)
 SET hnsw.ef_search = 40;</pre>
 
-    <h2>Vector Search Query</h2>
+    <h2 id="vector-search-query">Vector Search Query</h2>
     <p>The NL search endpoint embeds the user's query and runs this SQL (parameterized). The <code>therapistId</code> filter ensures therapist isolation before similarity ranking.</p>
     <pre>-- Natural language search — therapist-scoped, optionally patient-scoped
 -- $1 = query embedding (vector), $2 = therapistId, $3 = patientId (nullable)
@@ -426,8 +432,8 @@ LIMIT 10;
 -- 1 - distance = similarity score (higher = more similar)
 -- Filtered by therapistId before vector scan — pgvector uses the HNSW index</pre>
 
-    <h2>Index Strategy</h2>
-    <div class="table-wrap">
+    <h2 id="index-strategy">Index Strategy</h2>
+    <div class="table-wrap" role="region" tabindex="0" aria-label="Table: Index Strategy">
       <table>
         <thead><tr><th>Index</th><th>Table</th><th>Purpose</th></tr></thead>
         <tbody>
@@ -443,8 +449,8 @@ LIMIT 10;
       </table>
     </div>
 
-    <h2>Audit Log Actions</h2>
-    <div class="table-wrap">
+    <h2 id="audit-log-actions">Audit Log Actions</h2>
+    <div class="table-wrap" role="region" tabindex="0" aria-label="Table: Audit Log Actions">
       <table>
         <thead><tr><th>Action</th><th>Trigger</th></tr></thead>
         <tbody>
@@ -508,5 +514,6 @@ LIMIT 10;
     <div class="footer-copy">© 2026 TherapOS · Pre-launch · building toward HIPAA</div>
   </div>
 </footer>
+<script src="/scripts/docs.js" defer></script>
 </body>
 </html>
