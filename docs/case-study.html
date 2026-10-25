@@ -14,29 +14,29 @@
   <div class="nav-links">
     <a href="../index.html#features">Features</a>
     <a href="../index.html#pricing">Pricing</a>
-    <a href="index.html" style="color:var(--accent)">Docs</a>
+    <a href="/docs/index.html" style="color:var(--accent)">Docs</a>
     <a href="../index.html#pricing" class="nav-cta">Join the waitlist</a>
   </div>
 </nav>
 <div class="docs-layout">
   <nav class="docs-sidebar">
     <div class="group">Getting Started</div>
-    <a href="index.html">Overview</a>
-    <a href="quickstart.html">Quickstart</a>
+    <a href="/docs/index.html">Overview</a>
+    <a href="/docs/quickstart.html">Quickstart</a>
     <div class="group">Product</div>
-    <a href="plan.html">Full Product Plan</a>
-    <a href="research.html">Market &amp; Regulatory Research</a>
-    <a href="competitors.html">Competitors &amp; Strategy</a>
-    <a href="case-study.html" class="active">Case Study</a>
-    <a href="review.html">Product Review</a>
-    <a href="features.html">Features</a>
-    <a href="pricing.html">Pricing</a>
-    <a href="roadmap.html">Roadmap</a>
+    <a href="/docs/plan.html">Full Product Plan</a>
+    <a href="/docs/research.html">Market &amp; Regulatory Research</a>
+    <a href="/docs/competitors.html">Competitors &amp; Strategy</a>
+    <a href="/docs/case-study.html" class="active">Case Study</a>
+    <a href="/docs/review.html">Product Review</a>
+    <a href="/docs/features.html">Features</a>
+    <a href="/docs/pricing.html">Pricing</a>
+    <a href="/docs/roadmap.html">Roadmap</a>
     <div class="group">Technical</div>
-    <a href="architecture.html">Architecture</a>
-    <a href="schema.html">Database Schema</a>
-    <a href="api.html">API Reference</a>
-    <a href="ai.html">AI &amp; Prompts</a>
+    <a href="/docs/architecture.html">Architecture</a>
+    <a href="/docs/schema.html">Database Schema</a>
+    <a href="/docs/api.html">API Reference</a>
+    <a href="/docs/ai.html">AI &amp; Prompts</a>
   </nav>
   <main class="docs-content">
     <span class="eyebrow">Product</span>
@@ -60,7 +60,7 @@
 
     <h2 id="problem">1. The problem</h2>
     <p>Independent therapists run a one-person clinical practice. After each session they write a progress note, and before the next one they try to remember what happened weeks ago. The tools they use were built for billing, not for clinical continuity: an EHR stores notes but does not help recall them, and a blank SOAP template starts from zero every time.</p>
-    <p>AI scribes now address the writing half. APA's 2025 survey shows the share of psychologists who have <em>never</em> used AI at work fell from 71% to 44% in a year, and use is mostly administrative (<a href="research.html#demand">Research §3</a>). But most of those tools want to <strong>record the session</strong>, which raises consent, retention and psychotherapy-notes questions that many clinicians are uncomfortable with. About nine in ten psychologists report concerns about AI.</p>
+    <p>AI scribes now address the writing half. APA's 2025 survey shows the share of psychologists who have <em>never</em> used AI at work fell from 71% to 44% in a year, and use is mostly administrative (<a href="/docs/research.html#demand">Research §3</a>). But most of those tools want to <strong>record the session</strong>, which raises consent, retention and psychotherapy-notes questions that many clinicians are uncomfortable with. About nine in ten psychologists report concerns about AI.</p>
     <p><strong>The gap we chose:</strong> notes and memory for the therapist who does not want a recording tool in the room.</p>
 
     <h2 id="customer">2. The customer</h2>
@@ -70,7 +70,7 @@
         <tbody>
           <tr><td><strong>Primary:</strong> US solo therapists (LCSW, LMFT, LPC, PsyD) in private practice</td><td>Own the buying decision, feel the paperwork directly, talk to each other in dense communities</td><td>Typical raw-note habits; how much they will type versus dictate</td></tr>
           <tr><td><strong>Secondary:</strong> 2–10 therapist clinics where the owner also sees clients</td><td>Higher revenue per account; needs roles and admin views</td><td>Whether owners want visibility into notes (a privacy red line)</td></tr>
-          <tr><td><strong>Later:</strong> Indian clinicians</td><td>Large, underserved; Razorpay/UPI billing</td><td>Lower willingness to pay; "counsellor" is an unregulated title (<a href="research.html#regulation">Research §6</a>)</td></tr>
+          <tr><td><strong>Later:</strong> Indian clinicians</td><td>Large, underserved; Razorpay/UPI billing</td><td>Lower willingness to pay; "counsellor" is an unregulated title (<a href="/docs/research.html#regulation">Research §6</a>)</td></tr>
         </tbody>
       </table>
     </div>
@@ -82,7 +82,7 @@
       <li><strong>Text-first.</strong> No audio is recorded. That avoids recording consent, transcript retention and most of the psychotherapy-notes ambiguity, and it is a clear trust story in a market where SimplePractice began defaulting new users into de-identified transcript retention in June 2026.</li>
       <li><strong>EHR-agnostic memory.</strong> Competitor AI that ships inside an EHR is locked to it. A therapist who already uses SimplePractice or TherapyNotes can add TherapOS with no migration.</li>
     </ol>
-    <p>The full evidence, with confidence tags, is on the <a href="research.html">Research page</a>.</p>
+    <p>The full evidence, with confidence tags, is on the <a href="/docs/research.html">Research page</a>.</p>
 
     <h2 id="decisions">4. Key product decisions and trade-offs</h2>
     <div class="table-wrap">
@@ -175,8 +175,8 @@
         <tbody>
           <tr><td>Patient names are sent to OpenAI in prompts; no BAA exists</td><td><span class="badge badge-red">High</span></td><td>Pseudonymise before every call; execute BAAs before any real patient data</td></tr>
           <tr><td>Production auth gap (no login UI, CORS locked to localhost, JWT secret has a fallback)</td><td><span class="badge badge-red">High</span></td><td>Build login/register, configure CORS from env, fail startup without a secret</td></tr>
-          <tr><td>Draft screen showed raw JSON: the API returns JSON, the page parsed labelled prose</td><td><span class="badge badge-green">Fixed</span></td><td>JSON-first parser, streaming-safe preview, 7 tests (<a href="review.html#scorecard">Review</a>)</td></tr>
-          <tr><td>Finalized notes cannot be amended; app has few form labels and ARIA attributes; Settings link is a dead end; dashboard "Today's sessions" count is not wired to data</td><td><span class="badge badge-yellow">Medium</span></td><td>Addenda, labels, settings page, real today-count (<a href="review.html#ux">Review §4</a>). The AA-contrast theme is done.</td></tr>
+          <tr><td>Draft screen showed raw JSON: the API returns JSON, the page parsed labelled prose</td><td><span class="badge badge-green">Fixed</span></td><td>JSON-first parser, streaming-safe preview, 7 tests (<a href="/docs/review.html#scorecard">Review</a>)</td></tr>
+          <tr><td>Finalized notes cannot be amended; app has few form labels and ARIA attributes; Settings link is a dead end; dashboard "Today's sessions" count is not wired to data</td><td><span class="badge badge-yellow">Medium</span></td><td>Addenda, labels, settings page, real today-count (<a href="/docs/review.html#ux">Review §4</a>). The AA-contrast theme is done.</td></tr>
           <tr><td>Differentiation is thinner than the plan claimed</td><td><span class="badge badge-yellow">Medium</span></td><td>Lead with text-first; ship provenance links and EHR export</td></tr>
           <tr><td>Typing raw notes may save less time than ambient scribes</td><td><span class="badge badge-yellow">Medium</span></td><td>Measure in beta; add local dictation</td></tr>
           <tr><td>State AI laws (Illinois and others)</td><td><span class="badge badge-yellow">Medium</span></td><td>Hold risk flags and affect inference; legal review</td></tr>
@@ -217,11 +217,11 @@
     </ul>
 
     <div class="doc-nav">
-      <a href="research.html" class="doc-nav-btn">
+      <a href="/docs/research.html" class="doc-nav-btn">
         <span class="doc-nav-label">← Previous</span>
         <span class="doc-nav-title">Market & Regulatory Research</span>
       </a>
-      <a href="features.html" class="doc-nav-btn next">
+      <a href="/docs/features.html" class="doc-nav-btn next">
         <span class="doc-nav-label">Next →</span>
         <span class="doc-nav-title">Features</span>
       </a>
@@ -249,10 +249,10 @@
     <div class="footer-logo">⬡ <span>TherapOS</span></div>
     <div class="footer-links">
       <a href="../index.html">Home</a>
-      <a href="plan.html">Full Plan</a>
-      <a href="research.html">Research</a>
-      <a href="case-study.html">Case Study</a>
-      <a href="pricing.html">Pricing</a>
+      <a href="/docs/plan.html">Full Plan</a>
+      <a href="/docs/research.html">Research</a>
+      <a href="/docs/case-study.html">Case Study</a>
+      <a href="/docs/pricing.html">Pricing</a>
     </div>
     <div class="footer-copy">© 2026 TherapOS · Pre-launch</div>
   </div>

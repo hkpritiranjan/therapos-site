@@ -14,29 +14,29 @@
   <div class="nav-links">
     <a href="../index.html#features">Features</a>
     <a href="../index.html#pricing">Pricing</a>
-    <a href="index.html" style="color:var(--accent)">Docs</a>
+    <a href="/docs/index.html" style="color:var(--accent)">Docs</a>
     <a href="../index.html#pricing" class="nav-cta">Join the waitlist</a>
   </div>
 </nav>
 <div class="docs-layout">
   <nav class="docs-sidebar">
     <div class="group">Getting Started</div>
-    <a href="index.html">Overview</a>
-    <a href="quickstart.html">Quickstart</a>
+    <a href="/docs/index.html">Overview</a>
+    <a href="/docs/quickstart.html">Quickstart</a>
     <div class="group">Product</div>
-    <a href="plan.html">Full Product Plan</a>
-    <a href="research.html">Market &amp; Regulatory Research</a>
-    <a href="competitors.html" class="active">Competitors &amp; Strategy</a>
-    <a href="case-study.html">Case Study</a>
-    <a href="review.html">Product Review</a>
-    <a href="features.html">Features</a>
-    <a href="pricing.html">Pricing</a>
-    <a href="roadmap.html">Roadmap</a>
+    <a href="/docs/plan.html">Full Product Plan</a>
+    <a href="/docs/research.html">Market &amp; Regulatory Research</a>
+    <a href="/docs/competitors.html" class="active">Competitors &amp; Strategy</a>
+    <a href="/docs/case-study.html">Case Study</a>
+    <a href="/docs/review.html">Product Review</a>
+    <a href="/docs/features.html">Features</a>
+    <a href="/docs/pricing.html">Pricing</a>
+    <a href="/docs/roadmap.html">Roadmap</a>
     <div class="group">Technical</div>
-    <a href="architecture.html">Architecture</a>
-    <a href="schema.html">Database Schema</a>
-    <a href="api.html">API Reference</a>
-    <a href="ai.html">AI &amp; Prompts</a>
+    <a href="/docs/architecture.html">Architecture</a>
+    <a href="/docs/schema.html">Database Schema</a>
+    <a href="/docs/api.html">API Reference</a>
+    <a href="/docs/ai.html">AI &amp; Prompts</a>
   </nav>
   <main class="docs-content">
     <span class="eyebrow">Strategy</span>
@@ -162,7 +162,7 @@
 <p>All thresholds are <strong>proposed hypotheses</strong>, not industry benchmarks.</p>
 <div class="table-wrap"><table><thead><tr><th>Signal</th><th>Continue if…</th><th>Pivot if…</th><th>Stop / defer if…</th></tr></thead><tbody><tr><td>Pain and behaviour</td><td>≥8 of 15 therapists show a prep or documentation pain unprompted</td><td>Pain is real but about billing/insurance, not memory</td><td>Most say existing tools are enough</td></tr><tr><td>Use (pilot of 10 clinicians, 4 weeks)</td><td>≥6 use it weekly without prompting; ≥50% of drafts edited then accepted</td><td>Use only for notes → drop memory, become a cheaper scribe or niche export tool</td><td><3 weekly users</td></tr><tr><td>Trust</td><td>≥50% open source links; none abandon over accuracy</td><td>Trust issues about privacy → build strict local/redaction mode</td><td>Clinicians refuse to enter client info</td></tr><tr><td>Willingness to pay</td><td>≥5 of 15 give a card or letter of intent at ≥$25</td><td>Pay only at ≤$19 → rethink unit economics</td><td>Nobody commits at ≥$15</td></tr><tr><td>Activity loop (gated pilot)</td><td>≥40% activities opened; clinicians review reflections for ≥60% of cases</td><td>Clinicians want assignments but not patient replies → drop reflections</td><td>Clinicians reject patient-side contact or review burden too high</td></tr><tr><td>Compliance</td><td>BAA-eligible path is affordable before pilot</td><td>Disproportionate → focus clinician-only</td><td>Cost exceeds plausible ARR</td></tr><tr><td>Differentiation</td><td>Users cite memory/provenance/privacy, not price, as reason to stay</td><td>Only price → stop</td><td>Cannot beat Upheal/Carepatron free</td></tr></tbody></table></div>
 <h2 id="s15">15. Roadmap: 3, 6, 12 and 24 months</h2>
-<p>This <strong>extends</strong> the <a href="roadmap.html">Roadmap page</a>; it does not replace it. Committed work is separated from exploratory bets. Effort: S ≤2 weeks, M ≈1 month, L ≈2–3 months, one developer.</p>
+<p>This <strong>extends</strong> the <a href="/docs/roadmap.html">Roadmap page</a>; it does not replace it. Committed work is separated from exploratory bets. Effort: S ≤2 weeks, M ≈1 month, L ≈2–3 months, one developer.</p>
 <div class="table-wrap"><table><thead><tr><th>Horizon</th><th>Entry condition</th><th>Committed</th><th>Exploratory</th><th>Evidence to advance</th></tr></thead><tbody><tr><td><strong>0–3 months: validate the foundation</strong></td><td>—</td><td>Onboarding and login/register; pseudonymise names before AI calls; fix dashboard count; audit log coverage; BAA path chosen (zero-retention endpoint application); discovery programme (§13); 10-clinician pilot</td><td>Waitlist price test</td><td>§14 gates 1–4 pass</td></tr><tr><td><strong>4–6 months: retention and workflow fit</strong></td><td>Pilot shows weekly use</td><td><strong>Source-linked summaries</strong> (L); copy-to-EHR export (M); minimal goal tracking (S); note addenda and AI-assisted marker (M); semantic search (M)</td><td>Seed library of 10–20 reviewed activities; clinician-only activity drafting (no patient access)</td><td>≥50% open source links; export used on ≥70% of notes</td></tr><tr><td><strong>7–12 months: clinician–patient collaboration</strong></td><td>BAA in place, counsel opinion, consent flows, patient-link security review, clinicians ask for it</td><td>Patient secure-link pilot (L): approve → send → complete/skip/help → reflection → prep brief; revision and approval history (M)</td><td>Optional PHQ-9/GAD-7 import only if requested</td><td>≥40% opened; clinicians review reflections; zero safety incidents</td></tr><tr><td><strong>13–24 months: selective expansion</strong></td><td>Retention and revenue proven (e.g. monthly churn under 5%, <span class="badge badge-muted">Unknown</span> hypothesis)</td><td>Clinic accounts with roles and audit (L); SOC 2 readiness; integrations by demand</td><td>India (Indian data hosting, DPDP compliance, languages) on pull; additional US segments</td><td>Signed clinic pilots; compliance cost vs ARR</td></tr></tbody></table></div>
 <h3>Feature table (excerpt)</h3>
 <div class="table-wrap"><table><thead><tr><th>Feature</th><th>Problem</th><th>Outcome</th><th>Priority</th><th>Dependencies</th><th>Effort</th><th>Metric</th><th>Main risk</th></tr></thead><tbody><tr><td>Source-linked summaries</td><td>Distrust of AI summaries</td><td>Verifiable prep</td><td>P0</td><td>Provenance table, UI</td><td>L</td><td>Source-link opens</td><td>Summary quality</td></tr><tr><td>Copy-to-EHR export</td><td>Notes must live in EHR</td><td>Less friction</td><td>P0</td><td>Format templates</td><td>M</td><td>Export rate</td><td>Per-EHR quirks</td></tr><tr><td>Pseudonymise before AI</td><td>PHI to third party</td><td>Lower exposure</td><td>P0</td><td>Name map, tests</td><td>M</td><td>Zero names in prompts (tested)</td><td>Missed identifiers</td></tr><tr><td>Addenda + AI marker</td><td>Medico-legal edits</td><td>Trustworthy record</td><td>P1</td><td>Schema change</td><td>M</td><td>Addenda use</td><td>—</td></tr><tr><td>Activity drafting (clinician-only)</td><td>Ad hoc homework</td><td>Faster, personalised tasks</td><td>P1 gated</td><td>Goals, library</td><td>M</td><td>Draft accepted rate</td><td>Invented facts</td></tr><tr><td>Patient secure link + reflections</td><td>No between-session picture</td><td>Reviewed reflections</td><td>P2 gated</td><td>Auth, consent, BAA, audit</td><td>L</td><td>Open/complete/review rates</td><td>PHI, safety, scope creep</td></tr><tr><td>Clinic roles</td><td>Team use</td><td>Higher ARPU</td><td>P3</td><td>RBAC, audit, SOC 2 prep</td><td>L</td><td>Clinic accounts</td><td>Compliance cost</td></tr></tbody></table></div>
@@ -199,11 +199,11 @@
 </div>
 
     <div class="doc-nav">
-      <a href="research.html" class="doc-nav-btn">
+      <a href="/docs/research.html" class="doc-nav-btn">
         <span class="doc-nav-label">← Previous</span>
         <span class="doc-nav-title">Market &amp; Regulatory Research</span>
       </a>
-      <a href="case-study.html" class="doc-nav-btn next">
+      <a href="/docs/case-study.html" class="doc-nav-btn next">
         <span class="doc-nav-label">Next →</span>
         <span class="doc-nav-title">Case Study</span>
       </a>
@@ -240,10 +240,10 @@
     <div class="footer-logo">⬡ <span>TherapOS</span></div>
     <div class="footer-links">
       <a href="../index.html">Home</a>
-      <a href="plan.html">Full Plan</a>
-      <a href="research.html">Research</a>
-      <a href="case-study.html">Case Study</a>
-      <a href="pricing.html">Pricing</a>
+      <a href="/docs/plan.html">Full Plan</a>
+      <a href="/docs/research.html">Research</a>
+      <a href="/docs/case-study.html">Case Study</a>
+      <a href="/docs/pricing.html">Pricing</a>
     </div>
     <div class="footer-copy">© 2026 TherapOS · Pre-launch</div>
   </div>
